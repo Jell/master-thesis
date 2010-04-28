@@ -1,0 +1,67 @@
+\documentclass[11pt,a4paper,twoside,bibliography=totoc,version=first,index=totoc]{scrbook}
+
+%\usepackage{showframe}
+\usepackage[absolute]{textpos}
+\usepackage{wallpaper}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{scrpage2}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathpazo}
+\usepackage{listings}
+\usepackage{subfigure}
+
+%\usepackage[pdftex, linkbordercolor=000, citebordercolor=000, pdfkeywords={iPhone, Augmented Reality, Realtime, AppStore, Ruby, Erlang, Objective-C, Mnesia, Google Map}, pdftitle={Augmented Reality on iPhone}, pdfauthor={Jean-Louis Giordano}, plainpages=false, pdfpagelabels, hypertexnames=false]{hyperref} % activate for PDF links
+
+\renewcommand{\baselinestretch}{1.1}
+\pagenumbering{roman}
+
+
+\begin{document}
+
+	\providecommand{\thesisauthor}{JEAN-LOUIS GIORDANO}
+	\providecommand{\thesistitle}{Augmented Reality on iPhone}
+	\providecommand{\thesissubtitle}{Full implementation of a Client-Server Application.}
+	\providecommand{\thesisdepartment}{Signals and Systems}
+	\providecommand{\thesisdivision}{XXXXXXXXXXXXXXXX}
+	\providecommand{\thesisprogram}{Communication Engineering}
+	\providecommand{\thesisrepro}{Department of Signals and Systems}
+	\providecommand{\thesisyear}{2010}
+	\providecommand{\reportnumber}{XXX XXX}
+	
+	%\setcounter{page}{1}
+	%\include{cover}
+	%\setcounter{page}{1}
+	\include{title}
+	
+	\pagestyle{scrheadings}
+	\ifoot{\pagemark}
+	\ofoot{CHALMERS, Master's Thesis 2010:XX }
+	\ohead{}
+	\chead{}
+	\ihead{}
+	
+	\renewcommand{\thechapter}{\Roman{chapter}}
+	\include{abstract}
+	\include{toc}
+	\include{acknowledgements}
+	\include{notations}
+	
+	\cleardoublepage
+	\renewcommand{\thechapter}{\arabic{chapter}}
+	\setcounter{chapter}{0}
+	\pagenumbering{arabic}
+	
+	\include{first}
+	\include{second}
+	\include{third}
+	\include{fourth}
+	\include{fifth}
+	\include{bibliography}
+	\include{appendix}
+
+\end{document}

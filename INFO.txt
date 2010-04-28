@@ -1,0 +1,7 @@
+
+
+The latex files should work with TeXnicCenter. The main file is called thesis.tex, the single chapters are saved in separate files. The compilation works for LaTeX=>DVI and LaTeX=>PDF, but the package hyperref works only for PDF files.
+
+If there are questions and you can not find an answer in LaTeX manuals, I can maybe help if you write an email to jooo@uni.de
+
+Joachim

@@ -7,18 +7,18 @@
 \label{sec:the_iphone}
 
 \subsection{The device}
-The iPhone is a last generation smartphone developed by Apple and was revealed for the first time in 2007. It features advanced functionalities such as multimedia support, internet access, video games and many more.
+The iPhone is a last generation smartphone developed by Apple and was revealed for the first time in 2007. It features advanced functionalities such as multimedia support, internet access, video games and many more. Up to this day, forty-two millions iPhone have been sold across the globe.\\
 
-Its main characteristic is that its User Interface (UI) is only based on two inputs:
-
+Its main characteristic is that its User Interface (UI) is almost only based on two inputs:
 \begin{itemize}
-\item{a multi-touch screen}
+\item{a large multi-touch screen}
 \item{a 3-axis accelerometers}
 \end{itemize}
+As such, the iPhone does not posses any physical keyboard. Instead, a virtual keyboard can be summoned any time it is necessary, leaving a larger screen for applications.\\
 
-The last generation of iPhone, the iPhone 3G-S, also includes a GPS and a compass, and an upcoming version of its Operating System (OS) will allow the access to the video data of the camera.
+The last generation of iPhone, the iPhone 3G-S, also includes a GPS and a compass, and an upcoming version of its Operating System (OS) will allow the access to the video data of the camera.\\
 
-Up to this day, forty-two millions iPhone have been sold across the globe.
+In order to install new applications on an iPhone, one must download it from the AppStore, the internet-based retail store from Apple for iPhones, iPods and the iPad. Apple having a highly proprietary policy on its product, this is actually the only way to distribute iPhone applications.
 
 \subsection{The Development Tools}
 
@@ -40,23 +40,25 @@ This SDK contains Application Programming Interfaces (API) to all the accessible
 
 \subsection{What it does}
 
-This application has been designed for travellers in Sweden that are looking for a nearby public transport stop. Augmented Reality makes it very intuitive to find a nearby stop: the user just has to "look around" with his iPhone, and the closest stops will appear at their positions. To make it even easier for the user, a Google Map is available when the device is held horizontally if directions are required. 
+This application has been designed for travellers in Sweden that are looking for a nearby public transport stop. Augmented Reality makes it very intuitive to find a nearby stop: the user just has to "look around" with his iPhone, and the closest stops will appear at their positions. To make it even easier for the user, a Google Map is available when the device is held horizontally if directions are required. \\
 
-This makes the application very interesting for people that are easily confused when reading maps when discovering a new city.
+This makes the application very interesting for people that are easily confused when reading maps when discovering a new city.\\
 
-But this application has also been designed for people that are already familiar with the city they visit. Simply by pointing at a stop they are interested in, they can get the next departures without having to go till the stop to check the timetable.
+But this application has also been designed for people that are already familiar with the city they visit. Simply by pointing at a stop they are interested in, they can get the next departures without having to go till the stop to check the timetable.\\
 
 For now, the application is available for Göteborg and Stockholm, with their respective public transport companies Västtrafik and Storstockholms Lokaltrafik. But additional providers could be added later on.
 
 \subsection{How it works}
 
-The application takes advantage of the GPS capabilities of the iPhone to locate the user on a map. Then thanks to the compass, we are able to estimate the direction he is looking at, and eventually the 3-axis accelerometer allows us to evaluate the angle at which he holds his phone.
+The application takes advantage of the GPS capabilities of the iPhone to locate the user on a map. Then thanks to the compass, we are able to estimate the direction he is looking at, and eventually the 3-axis accelerometer allows us to evaluate the angle at which he holds his phone. Note that this application requires a GPS and a compass, and therefore is only compatible with the iPhone 3G-S.\\
 
-Once the position of the user is known, a request is made over the internet to determine the bus stops that are close to him.
+Once the position of the user is known, a request is made over the internet to determine the bus stops that are close to him. The answer to this request will be a list of stops with their names and locations together with a forecast list for each of them.\\
 
-Since the positions of the bus stops are known on the server side, we can project them in the virtual space according to the user's coordinates, heading direction and phone holding angle.
+An item in the forecast list is composed of a line number, a destination and a set of attributes indicating the time of departure in some information on the quality of the travel.\\
 
-Note that our application requires a GPS and a compass, therefore is only compatible with the iPhone 3G-S.
+Once the positions of the bus stops are known, we can project them in the virtual space according to the user's coordinates, heading direction and phone holding angle.\\
+
+To cope with the precision errors of acceleration and heading measurement, a buffer is used to get the average values on an arbitrary period of time before updating the knowledge on the user's position. Animations are also used to make transitions between two views appear smoother.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementation of the Augmented Reality View}
@@ -84,14 +86,14 @@ In our application, we need to locate the camera of the iPhone within 6 degrees 
 \item{Inclination on the Z-axis}
 \end{itemize}
 
-The GPS directly gives us the Altitude, Latitude and Longitude of the user whereas the compass gives us his Azimuth.
+The GPS directly gives us the Altitude, Latitude and Longitude of the user whereas the compass gives us his Azimuth.\\
 
 Thanks to the 3-axis accelerometer, the inclination on the X and Z axis can be computed by the mean of simple trigonometry.
 
 \subsection{3D Projection}
 
-First, we project a Map on the plane defining the ground. The iPhone has an API to perform 3D projections, by the mean of layer transformations.
+First, we project a Map on the plane defining the ground. The iPhone has an API to perform 3D projections, by the mean of layer transformations.\\
 
-To apply a transform to a layer, one must provide the transform matrix corresponding to the desired projection.
+To apply a transform to a layer, one must provide the transform matrix corresponding to the desired projection.\\
 
 In this case, the transformation will be a rotation of $\frac{\pi}{2}$ on the X-axis and a rotation corresponding to the Azimuth on the Y-Axis, followed by a translation to give depth to the view.

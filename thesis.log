@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.4.19)  28 APR 2010 12:02
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.4.19)  28 APR 2010 13:59
 entering extended mode
  %&-line parsing enabled.
 **thesis.tex
@@ -936,6 +936,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 48--49
 ]
 Chapter 3.
 
+Underfull \hbox (badness 10000) in paragraph at lines 10--11
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 17--18
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 25--26
 
  []
@@ -950,49 +965,102 @@ Underfull \hbox (badness 10000) in paragraph at lines 29--30
 
  []
 
-
+[7]
 Underfull \hbox (badness 10000) in paragraph at lines 31--32
 
  []
 
-[7]
+
 Underfull \hbox (badness 10000) in paragraph at lines 33--34
 
  []
 
-[8] <pics/client_view_hierarchy.pdf, id=71, 822.44864pt x 770.88pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 43--44
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--46
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--48
+
+ []
+
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 53--54
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 55--56
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 57--58
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 59--60
+
+ []
+
+<pics/client_view_hierarchy.pdf, id=71, 822.44864pt x 770.88pt>
 File: pics/client_view_hierarchy.pdf Graphic file (type pdf)
 
-<use pics/client_view_hierarchy.pdf>) [9] [10 <./pics/client_view_hierarchy.pdf
->]
+<use pics/client_view_hierarchy.pdf> [9] [10 <./pics/client_view_hierarchy.pdf>
+]
+Underfull \hbox (badness 10000) in paragraph at lines 91--92
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 97--98
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 99--100
+
+ []
+
+) [11
+
+]
 \openout2 = `fourth.aux'.
 
- (./fourth.tex
+ (./fourth.tex [12
+
+
+
+]
 Chapter 4.
-<pics/message_passing.pdf, id=447, 1027.84pt x 770.88pt>
+<pics/message_passing.pdf, id=454, 1027.84pt x 770.88pt>
 File: pics/message_passing.pdf Graphic file (type pdf)
 
 <use pics/message_passing.pdf>
-<pics/server_side.pdf, id=448, 1027.84pt x 770.88pt>
+<pics/server_side.pdf, id=455, 1027.84pt x 770.88pt>
 File: pics/server_side.pdf Graphic file (type pdf)
 
-<use pics/server_side.pdf> [11
-
-
-
-]) [12 <./pics/message_passing.pdf>] [13 <./pics/server_side.pdf>]
+<use pics/server_side.pdf> [13]) [14 <./pics/message_passing.pdf>] [15 <./pics/
+server_side.pdf>]
 \openout2 = `fifth.aux'.
 
- (./fifth.tex [14
+ (./fifth.tex [16
 
 
 
 ]
 Chapter 5.
-) [15]
+) [17]
 \openout2 = `bibliography.aux'.
 
- (./bibliography.tex [16
+ (./bibliography.tex [18
 
 
 
@@ -1006,42 +1074,38 @@ Underfull \hbox (badness 10000) in paragraph at lines 6--7
 
  []
 
-) [17]
+) [19]
 \openout2 = `appendix.aux'.
 
- (./appendix.tex [18
+ (./appendix.tex [20
 
 
 
 ]
 Appendix A.
-) [19] (./thesis.aux (./title.aux) (./abstract.aux) (./toc.aux)
+) [21] (./thesis.aux (./title.aux) (./abstract.aux) (./toc.aux)
 (./acknowledgements.aux) (./notations.aux) (./first.aux) (./second.aux)
 (./third.aux) (./fourth.aux) (./fifth.aux) (./bibliography.aux) (./appendix.aux
-))
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+)) ) 
 Here is how much of TeX's memory you used:
  6324 strings out of 493848
  88184 string characters out of 3149207
- 171550 words of memory out of 3000000
+ 171551 words of memory out of 3000000
  9403 multiletter control sequences out of 15000+200000
  20924 words of font info for 58 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  36i,11n,43p,840b,368s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/local/texlive/2009/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/te
-xlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/t
-exlive/2009/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texli
-ve/2009/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2009
-/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2009/texmf-
-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2009/texmf-dist/fo
-nts/type1/urw/palatino/uplri8a.pfb>
-Output written on thesis.pdf (27 pages, 2939747 bytes).
+{/usr/local/texlive/2009/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local
+/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/
+texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local
+/texlive/2009/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/tex
+live/2009/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/20
+09/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2009/texm
+f-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2009/texmf-dist/
+fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on thesis.pdf (29 pages, 2941632 bytes).
 PDF statistics:
- 842 PDF objects out of 1000 (max. 8388607)
+ 848 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

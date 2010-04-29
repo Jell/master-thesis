@@ -17,18 +17,18 @@
 \contentsline {section}{\numberline {3.3}Implementation of the Augmented Reality View}{9}
 \contentsline {subsection}{\numberline {3.3.1}View Hierarchy}{9}
 \contentsline {subsection}{\numberline {3.3.2}Positioning within 6 degrees of freedom}{11}
-\contentsline {subsection}{\numberline {3.3.3}3D Projection}{11}
-\contentsline {chapter}{\numberline {4}On the Server Side}{13}
-\contentsline {section}{\numberline {4.1}Architecture}{13}
-\contentsline {section}{\numberline {4.2}Implementation}{13}
-\contentsline {subsection}{\numberline {4.2.1}Ruby}{13}
-\contentsline {subsection}{\numberline {4.2.2}Erlang}{14}
-\contentsline {section}{\numberline {4.3}Results}{14}
-\contentsline {chapter}{\numberline {5}Conclusion}{17}
-\contentsline {section}{\numberline {5.1}On the AppStore}{17}
-\contentsline {section}{\numberline {5.2}Further Considerations}{17}
-\contentsline {subsection}{\numberline {5.2.1}on the Client}{17}
-\contentsline {subsection}{\numberline {5.2.2}on the Server}{17}
-\contentsline {section}{\numberline {5.3}Summary}{17}
-\contentsline {chapter}{References}{19}
-\contentsline {chapter}{\numberline {A}Some Code}{21}
+\contentsline {subsection}{\numberline {3.3.3}3D Projection}{12}
+\contentsline {chapter}{\numberline {4}On the Server Side}{15}
+\contentsline {section}{\numberline {4.1}Architecture}{15}
+\contentsline {section}{\numberline {4.2}Implementation}{18}
+\contentsline {subsection}{\numberline {4.2.1}Erlang}{18}
+\contentsline {subsection}{\numberline {4.2.2}Ruby}{18}
+\contentsline {section}{\numberline {4.3}Results}{19}
+\contentsline {chapter}{\numberline {5}Conclusion}{21}
+\contentsline {section}{\numberline {5.1}On the AppStore}{21}
+\contentsline {section}{\numberline {5.2}Further Considerations}{21}
+\contentsline {subsection}{\numberline {5.2.1}on the Client}{21}
+\contentsline {subsection}{\numberline {5.2.2}on the Server}{21}
+\contentsline {section}{\numberline {5.3}Summary}{21}
+\contentsline {chapter}{References}{23}
+\contentsline {chapter}{\numberline {A}Some Code}{25}

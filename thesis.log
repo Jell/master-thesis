@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.4.19)  28 APR 2010 13:59
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.4.19)  29 APR 2010 17:12
 entering extended mode
  %&-line parsing enabled.
 **thesis.tex
@@ -1013,54 +1013,185 @@ Underfull \hbox (badness 10000) in paragraph at lines 59--60
 <pics/client_view_hierarchy.pdf, id=71, 822.44864pt x 770.88pt>
 File: pics/client_view_hierarchy.pdf Graphic file (type pdf)
 
-<use pics/client_view_hierarchy.pdf> [9] [10 <./pics/client_view_hierarchy.pdf>
-]
-Underfull \hbox (badness 10000) in paragraph at lines 91--92
+<use pics/client_view_hierarchy.pdf>
+Underfull \hbox (badness 10000) in paragraph at lines 76--77
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 97--98
+Underfull \hbox (badness 10000) in paragraph at lines 78--79
+
+ []
+
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 80--81
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 99--100
+Underfull \hbox (badness 10000) in paragraph at lines 82--83
 
  []
 
-) [11
 
-]
+Underfull \hbox (badness 10000) in paragraph at lines 84--85
+
+ []
+
+[10 <./pics/client_view_hierarchy.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 86--87
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 88--89
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 90--91
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--93
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 94--95
+
+ []
+
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 111--112
+
+ []
+
+<pics/six_degrees_angles.pdf, id=450, 494.73703pt x 519.1887pt>
+File: pics/six_degrees_angles.pdf Graphic file (type pdf)
+
+<use pics/six_degrees_angles.pdf>
+Underfull \hbox (badness 10000) in paragraph at lines 124--125
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 126--127
+
+ []
+
+[12 <./pics/six_degrees_angles.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 128--129
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 135--136
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 137--138
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 144--145
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 146--147
+
+ []
+
+) [13]
 \openout2 = `fourth.aux'.
 
- (./fourth.tex [12
+ (./fourth.tex [14
 
 
 
 ]
 Chapter 4.
-<pics/message_passing.pdf, id=454, 1027.84pt x 770.88pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
+
+ []
+
+
+Overfull \hbox (9.15106pt too wide) in paragraph at lines 14--15
+[]\OT1/ppl/m/n/10.95 it finds the 10 near-est bus lo-ca-tions from the given co
+-or-di-nates in its SQLite database 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--21
+
+ []
+
+<pics/message_passing.pdf, id=483, 1027.84pt x 770.88pt>
 File: pics/message_passing.pdf Graphic file (type pdf)
 
-<use pics/message_passing.pdf>
-<pics/server_side.pdf, id=455, 1027.84pt x 770.88pt>
+<use pics/message_passing.pdf> [15] [16 <./pics/message_passing.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 33--34
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 35--36
+
+ []
+
+<pics/server_side.pdf, id=553, 1027.84pt x 770.88pt>
 File: pics/server_side.pdf Graphic file (type pdf)
 
-<use pics/server_side.pdf> [13]) [14 <./pics/message_passing.pdf>] [15 <./pics/
-server_side.pdf>]
+<use pics/server_side.pdf> [17
+
+ <./pics/server_side.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 60--67
+
+ []
+
+
+Overfull \hbox (2.52621pt too wide) in paragraph at lines 68--69
+[]\OT1/ppl/m/n/10.95 This database is pop-u-lated by a back-ground pro-cess tha
+t fetch data from the providers
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 68--69
+
+ []
+
+<pics/ruby_query_1.pdf, id=835, 412.04832pt x 278.73376pt>
+File: pics/ruby_query_1.pdf Graphic file (type pdf)
+
+<use pics/ruby_query_1.pdf>
+<pics/ruby_query_2.pdf, id=836, 411.28215pt x 277.96747pt>
+File: pics/ruby_query_2.pdf Graphic file (type pdf)
+
+<use pics/ruby_query_2.pdf>
+<pics/ruby_query_3.pdf, id=837, 410.51585pt x 279.4999pt>
+File: pics/ruby_query_3.pdf Graphic file (type pdf)
+
+<use pics/ruby_query_3.pdf> [18
+
+]) [19 <./pics/ruby_query_1.pdf> <./pics/ruby_query_2.pdf> <./pics/ruby_query_3
+.pdf>]
 \openout2 = `fifth.aux'.
 
- (./fifth.tex [16
+ (./fifth.tex [20
 
 
 
 ]
 Chapter 5.
-) [17]
+) [21]
 \openout2 = `bibliography.aux'.
 
- (./bibliography.tex [18
+ (./bibliography.tex [22
 
 
 
@@ -1074,38 +1205,42 @@ Underfull \hbox (badness 10000) in paragraph at lines 6--7
 
  []
 
-) [19]
+) [23]
 \openout2 = `appendix.aux'.
 
- (./appendix.tex [20
+ (./appendix.tex [24
 
 
 
 ]
 Appendix A.
-) [21] (./thesis.aux (./title.aux) (./abstract.aux) (./toc.aux)
+) [25] (./thesis.aux (./title.aux) (./abstract.aux) (./toc.aux)
 (./acknowledgements.aux) (./notations.aux) (./first.aux) (./second.aux)
 (./third.aux) (./fourth.aux) (./fifth.aux) (./bibliography.aux) (./appendix.aux
 )) ) 
 Here is how much of TeX's memory you used:
- 6324 strings out of 493848
- 88184 string characters out of 3149207
- 171551 words of memory out of 3000000
- 9403 multiletter control sequences out of 15000+200000
- 20924 words of font info for 58 fonts, out of 3000000 for 9000
+ 6361 strings out of 493848
+ 88910 string characters out of 3149207
+ 172606 words of memory out of 3000000
+ 9427 multiletter control sequences out of 15000+200000
+ 24125 words of font info for 68 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  36i,11n,43p,840b,368s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2009/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local
-/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/
-texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local
-/texlive/2009/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/tex
-live/2009/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/20
-09/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2009/texm
-f-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2009/texmf-dist/
-fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on thesis.pdf (29 pages, 2941632 bytes).
+/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/
+texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/te
+xlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/tex
+live/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/te
+xlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
+live/2009/texmf-dist/fonts/type1/public/mathpazo/fplmr.pfb></usr/local/texlive/
+2009/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texlive/2009
+/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2009/texmf-
+dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2009/texmf-dist/fo
+nts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2009/texmf-dist/fonts/typ
+e1/urw/palatino/uplri8a.pfb>
+Output written on thesis.pdf (33 pages, 3040641 bytes).
 PDF statistics:
- 848 PDF objects out of 1000 (max. 8388607)
+ 921 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

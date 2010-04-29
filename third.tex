@@ -73,6 +73,28 @@ To cope with the precision errors of acceleration and heading measurement, a buf
 \label{fig:client_view_hierarchy}
 \end{figure}
 
+When developing for iPhone, the Model-View-Controller (MVC) is the best architecture to go with. There are well defined classes for views and controllers in the Cocoa framework, so we took advantage of that when designing our application.\\
+
+When using the Cocoa framework, each view must be a subclass of the UIView class, and each controller of the UIViewController class. A view is automatically linked to a view controller.\\
+
+A view can contain other views that will be considered as its subviews, and each view has a frame in which it renders itself. Views can have transparent or semi-transparent backgrounds, so it is possible to create a complex view hierarchy without hassle.\\
+
+Figure \ref{fig:client_view_hierarchy} shows the view hierarchy for our application.\\
+
+In order to render a view on screen, one must define an application window that is a subclass of UIWindow and that will take care of rendering every visible view on the iPhone's screen. By definition, a UIWindow must be the higher node in any view hierarchy.\\
+
+Once the application's window is defined, one should know that there is a serious restriction on the iPhone SDK up to the version 3.2 which prohibits to insert a camera view (UIImagePickerView) as a subview to a UIView. Instead, it must be directly put into a UIWindow. Since we want to use the camera in our application, we have no choice but to put it on top of our view stack. This is semantically very wrong, but there are no alternatives left here by Apple.\\
+
+Furthermore, the camera view itself is locked, so we can't help but use a view called "Camera Overlay" to display any view on top of it. That is ugly and clearly opposed to the concept of our application, but so far there is no other way to do it.\\
+
+As a result, the camera is always rendering in the background of our application, and everything else is rendered on top of it.\\
+
+Now we have a window and a background with a camera view, and we want to be able to switch between a Map View and an Augmented Reality View. To do so, we implement a Main View that will display either of them according to the iPhone position. In order to avoid redundancy, all the data of the application is kept in the Main View Controller and dispatched in its subview, be it a Map View or an Augmented View. The same goes for the acceleration and location data.\\
+
+To present the forecast of a stop, a "modal view" is opened by the Main View Controller.  The display of a modal view will replace the content of the actual window by a temporary view. When dismissing this view, the previous content of the window is loaded again and the application continues.\\
+
+This modal view is a table view itself composed of view cells that are respectively subclasses of UITableView and UITableViewCell. Those view cells are used to display the forecasts list for a bus stop.
+
 \subsection{Positioning within 6 degrees of freedom}
 
 In our application, we need to locate the camera of the iPhone within 6 degrees of freedom:
@@ -82,18 +104,52 @@ In our application, we need to locate the camera of the iPhone within 6 degrees 
 \item{Longitude}
 \item{Altitude}
 \item{Azimuth}
-\item{Inclination on the X-axis}
-\item{Inclination on the Z-axis}
+\item{Roll angle}
+\item{Pitch angle}
 \end{itemize}
 
-The GPS directly gives us the Altitude, Latitude and Longitude of the user whereas the compass gives us his Azimuth.\\
+The GPS directly gives us the Altitude, Latitude and Longitude of the user whereas the compass gives us his Azimuth. This directly takes care of 4 out of the 6 degrees.\\
 
-Thanks to the 3-axis accelerometer, the inclination on the X and Z axis can be computed by the mean of simple trigonometry.
+But thanks to the 3-axis accelerometer, the roll angle and pitch angle can easily be computed by the mean of simple trigonometry as shown in Figure \ref{fig:six_degrees_angles}
+
+\begin{figure}[ht]
+\center
+\includegraphics[scale=0.5]{pics/six_degrees_angles}
+\caption{Projection giving the Roll and Pitch angles, respectively $\theta$ and $\phi$}
+\label{fig:six_degrees_angles}
+\end{figure}
 
 \subsection{3D Projection}
 
-First, we project a Map on the plane defining the ground. The iPhone has an API to perform 3D projections, by the mean of layer transformations.\\
+Now that we know the position of the camera relatively to the object we want to display, we need to project our knowledge on the Augmented View.\\
 
-To apply a transform to a layer, one must provide the transform matrix corresponding to the desired projection.\\
+First, we project a Map on the plane defining the ground. The iPhone has an API to perform 3D projections, by the mean of layer transformations. To apply a transform to a layer, one must provide the transform matrix corresponding to the desired projection.\\
 
-In this case, the transformation will be a rotation of $\frac{\pi}{2}$ on the X-axis and a rotation corresponding to the Azimuth on the Y-Axis, followed by a translation to give depth to the view.
+In this case, the transformation will be a rotation of $\phi = \pi/2$ on the X-axis and another $\theta$ corresponding to the Azimuth on the Y-Axis, followed by translations $t_y$ and $t_z$ on the Y and Z axis to give depth to the view, which gives the following matrix:\\
+
+\[ \left( \begin{array}{cccc}
+	\textrm{cos} \theta 				& 0 					& -\textrm{sin} \theta 				& - \textrm{sin} \theta / e_z\\
+	\textrm{sin} \phi \textrm{ sin} \theta 	& \textrm{cos} \phi		& \textrm{sin} \phi \textrm{ cos} \theta 	& \textrm{sin} \phi \textrm{ cos} \theta  / e_z\\
+	\textrm{cos} \phi \textrm{ sin} \theta	& -\textrm{sin} \phi		& \textrm{cos} \phi \textrm{ cos} \theta	& \textrm{cos} \phi \textrm{ cos} \theta / e_z\\
+	0							& t_y					& t_z 							& t_z / e_z
+\end{array} \right)\]\\
+
+where $e_z$ is the distance of the user from the projection plan. Since we have $\phi = \pi / 2$, the transformation matrix becomes: \\
+
+\[ \left( \begin{array}{cccc}
+	\textrm{cos} \theta	& 0 				& -\textrm{sin} \theta 	& - \textrm{sin} \theta / e_z\\
+	\textrm{sin} \theta 	& 0				& \textrm{cos} \theta 		& \textrm{cos} \theta  / e_z\\
+	0				& -1				& 0					& 0\\
+	0				& t_y				& t_z 				& t_z / e_z
+\end{array} \right)\]\\
+
+Once the map is projected on the proper plane, we can project the buttons representing the bus stops. First, we need to compute the distance and the azimuth of the stop relatively to the camera.\\
+
+To compute the distance $d$, we use a simplified version of the great-circle formula as shown in Equation \ref{equ:great_circle_projection} where $\phi_s$ and $\lambda_s$ are the Latitude and Longitude of the standpoint (camera position), $\phi_f$ and $\lambda_f$ the ones of the forepoint (bus stop location) and $R$ is the average radius of Earth ($\approx6371$km).
+
+\begin{equation}
+\label{equ:great_circle_projection}
+d =  R \times \textrm{arccos}\left(\textrm{sin}\phi_s \textrm{ sin}\phi_f + \textrm{cos}\phi_s \textrm{ cos}\phi_f \textrm{ cos}(\lambda_f-\lambda_s)\right)
+\end{equation}
+
+To compute the azimuth, we use another formula

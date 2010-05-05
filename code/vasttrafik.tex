@@ -1,0 +1,107 @@
+\begin{Verbatim}[commandchars=@\[\]]
+@PYaz[module] @PYaW[Provider::Vasttrafik]
+  @PYah[include] @PYar[Provider]@PYbf[::]@PYar[Base]
+  @PYaz[def] @PYaL[update_stop_database]
+    provider_name @PYbf[=] @PYaX["]@PYaX[Vasttrafik]@PYaX["]
+    use_identifier
+
+    xml_tree @PYbf[=] fetch_all_stops()
+    @PYaz[return] @PYah[nil] @PYaz[unless] xml_tree
+
+    rt90grid @PYbf[=] @PYar[SwedishGrid]@PYbf[.]new(@PYau[:rt90])
+
+    xml_tree@PYbf[.]css(@PYaX["]@PYaX[all_stops item]@PYaX["])@PYbf[.]each @PYaz[do] @PYbf[|]element@PYbf[|]
+      stop_id @PYbf[=] element@PYbf[.]attribute(@PYaX["]@PYaX[stop_id]@PYaX["])@PYbf[.]try(@PYau[:text])@PYbf[.]to_s
+      bus_stop @PYbf[=]
+        @PYar[BusStop]@PYbf[.]find_or_initialize_by_stop_id_and_provider_name(stop_id,
+                                                          provider_name)
+
+      rt90_x @PYbf[=] @PYaY[Float](element@PYbf[.]attribute(@PYaX["]@PYaX[rt90_x]@PYaX["])@PYbf[.]try(@PYau[:text])@PYbf[.]to_s)
+      rt90_y @PYbf[=] @PYaY[Float](element@PYbf[.]attribute(@PYaX["]@PYaX[rt90_y]@PYaX["])@PYbf[.]try(@PYau[:text])@PYbf[.]to_s)
+      latlng @PYbf[=] rt90grid@PYbf[.]grid_to_geodetic(rt90_x, rt90_y)
+
+      bus_stop@PYbf[.]provider_name @PYbf[=] provider_name
+      bus_stop@PYbf[.]name          @PYbf[=] element@PYbf[.]css(@PYaX["]@PYaX[stop_name]@PYaX["])@PYbf[.]try(@PYau[:text])@PYbf[.]to_s
+      bus_stop@PYbf[.]lat           @PYbf[=] latlng@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]
+      bus_stop@PYbf[.]lng           @PYbf[=] latlng@PYbf[@PYZlb[]]@PYag[1]@PYbf[@PYZrb[]]
+      bus_stop@PYbf[.]touch @PYaf[# ?]
+      bus_stop@PYbf[.]save
+    @PYaz[end]
+
+    delete_obsolete_stops(provider_name)
+  @PYaz[end]
+
+  @PYaz[def] @PYaL[get_forecast_url](poi_id)
+    use_identifier
+    url @PYbf[=]
+      @PYaX["]@PYaX[http://www.vasttrafik.se/External_Services/NextTrip.asmx/]@PYaX["] @PYbf[+] 
+                                        @PYaX["]@PYaX[GetForecast?identifier=]@PYaX["] @PYbf[+]
+                                                      @PYaS[@PYZat[]identifier] @PYbf[+]
+                                                       @PYaX["]@PYaX[&stopId=]@PYaX["] @PYbf[+]
+                                                           poi_id
+  @PYaz[end]
+  
+  @PYaz[def] @PYaL[parse_forecast](response, poi_id, poi_name)
+    provider_name @PYbf[=] @PYaX["]@PYaX[Vasttrafik]@PYaX["]
+
+    xml_tree @PYbf[=] @PYar[Nokogiri]@PYbf[::]@PYar[XML]@PYbf[.]parse(response, @PYah[nil], @PYbe['UTF-8'])
+    @PYaz[return] @PYbf[@PYZlb[]]@PYbf[@PYZrb[]] @PYaz[if] xml_tree@PYbf[.]css(@PYaX["]@PYaX[string]@PYaX["])@PYbf[.]size @PYbf[==] @PYag[0]
+    encapsuled_xml @PYbf[=] xml_tree@PYbf[.]css(@PYaX["]@PYaX[string]@PYaX["])@PYbf[.]text
+    xml_tree @PYbf[=] @PYar[Nokogiri]@PYbf[::]@PYar[XML]@PYbf[.]parse(encapsuled_xml, @PYah[nil], @PYbe['UTF-8'])
+    
+    @PYaf[# Extract data]
+    lines @PYbf[=] @PYbf[@PYZlb[]]@PYbf[@PYZrb[]]
+    xml_tree@PYbf[.]css(@PYaX["]@PYaX[forecast item]@PYaX["])@PYbf[.]each @PYaz[do] @PYbf[|]element@PYbf[|]
+      attributes @PYbf[=] {}
+      attributes@PYbf[@PYZlb[]]@PYau[:line_number]@PYbf[@PYZrb[]]          @PYbf[=]
+        element@PYbf[.]attribute(@PYaX["]@PYaX[line_number]@PYaX["])@PYbf[.]try(@PYau[:text])@PYbf[.]to_s
+      attributes@PYbf[@PYZlb[]]@PYau[:color]@PYbf[@PYZrb[]]                @PYbf[=]
+        element@PYbf[.]attribute(@PYaX["]@PYaX[line_number_foreground_color]@PYaX["])@PYbf[.]try(@PYau[:text])@PYbf[.]to_s
+      attributes@PYbf[@PYZlb[]]@PYau[:background_color]@PYbf[@PYZrb[]]     @PYbf[=]
+        element@PYbf[.]attribute(@PYaX["]@PYaX[line_number_background_color]@PYaX["])@PYbf[.]try(@PYau[:text])@PYbf[.]to_s
+      attributes@PYbf[@PYZlb[]]@PYau[:destination]@PYbf[@PYZrb[]]          @PYbf[=]
+        element@PYbf[.]css(@PYaX["]@PYaX[destination]@PYaX["])@PYbf[.]try(@PYau[:text])@PYbf[.]to_s
+      
+      attributes@PYbf[@PYZlb[]]@PYau[:next_trip]@PYbf[@PYZrb[]]            @PYbf[=]
+        element@PYbf[.]attribute(@PYaX["]@PYaX[next_trip]@PYaX["])@PYbf[.]try(@PYau[:text])@PYbf[.]to_s
+      alternate_text                    @PYbf[=]
+        element@PYbf[.]attribute(@PYaX["]@PYaX[next_trip_alternate_text]@PYaX["])@PYbf[.]try(@PYau[:text])@PYbf[.]to_s
+      attributes@PYbf[@PYZlb[]]@PYau[:next_handicap]@PYbf[@PYZrb[]]        @PYbf[=]
+        (alternate_text @PYbf[==] @PYaX["]@PYaX[Handikappanpassad]@PYaX["]@PYbf[.]force_encoding(@PYaX["]@PYaX[UTF-8]@PYaX["])) 
+      attributes@PYbf[@PYZlb[]]@PYau[:next_low_floor]@PYbf[@PYZrb[]]       @PYbf[=]
+        (alternate_text @PYbf[==] @PYaX["]@PYaX[Low Floor]@PYaX["])
+      
+      attributes@PYbf[@PYZlb[]]@PYau[:next_next_trip]@PYbf[@PYZrb[]]       @PYbf[=]
+        element@PYbf[.]attribute(@PYaX["]@PYaX[next_next_trip]@PYaX["])@PYbf[.]try(@PYau[:text])@PYbf[.]to_s
+      alternate_text                    @PYbf[=]
+       element@PYbf[.]attribute(@PYaX["]@PYaX[next_next_trip_alternate_text]@PYaX["])@PYbf[.]try(@PYau[:text])@PYbf[.]to_s
+      attributes@PYbf[@PYZlb[]]@PYau[:next_next_handicap]@PYbf[@PYZrb[]]   @PYbf[=]
+        (alternate_text @PYbf[==] @PYaX["]@PYaX[Handikappanpassad]@PYaX["])
+      attributes@PYbf[@PYZlb[]]@PYau[:next_next_low_floor]@PYbf[@PYZrb[]]  @PYbf[=]
+        (alternate_text @PYbf[==] @PYaX["]@PYaX[Low Floor]@PYaX["])
+
+      lines @PYbf[<<] @PYbf[@PYZlb[]]attributes@PYbf[@PYZlb[]]@PYau[:line_number]@PYbf[@PYZrb[]], attributes@PYbf[@PYZrb[]]
+    @PYaz[end]
+
+    @PYaz[return] sort_lines(lines)
+  @PYaz[end]
+
+  @PYah[private]
+  @PYaz[def] @PYaL[fetch_all_stops]
+    get_poi_list_url @PYbf[=] @PYaX["]@PYaX[http://www.vasttrafik.se/External_Services/]@PYaX["] @PYbf[+] 
+                        @PYaX["]@PYaX[TravelPlanner.asmx/GetAllStops?identifier=]@PYaX["] @PYbf[+]
+                                                        @PYaS[@PYZat[]identifier]
+    xml_tree @PYbf[=] fetch_xml_from_url_string(get_poi_list_url)
+  @PYaz[end]
+
+  @PYaz[def] @PYaL[fetch_forecast](poi_id)
+    get_poi_forecast_url @PYbf[=]
+                        @PYaX["]@PYaX[http://www.vasttrafik.se/External_Services/]@PYaX["] @PYbf[+]
+                              @PYaX["]@PYaX[NextTrip.asmx/GetForecast?identifier=]@PYaX["] @PYbf[+]
+                                                          @PYaS[@PYZat[]identifier] @PYbf[+]
+                                                           @PYaX["]@PYaX[&stopId=]@PYaX["] @PYbf[+]
+                                                              poi_id
+    xml_tree @PYbf[=] fetch_xml_from_url_string(get_poi_forecast_url)
+  @PYaz[end]
+@PYaz[end]
+\end{Verbatim}

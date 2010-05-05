@@ -1,0 +1,1 @@
+BOOL result = [receiver say:@"hello world!"];

@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=@\[\]]
+@PYaz[module] @PYaW[Provider]
+
+  @PYaz[module] @PYaW[Base]
+    @PYaY[require] @PYbe['timeout']
+    @PYaY[require] @PYbe['net/http']
+    @PYaY[require] @PYbe['uri']
+    
+    @PYaz[def] @PYaL[delete_obsolete_stops](provider_name)
+      @PYar[BusStop]@PYbf[.]delete_all @PYbf[@PYZlb[]]@PYaX["]@PYaX[provider_name = ? AND updated_at < ?]@PYaX["],
+                                                   provider_name,
+                                                    @PYag[24]@PYbf[.]hours@PYbf[.]ago@PYbf[@PYZrb[]]
+    @PYaz[end]
+  @PYaz[end]
+@PYaz[end]
+\end{Verbatim}

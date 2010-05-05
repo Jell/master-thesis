@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=@\[\]]
+-@PYay[module](echo).
+-@PYay[export](@PYZlb[]test@PYbf[/]@PYag[0]@PYZrb[]).
+
+@PYaL[test]() @PYbf[-]@PYbf[>]
+  @PYaj[Cmd] @PYbf[=] @PYad["]@PYad[ruby echo.rb]@PYad["],
+  @PYaj[Port] @PYbf[=] @PYaY[open_port]({@PYaY[spawn], @PYaj[Cmd]}, @PYZlb[]{packet, @PYag[4]}, nouse_stdio,
+                                     exit_status, binary@PYZrb[]),
+  @PYaj[Payload] @PYbf[=] @PYaY[term_to_binary]({echo, @PYbf[<]@PYbf[<]@PYad["]@PYad[hello world!]@PYad["]@PYbf[>]@PYbf[>]}),
+  @PYaY[port_command](@PYaj[Port], @PYaj[Payload]),
+  @PYaz[receive]
+    {@PYaj[Port], {data, @PYaj[Data]}} @PYbf[-]@PYbf[>]
+      {result, @PYaj[Text]} @PYbf[=] @PYaY[binary_to_term](@PYaj[Data]),
+      @PYaW[io]:format(@PYad["]@PYbg[~p]@PYbg[~n]@PYad["], @PYZlb[]@PYaj[Text]@PYZrb[])
+  @PYaz[end].
+\end{Verbatim}

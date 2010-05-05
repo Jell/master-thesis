@@ -1,0 +1,109 @@
+\begin{Verbatim}[commandchars=@\[\]]
+@PYaf[# coding: utf-8]
+
+@PYaz[def] @PYaL[get_stops](lat,lng)
+  result @PYbf[=] @PYbf[@PYZlb[]]@PYbf[@PYZrb[]]
+  stop_list @PYbf[=] get_nearest_stops(lat,lng)
+  stop_list@PYbf[.]each @PYaz[do] @PYbf[|]element@PYbf[|]
+    attributes @PYbf[=] @PYbf[@PYZlb[]]@PYbf[@PYZrb[]]
+    attributes @PYbf[<<] @PYbf[@PYZlb[]]@PYau[:name], element@PYbf[.]name@PYbf[@PYZrb[]]
+    attributes @PYbf[<<] @PYbf[@PYZlb[]]@PYau[:lat], element@PYbf[.]lat@PYbf[@PYZrb[]]
+    attributes @PYbf[<<] @PYbf[@PYZlb[]]@PYau[:lng], element@PYbf[.]lng@PYbf[@PYZrb[]]
+    attributes @PYbf[<<] @PYbf[@PYZlb[]]@PYau[:forecast], @PYbf[@PYZlb[]]@PYbf[@PYZrb[]]@PYbf[@PYZrb[]]
+    attributes @PYbf[<<] @PYbf[@PYZlb[]]@PYau[:provider_name], element@PYbf[.]provider_name@PYbf[@PYZrb[]]
+    attributes @PYbf[<<] @PYbf[@PYZlb[]]@PYau[:stop_id], element@PYbf[.]stop_id@PYbf[@PYZrb[]]
+    attributes @PYbf[<<] @PYbf[@PYZlb[]]@PYau[:url], element@PYbf[.]url@PYbf[@PYZrb[]]
+    result @PYbf[<<] attributes
+  @PYaz[end]
+  @PYaz[return] result
+@PYaz[end]
+
+@PYaz[def] @PYaL[get_nearest_stops](lat,lng)
+  lat @PYbf[=] @PYaY[Float] lat
+  lng @PYbf[=] @PYaY[Float] lng
+  area @PYbf[=] @PYag[0]@PYbf[.]@PYae[002]
+  list @PYbf[=] @PYar[BusStop]@PYbf[.]where(@PYbf[@PYZlb[]]@PYaX["]@PYaX[lat > ? AND lat < ? AND lng > ? AND lng < ?]@PYaX["],
+                        lat @PYbf[-] area, lat @PYbf[+] area, lng@PYbf[-] area, lng @PYbf[+] area@PYbf[@PYZrb[]])
+  @PYaz[while] list@PYbf[.]count @PYbf[<] @PYag[10] @PYaz[do]
+    list @PYbf[=] list @PYbf[+] @PYar[BusStop]@PYbf[.]where(
+        @PYbf[@PYZlb[]]@PYaX["]@PYaX[lat > ? AND lat < ? AND lng > ? AND lng < ?]
+@PYaX[          AND NOT (lat > ? AND lat < ? AND lng > ? AND lng < ?)]@PYaX["],
+                                                    lat @PYbf[-] @PYag[2]@PYbf[*]area,
+                                                    lat @PYbf[+] @PYag[2]@PYbf[*]area,
+                                                     lng@PYbf[-] @PYag[2]@PYbf[*]area,
+                                                    lng @PYbf[+] @PYag[2]@PYbf[*]area,
+                                                      lat @PYbf[-] area,
+                                                      lat @PYbf[+] area,
+                                                       lng@PYbf[-] area,
+                                                      lng @PYbf[+] area@PYbf[@PYZrb[]])
+    area @PYbf[=] area @PYbf[*] @PYag[2]
+  @PYaz[end]
+  @PYaz[return] sort_stops(list, lat, lng)@PYbf[.]first(@PYag[10])
+@PYaz[end]
+
+@PYaz[def] @PYaL[sort_stops](list, lat, lng)
+  @PYaf[#sort by distance to origin]
+  list@PYbf[.]sort! @PYaz[do] @PYbf[|]a,b@PYbf[|]
+    distance_geodesic(@PYaY[Float](a@PYbf[.]lat), @PYaY[Float](a@PYbf[.]lng), lat, lng) @PYbf[<]@PYbf[=]@PYbf[>]
+      distance_geodesic(@PYaY[Float](b@PYbf[.]lat), @PYaY[Float](b@PYbf[.]lng), lat, lng)
+  @PYaz[end]
+  @PYaz[return] list
+@PYaz[end]
+
+@PYaz[def] @PYaL[distance_geodesic](lat1, long1, lat2, long2)
+  @PYaf[#convert from degrees to radians]
+  a1 @PYbf[=] lat1 @PYbf[*] (@PYar[Math]@PYbf[::]@PYar[PI] @PYbf[/] @PYag[180])
+  b1 @PYbf[=] long1 @PYbf[*] (@PYar[Math]@PYbf[::]@PYar[PI] @PYbf[/] @PYag[180])
+  a2 @PYbf[=] lat2 @PYbf[*] (@PYar[Math]@PYbf[::]@PYar[PI] @PYbf[/] @PYag[180])
+  b2 @PYbf[=] long2 @PYbf[*] (@PYar[Math]@PYbf[::]@PYar[PI] @PYbf[/] @PYag[180])
+
+  r @PYbf[=] @PYag[6356]@PYbf[.]@PYag[75] @PYaf[#radius of earth]
+  @PYaf[#do the calculation with radians as units]
+  d @PYbf[=] r @PYbf[*] @PYar[Math]@PYbf[.]acos(
+            @PYar[Math]@PYbf[.]cos(a1)@PYbf[*]@PYar[Math]@PYbf[.]cos(b1)@PYbf[*]@PYar[Math]@PYbf[.]cos(a2)@PYbf[*]@PYar[Math]@PYbf[.]cos(b2) @PYbf[+]
+            @PYar[Math]@PYbf[.]cos(a1)@PYbf[*]@PYar[Math]@PYbf[.]sin(b1)@PYbf[*]@PYar[Math]@PYbf[.]cos(a2)@PYbf[*]@PYar[Math]@PYbf[.]sin(b2) @PYbf[+]
+            @PYar[Math]@PYbf[.]sin(a1)@PYbf[*]@PYar[Math]@PYbf[.]sin(a2));
+  
+@PYaz[end]
+
+receive @PYaz[do] @PYbf[|]f@PYbf[|]
+  f@PYbf[.]when(@PYbf[@PYZlb[]]@PYau[:parse], @PYaY[Array]@PYbf[@PYZrb[]]) @PYaz[do] @PYbf[|]array@PYbf[|]
+    result @PYbf[=] @PYbf[@PYZlb[]]@PYbf[@PYZrb[]]
+    i @PYbf[=] @PYag[0]
+    @PYaz[while] array@PYbf[@PYZlb[]]i@PYbf[@PYZrb[]] @PYaz[do]
+      element @PYbf[=] {}
+      stop_info @PYbf[=] array@PYbf[@PYZlb[]]i@PYbf[@PYZrb[]]@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]
+      j @PYbf[=] @PYag[0]
+      @PYaz[while] stop_info@PYbf[@PYZlb[]]j@PYbf[@PYZrb[]] @PYaz[do]
+        element@PYbf[@PYZlb[]]stop_info@PYbf[@PYZlb[]]j@PYbf[@PYZrb[]]@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]@PYbf[.]to_sym@PYbf[@PYZrb[]] @PYbf[=] stop_info@PYbf[@PYZlb[]]j@PYbf[@PYZrb[]]@PYbf[@PYZlb[]]@PYag[1]@PYbf[@PYZrb[]]
+        j @PYbf[+=] @PYag[1]
+      @PYaz[end]
+      tobeparsed @PYbf[=] array@PYbf[@PYZlb[]]i@PYbf[@PYZrb[]]@PYbf[@PYZlb[]]@PYag[1]@PYbf[@PYZrb[]]
+      loader @PYbf[=] @PYar[BusStopLoader]@PYbf[.]new(
+                    @PYaX["]@PYaX[Provider::]@PYbg[#{]element@PYbf[@PYZlb[]]@PYau[:provider_name]@PYbf[@PYZrb[]]@PYbg[}]@PYaX["]@PYbf[.]constantize)
+      parsed @PYbf[=] loader@PYbf[.]parse_forecast(tobeparsed@PYbf[.]force_encoding(@PYaX["]@PYaX[UTF-8]@PYaX["]),
+                                                       element@PYbf[@PYZlb[]]@PYau[:poi_id]@PYbf[@PYZrb[]],
+                                  element@PYbf[@PYZlb[]]@PYau[:name]@PYbf[@PYZrb[]]@PYbf[.]force_encoding(@PYaX["]@PYaX[UTF-8]@PYaX["]))
+      element@PYbf[@PYZlb[]]@PYau[:forecast]@PYbf[@PYZrb[]] @PYbf[=] parsed
+      result @PYbf[<<] element
+      i @PYbf[+=] @PYag[1]
+    @PYaz[end]
+    
+    f@PYbf[.]send!(@PYbf[@PYZlb[]]@PYau[:result], result@PYbf[.]to_json@PYbf[@PYZrb[]])
+    f@PYbf[.]receive_loop
+  @PYaz[end]
+  
+  f@PYbf[.]when(@PYbf[@PYZlb[]]@PYau[:echo], @PYaY[Array]@PYbf[@PYZrb[]]) @PYaz[do] @PYbf[|]array@PYbf[|]
+    result @PYbf[=] {}
+    i @PYbf[=] @PYag[0]
+    @PYaz[while] array@PYbf[@PYZlb[]]i@PYbf[@PYZrb[]] @PYaz[do]
+      result@PYbf[@PYZlb[]]array@PYbf[@PYZlb[]]i@PYbf[@PYZrb[]]@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]@PYbf[@PYZrb[]] @PYbf[=] array@PYbf[@PYZlb[]]i@PYbf[@PYZrb[]]@PYbf[@PYZlb[]]@PYag[1]@PYbf[@PYZrb[]]@PYbf[.]map(@PYbf[&]@PYau[:chr])@PYbf[.]join
+      i @PYbf[+=] @PYag[1]
+    @PYaz[end]
+    nearest_stops @PYbf[=] get_stops(result@PYbf[@PYZlb[]]@PYau[:lat]@PYbf[@PYZrb[]], result@PYbf[@PYZlb[]]@PYau[:lng]@PYbf[@PYZrb[]])
+    f@PYbf[.]send!(@PYbf[@PYZlb[]]@PYau[:result], nearest_stops@PYbf[@PYZrb[]])
+    
+    f@PYbf[.]receive_loop
+  @PYaz[end]
+@PYaz[end]
+\end{Verbatim}

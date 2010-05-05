@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=@\[\]]
+@PYaL[all_females]() @PYbf[-]@PYbf[>]
+  @PYaj[F] @PYbf[=] @PYaz[fun]() @PYbf[-]@PYbf[>]
+      @PYaj[Female] @PYbf[=] @PYai[#employee]{sex @PYbf[=] female, name @PYbf[=] '$1', _ @PYbf[=] '_'},
+      @PYaW[mnesia]:select(employee, @PYZlb[]{@PYaj[Female], @PYZlb[]@PYZrb[], @PYZlb[]'$1'@PYZrb[]}@PYZrb[])
+      @PYaz[end],
+  @PYaW[mnesia]:transaction(@PYaj[F]).
+\end{Verbatim}

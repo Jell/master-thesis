@@ -1,0 +1,247 @@
+\begin{Verbatim}[commandchars=@\[\]]
+@PYaf[# coding: utf-8]
+@PYaz[module] @PYaW[Provider::StorstockholmsLokaltrafik]
+  @PYah[include] @PYar[Provider]@PYbf[::]@PYar[Base]
+
+  @PYaz[def] @PYaL[update_stop_database]
+    provider_name @PYbf[=] @PYaX["]@PYaX[StorstockholmsLokaltrafik]@PYaX["]
+    @PYaz[for] stop_id @PYaz[in] @PYae[0000]@PYbf[.].@PYag[9999] @PYaz[do]
+      a_stop @PYbf[=] fetch_stop_with_id(@PYaX["]@PYaX[%04d]@PYaX["] @PYbf[%] stop_id)
+      @PYaz[if] @PYao[not] a_stop @PYbf[==] @PYah[nil]
+        test_valid @PYbf[=] get_forecast(@PYaX["]@PYaX[%04d]@PYaX["] @PYbf[%] stop_id, a_stop@PYbf[@PYZlb[]]@PYau[:name]@PYbf[@PYZrb[]]) @PYbf[!=] @PYbf[@PYZlb[]]@PYbf[@PYZrb[]]
+        @PYaz[if] test_valid
+          bus_stop @PYbf[=]
+            @PYar[BusStop]@PYbf[.]find_or_initialize_by_stop_id_and_provider_name(
+                                                                a_stop,
+                                                         provider_name)
+          bus_stop@PYbf[.]provider_name @PYbf[=] provider_name
+          bus_stop@PYbf[.]name          @PYbf[=] a_stop@PYbf[@PYZlb[]]@PYau[:name]@PYbf[@PYZrb[]]
+          bus_stop@PYbf[.]lat           @PYbf[=] a_stop@PYbf[@PYZlb[]]@PYau[:lat]@PYbf[@PYZrb[]]
+          bus_stop@PYbf[.]lng           @PYbf[=] a_stop@PYbf[@PYZlb[]]@PYau[:lng]@PYbf[@PYZrb[]]
+          bus_stop@PYbf[.]touch @PYaf[# ?]
+          bus_stop@PYbf[.]save
+        @PYaz[end]
+      @PYaz[end]
+    @PYaz[end]
+    delete_obsolete_stops(provider_name)
+  @PYaz[end]
+
+  @PYaz[def] @PYaL[get_forecast_url](poi_id)
+    url @PYbf[=] @PYaX["]@PYaX[http://realtid.sl.se/?epslanguage=SV&WbSgnMdl=]@PYaX["] @PYbf[+]
+                                                    poi_id @PYbf[+]
+                                          @PYaX["]@PYaX[-U3Rv-_-1-_-1-1]@PYaX["]
+  @PYaz[end]
+  
+  @PYaz[def] @PYaL[parse_forecast](response, poi_id, poi_name)
+    html_tree @PYbf[=] @PYar[Nokogiri]@PYbf[::]@PYar[HTML](response)
+
+    lines @PYbf[=] @PYbf[@PYZlb[]]@PYbf[@PYZrb[]]
+
+    @PYaf[# find Bus Forecasts]
+    bus_forecast @PYbf[=] html_tree@PYbf[.]xpath(@PYbe['//div@PYZlb[]@PYZat[]class="TrafficTypeItem"@PYZrb[]'])
+    bus_forecast@PYbf[.]each @PYaz[do] @PYbf[|]element@PYbf[|]
+      stop_name @PYbf[=] element@PYbf[.]css(@PYbe['div h3'])@PYbf[.]text@PYbf[.]split(@PYaX["]@PYaX[, ]@PYaX["])@PYbf[@PYZlb[]]@PYag[1]@PYbf[@PYZrb[]]
+      @PYaz[if](stop_name @PYbf[==] poi_name)
+        departure_list @PYbf[=]    element@PYbf[.]css(@PYbe['div@PYZlb[]@PYZat[]class="Departure"@PYZrb[]']) @PYbf[+]
+          element@PYbf[.]css(@PYbe['div@PYZlb[]@PYZat[]class="DepartureAlternating"@PYZrb[]'])
+        departure_list@PYbf[.]each @PYaz[do] @PYbf[|]departure@PYbf[|]
+          next_trip_text @PYbf[=] departure@PYbf[.]css(@PYbe['span@PYZlb[]@PYZat[]class="DisplayTime"@PYZrb[]'])@PYbf[.]
+            text@PYbf[.]squeeze(@PYaX["]@PYaX[ ]@PYaX["])@PYbf[.]strip
+          @PYaz[if] next_trip_text @PYbf[=~] @PYal[/]@PYal[@PYZlb[]Nn@PYZrb[]u]@PYal[/]
+            next_trip @PYbf[=] @PYaX["]@PYaX[0]@PYaX["]
+          @PYaz[else]
+            next_trip @PYbf[=] departure@PYbf[.]css(@PYbe['span@PYZlb[]@PYZat[]class="DisplayTime"@PYZrb[]'])@PYbf[.]
+              text@PYbf[.]squeeze(@PYaX["]@PYaX[ ]@PYaX["])@PYbf[.]strip@PYbf[.]scan(@PYal[/]@PYal[\]@PYal[d+]@PYal[\]@PYal[smin]@PYal[/])@PYbf[.]first
+          @PYaz[end]
+          @PYaz[if] next_trip @PYbf[!=] @PYah[nil]
+            attributes @PYbf[=] {}
+            attributes@PYbf[@PYZlb[]]@PYau[:line_number]@PYbf[@PYZrb[]]       @PYbf[=]
+              departure@PYbf[.]css(@PYbe['span@PYZlb[]@PYZat[]class="LineDesignation"@PYZrb[]'])@PYbf[.]
+                text@PYbf[.]squeeze(@PYaX["]@PYaX[ ]@PYaX["])@PYbf[.]strip
+            attributes@PYbf[@PYZlb[]]@PYau[:color]@PYbf[@PYZrb[]]             @PYbf[=] @PYaX["]@PYaX[#]@PYaX[FFFFFF]@PYaX["]
+            attributes@PYbf[@PYZlb[]]@PYau[:background_color]@PYbf[@PYZrb[]]  @PYbf[=] @PYaX["]@PYaX[#]@PYaX[BB0000]@PYaX["]
+            attributes@PYbf[@PYZlb[]]@PYau[:destination]@PYbf[@PYZrb[]]       @PYbf[=]
+              departure@PYbf[.]css(@PYbe['span@PYZlb[]@PYZat[]class="DestinationName"@PYZrb[]'])@PYbf[.]
+                text@PYbf[.]squeeze(@PYaX["]@PYaX[ ]@PYaX["])@PYbf[.]strip
+            attributes@PYbf[@PYZlb[]]@PYau[:next_trip]@PYbf[@PYZrb[]]         @PYbf[=] next_trip@PYbf[.]scan(@PYal[/]@PYal[\]@PYal[d+]@PYal[/])@PYbf[.]first
+            attributes@PYbf[@PYZlb[]]@PYau[:next_handicap]@PYbf[@PYZrb[]]        @PYbf[=] @PYah[false]
+            attributes@PYbf[@PYZlb[]]@PYau[:next_low_floor]@PYbf[@PYZrb[]]       @PYbf[=] @PYah[false]
+            attributes@PYbf[@PYZlb[]]@PYau[:next_next_trip]@PYbf[@PYZrb[]]       @PYbf[=] @PYaX["]@PYaX["]
+            attributes@PYbf[@PYZlb[]]@PYau[:next_next_handicap]@PYbf[@PYZrb[]]   @PYbf[=] @PYah[false]
+            attributes@PYbf[@PYZlb[]]@PYau[:next_next_low_floor]@PYbf[@PYZrb[]]  @PYbf[=] @PYah[false]
+
+            lines @PYbf[<<] @PYbf[@PYZlb[]]attributes@PYbf[@PYZlb[]]@PYau[:line_number]@PYbf[@PYZrb[]], attributes@PYbf[@PYZrb[]]
+          @PYaz[end]
+        @PYaz[end]
+      @PYaz[end]
+    @PYaz[end]
+
+    @PYaf[# find Tram Forecasts]
+    tram_forecast @PYbf[=] html_tree@PYbf[.]xpath(@PYbe['//div@PYZlb[]@PYZat[]class="TPIHolder"@PYZrb[]'])
+    is_correct_stop @PYbf[=] @PYah[false]
+    tram_forecast@PYbf[.]css(@PYbe['span@PYZlb[]@PYZat[]class="Row1"@PYZrb[]'])@PYbf[.]each @PYaz[do] @PYbf[|]element@PYbf[|]
+      is_correct_stop @PYbf[|=] (element@PYbf[.]text @PYbf[==] poi_name)
+    @PYaz[end]
+    @PYaz[if] is_correct_stop
+      colors @PYbf[=] {@PYaX["]@PYaX[T10]@PYaX["] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[#]@PYaX[0080FF]@PYaX["],
+                @PYaX["]@PYaX[T11]@PYaX["] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[#]@PYaX[0080FF]@PYaX["],
+                @PYaX["]@PYaX[T13]@PYaX["] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[#]@PYaX[FF0000]@PYaX["],
+                @PYaX["]@PYaX[T14]@PYaX["] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[#]@PYaX[FF0000]@PYaX["],
+                @PYaX["]@PYaX[T17]@PYaX["] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[#]@PYaX[00BB00]@PYaX["],
+                @PYaX["]@PYaX[T18]@PYaX["] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[#]@PYaX[00BB00]@PYaX["],
+                @PYaX["]@PYaX[T19]@PYaX["] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[#]@PYaX[00BB00]@PYaX["]}
+                
+      departures @PYbf[=] tram_forecast@PYbf[.]css(@PYbe['div@PYZlb[]@PYZat[]class="Row2"@PYZrb[]'])
+      tram_regexp @PYbf[=] @PYal[/]@PYal[\]@PYal[d+@PYZlb[]a-zA-ZöäåÖÄÅ]@PYal[\]@PYal[s]@PYal[\]@PYal[.@PYZrb[]+]@PYal[\]@PYal[d+]@PYal[\]@PYal[smin]@PYal[/]
+      
+      list_tmp @PYbf[=] @PYbf[@PYZlb[]]@PYbf[@PYZrb[]]
+      departures@PYbf[.]each @PYaz[do] @PYbf[|]departure@PYbf[|]
+        matches @PYbf[=] departure@PYbf[.]text@PYbf[.]scan(tram_regexp)
+        @PYaz[if] matches @PYbf[!=] @PYah[nil]
+          matches@PYbf[.]each @PYaz[do] @PYbf[|]match@PYbf[|]
+            list_tmp @PYbf[<<] match
+          @PYaz[end]
+        @PYaz[end]
+      @PYaz[end]
+      list_tmp@PYbf[.]each @PYaz[do] @PYbf[|]to_parse@PYbf[|]
+        parsed @PYbf[=] to_parse@PYbf[.]squeeze(@PYaX["]@PYaX[ ]@PYaX["])@PYbf[.]split(@PYaX["]@PYaX[ ]@PYaX["])
+        parsed_size @PYbf[=] parsed@PYbf[.]count
+        line_number @PYbf[=] @PYaX["]@PYaX[T]@PYaX["] @PYbf[+] parsed@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]
+        next_trip @PYbf[=] parsed@PYbf[@PYZlb[]]parsed_size@PYbf[-]@PYag[2]@PYbf[@PYZrb[]]
+        destination @PYbf[=] parsed@PYbf[@PYZlb[]]@PYag[1]@PYbf[@PYZrb[]]
+        @PYaz[for] i @PYaz[in] @PYag[2]@PYbf[.].parsed_size@PYbf[-]@PYag[3]
+          destination @PYbf[+=] @PYaX["]@PYaX[ ]@PYaX["] @PYbf[+] parsed@PYbf[@PYZlb[]]i@PYbf[@PYZrb[]]
+        @PYaz[end]
+        
+        attributes @PYbf[=] {}
+        attributes@PYbf[@PYZlb[]]@PYau[:line_number]@PYbf[@PYZrb[]]       @PYbf[=] line_number
+        attributes@PYbf[@PYZlb[]]@PYau[:color]@PYbf[@PYZrb[]]             @PYbf[=] @PYaX["]@PYaX[#]@PYaX[FFFFFF]@PYaX["]
+        attributes@PYbf[@PYZlb[]]@PYau[:background_color]@PYbf[@PYZrb[]]  @PYbf[=] colors@PYbf[@PYZlb[]]line_number@PYbf[@PYZrb[]]
+        attributes@PYbf[@PYZlb[]]@PYau[:destination]@PYbf[@PYZrb[]]       @PYbf[=] destination
+        attributes@PYbf[@PYZlb[]]@PYau[:next_trip]@PYbf[@PYZrb[]]         @PYbf[=] next_trip
+        attributes@PYbf[@PYZlb[]]@PYau[:next_handicap]@PYbf[@PYZrb[]]        @PYbf[=] @PYah[false]
+        attributes@PYbf[@PYZlb[]]@PYau[:next_low_floor]@PYbf[@PYZrb[]]       @PYbf[=] @PYah[false]
+        attributes@PYbf[@PYZlb[]]@PYau[:next_next_trip]@PYbf[@PYZrb[]]    @PYbf[=] @PYaX["]@PYaX["]
+        attributes@PYbf[@PYZlb[]]@PYau[:next_next_handicap]@PYbf[@PYZrb[]]        @PYbf[=] @PYah[false]
+        attributes@PYbf[@PYZlb[]]@PYau[:next_next_low_floor]@PYbf[@PYZrb[]]       @PYbf[=] @PYah[false]
+        lines @PYbf[<<] @PYbf[@PYZlb[]]attributes@PYbf[@PYZlb[]]@PYau[:line_number]@PYbf[@PYZrb[]], attributes@PYbf[@PYZrb[]]
+      @PYaz[end]
+    @PYaz[end]
+    
+    @PYaf[# find Pendeltåg]
+    pendeltag_forecast @PYbf[=] html_tree@PYbf[.]xpath(@PYbe['//div@PYZlb[]@PYZat[]class="PPIHolder"@PYZrb[]'])
+    pendeltag_header @PYbf[=]
+      pendeltag_forecast@PYbf[.]css(@PYbe['div@PYZlb[]@PYZat[]class="Header"@PYZrb[]'])@PYbf[.]css(@PYbe['h3'])
+    
+    is_correct_stop @PYbf[=] (pendeltag_header@PYbf[.]text @PYbf[=~] @PYal[/]@PYbg[#{]poi_name@PYbg[}]@PYal[/])
+    @PYaz[if] is_correct_stop
+      @PYar[Time]@PYbf[.]zone @PYbf[=] @PYaX["]@PYaX[Stockholm]@PYaX["]
+      current_hour    @PYbf[=] @PYar[Time]@PYbf[.]zone@PYbf[.]now@PYbf[.]hour
+      current_minute  @PYbf[=] @PYar[Time]@PYbf[.]zone@PYbf[.]now@PYbf[.]min
+      departure_list  @PYbf[=]
+            pendeltag_forecast@PYbf[.]css(@PYbe['div@PYZlb[]@PYZat[]class="Departure TrainRow"@PYZrb[]']) @PYbf[+]
+            pendeltag_forecast@PYbf[.]
+              css(@PYbe['div@PYZlb[]@PYZat[]class="DepartureAlternating TrainRow"@PYZrb[]'])
+      departure_list@PYbf[.]each @PYaz[do] @PYbf[|]departure@PYbf[|]
+        striped_name @PYbf[=] departure@PYbf[.]css(@PYbe['span@PYZlb[]@PYZat[]class="TrainCell Col2"@PYZrb[]'])@PYbf[.]
+          text@PYbf[.]scan(@PYal[/]@PYal[@PYZlb[]a-zA-ZöäåÖÄÅ]@PYal[\]@PYal[s@PYZrb[]+]@PYal[/])
+        destination @PYbf[=] striped_name@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]
+        @PYaz[for] i @PYaz[in] @PYag[1]@PYbf[.].striped_name@PYbf[.]count @PYbf[-] @PYag[2]
+          destination @PYbf[+=] @PYaX["]@PYaX[ ]@PYaX["] @PYbf[+] striped_name@PYbf[@PYZlb[]]i@PYbf[@PYZrb[]]
+        @PYaz[end]
+        
+        unformated_time @PYbf[=] departure@PYbf[.]css(@PYbe['span@PYZlb[]@PYZat[]class="TrainCell"@PYZrb[]'])@PYbf[.]
+          text@PYbf[.]scan(@PYal[/]@PYal[\]@PYal[d]@PYal[\]@PYal[d*:]@PYal[\]@PYal[d]@PYal[\]@PYal[d]@PYal[/])@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]
+        @PYaz[if] unformated_time @PYbf[==] @PYah[nil]
+          unformated_time @PYbf[=]
+            departure@PYbf[.]css(@PYbe['span@PYZlb[]@PYZat[]class="TrainCell Col1"@PYZrb[]'])@PYbf[.]
+              text@PYbf[.]scan(@PYal[/]@PYal[\]@PYal[d]@PYal[\]@PYal[d*:]@PYal[\]@PYal[d]@PYal[\]@PYal[d]@PYal[/])@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]
+        @PYaz[end]
+        splited_time @PYbf[=] unformated_time@PYbf[.]split(@PYaX["]@PYaX[:]@PYaX["])
+        departure_hour @PYbf[=] splited_time@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]@PYbf[.]to_i
+        departure_minute @PYbf[=] splited_time@PYbf[@PYZlb[]]@PYag[1]@PYbf[@PYZrb[]]@PYbf[.]to_i
+        
+        time_num @PYbf[=] @PYag[60]@PYbf[*](departure_hour @PYbf[-] current_hour) @PYbf[+]
+                      (departure_minute @PYbf[-] current_minute)
+        @PYaz[if] time_num @PYbf[>]@PYbf[=]@PYag[0]
+          next_trip @PYbf[=] time_num@PYbf[.]to_s
+        @PYaz[else]
+          next_trip @PYbf[=] @PYaX["]@PYaX["]
+        @PYaz[end]
+        attributes @PYbf[=] {}
+        attributes@PYbf[@PYZlb[]]@PYau[:line_number]@PYbf[@PYZrb[]]       @PYbf[=] @PYaX["]@PYaX[Pendeltåg]@PYaX["]
+        attributes@PYbf[@PYZlb[]]@PYau[:color]@PYbf[@PYZrb[]]             @PYbf[=] @PYaX["]@PYaX[#]@PYaX[FFFFFF]@PYaX["]
+        attributes@PYbf[@PYZlb[]]@PYau[:background_color]@PYbf[@PYZrb[]]  @PYbf[=] @PYaX["]@PYaX[#]@PYaX[000000]@PYaX["]
+        attributes@PYbf[@PYZlb[]]@PYau[:destination]@PYbf[@PYZrb[]]       @PYbf[=] destination
+        attributes@PYbf[@PYZlb[]]@PYau[:next_trip]@PYbf[@PYZrb[]]         @PYbf[=] next_trip
+        attributes@PYbf[@PYZlb[]]@PYau[:next_handicap]@PYbf[@PYZrb[]]        @PYbf[=] @PYah[false]
+        attributes@PYbf[@PYZlb[]]@PYau[:next_low_floor]@PYbf[@PYZrb[]]       @PYbf[=] @PYah[false]
+        attributes@PYbf[@PYZlb[]]@PYau[:next_next_trip]@PYbf[@PYZrb[]]    @PYbf[=] @PYaX["]@PYaX["]
+        attributes@PYbf[@PYZlb[]]@PYau[:next_next_handicap]@PYbf[@PYZrb[]]        @PYbf[=] @PYah[false]
+        attributes@PYbf[@PYZlb[]]@PYau[:next_next_low_floor]@PYbf[@PYZrb[]]       @PYbf[=] @PYah[false]
+        lines @PYbf[<<] @PYbf[@PYZlb[]]attributes@PYbf[@PYZlb[]]@PYau[:line_number]@PYbf[@PYZrb[]], attributes@PYbf[@PYZrb[]]
+      @PYaz[end]
+      
+    @PYaz[end]
+    
+    @PYaz[return] sort_lines(lines)
+  @PYaz[end]
+  
+  @PYah[private]
+  
+  @PYaz[def] @PYaL[fetch_stop_with_id](@PYaY[id])
+    params @PYbf[=] {
+      @PYaX["]@PYaX[REQ0HafasSearchForw]@PYaX["] @PYbf[=]@PYbf[>]@PYaX["]@PYaX[1]@PYaX["],
+      @PYaX["]@PYaX[REQ0JourneyDate]@PYaX["]     @PYbf[=]@PYbf[>]@PYaX["]@PYaX[25.03.10]@PYaX["],
+      @PYaX["]@PYaX[REQ0JourneyStopsS0A]@PYaX["] @PYbf[=]@PYbf[>]@PYaX["]@PYaX[255]@PYaX["],
+      @PYaX["]@PYaX[REQ0JourneyStopsS0G]@PYaX["] @PYbf[=]@PYbf[>]@PYaY[id],
+      @PYaX["]@PYaX[REQ0JourneyStopsSID]@PYaX["] @PYbf[=]@PYbf[>]@PYaX["]@PYaX["],
+      @PYaX["]@PYaX[REQ0JourneyStopsZ0A]@PYaX["] @PYbf[=]@PYbf[>]@PYaX["]@PYaX[255]@PYaX["],
+      @PYaX["]@PYaX[REQ0JourneyStopsZ0G]@PYaX["] @PYbf[=]@PYbf[>]@PYaX["]@PYaX["],
+      @PYaX["]@PYaX[REQ0JourneyStopsZID]@PYaX["] @PYbf[=]@PYbf[>]@PYaX["]@PYaX["],
+      @PYaX["]@PYaX[REQ0JourneyTime]@PYaX["]     @PYbf[=]@PYbf[>]@PYaX["]@PYaX[10:10]@PYaX["],
+      @PYaX["]@PYaX[existUnsharpSearch]@PYaX["]  @PYbf[=]@PYbf[>]@PYaX["]@PYaX[yes]@PYaX["],
+      @PYaX["]@PYaX[ignoreTypeCheck]@PYaX["]     @PYbf[=]@PYbf[>]@PYaX["]@PYaX[yes]@PYaX["],
+      @PYaX["]@PYaX[queryPageDisplayed]@PYaX["]  @PYbf[=]@PYbf[>]@PYaX["]@PYaX[no]@PYaX["],
+      @PYaX["]@PYaX[start]@PYaX["]               @PYbf[=]@PYbf[>]@PYaX["]@PYaX[Sök resa]@PYaX["],
+      @PYaX["]@PYaX[start.x]@PYaX["]             @PYbf[=]@PYbf[>]@PYaX["]@PYaX[0]@PYaX["],
+      @PYaX["]@PYaX[start.y]@PYaX["]             @PYbf[=]@PYbf[>]@PYaX["]@PYaX[0]@PYaX["]
+    }
+
+    x @PYbf[=] @PYar[Net]@PYbf[::]@PYar[HTTP]@PYbf[.]post_form(@PYar[URI]@PYbf[.]parse(
+      @PYaX["]@PYaX[http://reseplanerare.sl.se/bin/query.exe/sn]@PYaX["]), params)
+    html_tree @PYbf[=] @PYar[Nokogiri]@PYbf[::]@PYar[HTML](x@PYbf[.]body)
+
+    error @PYbf[=] html_tree@PYbf[.]xpath(@PYbe['//label@PYZlb[]@PYZat[]class="ErrorText"@PYZrb[]'])
+
+    @PYaz[return] @PYah[nil] @PYaz[unless] error@PYbf[.]empty?
+
+    form @PYbf[=] html_tree@PYbf[.]xpath(@PYbe['//div@PYZlb[]@PYZat[]class="FieldRow"@PYZrb[]'])@PYbf[.]first
+    @PYaY[name] @PYbf[=] form@PYbf[.]css(@PYaX["]@PYaX[strong]@PYaX["])@PYbf[.]text
+
+    latlong_unparsed @PYbf[=]
+      form@PYbf[.]xpath(@PYbe['//input@PYZlb[]@PYZat[]type="submit"@PYZrb[]'])@PYbf[.]attribute(@PYaX["]@PYaX[name]@PYaX["])@PYbf[.]value
+
+    lat @PYbf[=] @PYah[nil]
+    lng @PYbf[=] @PYah[nil]
+    latlong_unparsed@PYbf[.]split(@PYbe['&'])@PYbf[.]each @PYaz[do] @PYbf[|]element@PYbf[|]
+      attribute @PYbf[=] element@PYbf[.]split(@PYbe['='])
+      @PYaz[if](attribute@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]] @PYbf[==] @PYaX["]@PYaX[REQMapRoute0.Location0.Y]@PYaX["])
+        lat @PYbf[=] @PYaY[Float](attribute@PYbf[@PYZlb[]]@PYag[1]@PYbf[@PYZrb[]])
+      @PYaz[end]
+      @PYaz[if](attribute@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]] @PYbf[==] @PYaX["]@PYaX[REQMapRoute0.Location0.X]@PYaX["])
+        lng @PYbf[=] @PYaY[Float](attribute@PYbf[@PYZlb[]]@PYag[1]@PYbf[@PYZrb[]])
+      @PYaz[end]
+    @PYaz[end]
+
+    attributes @PYbf[=] {}
+    attributes@PYbf[@PYZlb[]]@PYau[:name]@PYbf[@PYZrb[]] @PYbf[=] @PYaY[name]@PYbf[.]split(@PYaX["]@PYaX[ (]@PYaX["])@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]
+    attributes@PYbf[@PYZlb[]]@PYau[:lat]@PYbf[@PYZrb[]] @PYbf[=] lat @PYbf[/] @PYag[1000000]
+    attributes@PYbf[@PYZlb[]]@PYau[:lng]@PYbf[@PYZrb[]] @PYbf[=] lng @PYbf[/] @PYag[1000000]
+    attributes@PYbf[@PYZlb[]]@PYau[:stop_id]@PYbf[@PYZrb[]] @PYbf[=] @PYaY[id]
+
+    @PYaz[return] attributes
+  @PYaz[end]
+
+@PYaz[end]
+\end{Verbatim}

@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=@\[\]]
+@PYaY[require] @PYbe['rubygems']
+@PYaY[require] @PYbe['erlectricity']
+
+receive @PYaz[do] @PYbf[|]f@PYbf[|]
+  f@PYbf[.]when(@PYbf[@PYZlb[]]@PYau[:echo], @PYaY[String]@PYbf[@PYZrb[]]) @PYaz[do] @PYbf[|]text@PYbf[|]
+    f@PYbf[.]send!(@PYbf[@PYZlb[]]@PYau[:result], @PYaX["]@PYaX[You said: ]@PYbg[#{]text@PYbg[}]@PYaX["]@PYbf[@PYZrb[]])
+    f@PYbf[.]receive_loop
+  @PYaz[end]
+@PYaz[end]
+\end{Verbatim}

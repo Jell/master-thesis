@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=@\[\]]
+@PYaz[SELECT] @PYbf[*] @PYaz[FROM] bus_stops @PYaz[WHERE] lat @PYbf[>]@PYbf[=] lat1 @PYaz[AND]
+                              lat @PYbf[<]@PYbf[=] lat2 @PYaz[AND]
+                              lng @PYbf[>]@PYbf[=] lng1 @PYaz[AND]
+                              lng @PYbf[<]@PYbf[=] lng2 @PYaz[AND] @PYaz[NOT]
+                                      (lat @PYbf[>] lat3 @PYaz[AND]
+                                       lat @PYbf[<] lat4 @PYaz[AND]
+                                       lng @PYbf[>] lng3 @PYaz[AND]
+                                       lng @PYbf[<] lng4)
+\end{Verbatim}

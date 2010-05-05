@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=@\[\]]
+tram_regexp @PYbf[=] @PYal[/]@PYal[\]@PYal[d+]@PYal[\]@PYal[s@PYZlb[]a-zA-ZöäåÖÄÅ]@PYal[\]@PYal[s]@PYal[\]@PYal[.@PYZrb[]+]@PYal[\]@PYal[d+]@PYal[\]@PYal[smin]@PYal[/]
+
+text1 @PYbf[=] @PYaX["]@PYaX[Next departure: Line 5 Lilla Torg. 25 min]@PYaX["]
+matches @PYbf[=] text1@PYbf[.]scan(tram_regexp) @PYaf[# => @PYZlb[]"5 Lilla Torg. 25 min"@PYZrb[]]
+
+text2 @PYbf[=] @PYaX["]@PYaX[There is no next departure]@PYaX["]
+matches @PYbf[=] text2@PYbf[.]scan(tram_regexp) @PYaf[# => @PYZlb[]@PYZrb[]]
+\end{Verbatim}

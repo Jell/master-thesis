@@ -1,0 +1,20 @@
+\begin{Verbatim}[commandchars=@\[\]]
+-@PYay[module](example).
+-@PYay[export](@PYZlb[]start@PYbf[/]@PYag[0], ping@PYbf[/]@PYag[0]@PYZrb[]).
+
+@PYaL[ping]() @PYbf[-]@PYbf[>]
+  @PYaz[receive]
+    {ping, @PYaj[Pong_PID]} @PYbf[-]@PYbf[>]
+      @PYaW[io]:format(@PYad["]@PYad[Ping!]@PYbg[~n]@PYad["], @PYZlb[]@PYZrb[]),
+      @PYaj[Pong_PID]@PYbf[!]pong,
+      ping()
+  @PYaz[end].
+
+@PYaL[start]() @PYbf[-]@PYbf[>]
+  @PYaj[Ping_PID] @PYbf[=] @PYaY[spawn](example, ping, @PYZlb[]@PYZrb[]),
+  @PYaj[Ping_PID]@PYbf[!]{ping, self()},
+  @PYaz[receive]
+    {pong} @PYbf[-]@PYbf[>]
+      @PYaW[io]:format(@PYad["]@PYad[Pong!]@PYbg[~n]@PYad["], @PYZlb[]@PYZrb[])
+  @PYaz[end].
+\end{Verbatim}

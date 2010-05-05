@@ -10,31 +10,36 @@ In order to retrieve information about nearby stops, the client must request a r
 The server processes a request for nearby bus stops as follows:
 
 \begin{enumerate}
-\item{it receives a request with coordinates (Latitude and Longitude)}
-\item{it finds the 10 nearest bus locations from the given coordinates in its SQLite database}
-\item{it fetches the forecast for each of these stops in an independent lightweight process}
-\item{once each forecast is obtained, it parses the result into JSON format}
-\item{finally, it sends a reply to the client containing the JSON data}
+\item{receive a request with the user's coordinates (Latitude and Longitude),}
+\item{find the 10 nearest bus locations from the given coordinates in its SQLite database,}
+\item{for each of these stops, launch a light-weighted process that:
+\begin{enumerate}
+	\item{if valid cached data is available, returns this data as forecast}
+	\item{otherwise, fetch forecast data from the stop's provider}
 \end{enumerate}
+}
+\item{once each forecast is obtained, parse the result into JSON format,}
+\item{finally, send a reply to the client containing the JSON data.}
+\end{enumerate}
+
+The application is hosted on a Yaws web server installed on a Debian (Ubuntu) virtual machine from the Amazon cloud web services. Yaws is the Erlang alternative to the Apache web server, and as such offers high availability and high scalability.\\
 
 In order to handle high quantities of lightweight processes, the best solution was to use Erlang. Erlang is a functional programming language especially designed to handle high concurrency and distributed systems.  A large part of the application is therefore implemented in Erlang in order to take advantage of this.\\
 
-Figure \ref{fig:message_passing} shows in details the request processing on an UML sequential diagram, the grey area being our server.
+Figure \ref{fig:message_passing} shows a simplified request processing on an UML sequential diagram without the caching system, the grey area being our server.\\
 
 \begin{figure}[ht]
 \center
 \includegraphics[scale=0.4]{pics/message_passing}
-\caption{Simplified UML Sequential Diagram of a request}
+\caption{UML Sequential Diagram of a simplified request}
 \label{fig:message_passing}
 \end{figure}
 
-\clearpage
+This diagram follows the classic UML notation, so plain arrows represent synchronous calls, stick arrows represent asynchronous calls, and dashed arrows represent return values. \\
 
-The application is hosted on a Debian machine (Ubuntu) with a Yaws webserver. Yaws is the Erlang alternative to Apache, and as such offers high availability and high scalability.\\
+But to keep the application easy to maintain and update, the more complex tasks are implemented in Ruby. Ruby is a modern dynamic scripted language, and has been designed to make the developers happy. As such, it is a powerful tool to implement complex algorithms painlessly. The ruby part is hosted on a rails web server, and communicates with the Yaws server through Erlang Ports via the Erlang Binary Protocol.\\
 
-But to make it easy to maintain and update, the more complex tasks are implemented in Ruby. Ruby is a modern dynamic scripted language, and has been designed to make the developers happy. As such, it is a powerful tool to implement complex algorithms painlessly.\\
-
-Figure \ref{fig:server_architecture} shows the details of the server's architecture.
+Figure \ref{fig:server_architecture} shows the details of the server's architecture.\\
 
 \begin{figure}[ht]
 \center
@@ -43,7 +48,7 @@ Figure \ref{fig:server_architecture} shows the details of the server's architect
 \label{fig:server_architecture}
 \end{figure}
 
-\clearpage
+In this figure, each circle represents an independent process and the arrows indicate message passing between processes. The dashed rounded rectangles represent databases servers, SQLite for Ruby and Mnesia for Erlang. Black triangle represent communication ports.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementation}
@@ -51,11 +56,149 @@ Figure \ref{fig:server_architecture} shows the details of the server's architect
 
 \subsection{Erlang}
 
-Erlang is used to dispatch the lightweight processes, to perform the distant requests to Västtrafik and Storstockholms Locaktrafik, and also to take care of data caching by the mean of a Mnesia database.
+Erlang is used to dispatch the lightweight processes, to perform the distant requests to Västtrafik and Storstockholms Locaktrafik, and also to take care of data caching via a Mnesia database.
+
+\subsubsection{Concurrent Programming}
+
+As mentioned in the previous section, Erlang is a functional language, and as such differs greatly from classic programming paradigms. In Erlang, functions are treated in a pure mathematical way: variables are immutable and functions have no side effects. This may seems like a very handicapping restriction, but that is what makes Erlang so powerful at easily handling thousands of concurrent processes without having problems of dead locks, starvation nor memory corruption.\\
+
+Being a functional language, Erlang allows function recursion without much overhead thanks to tail recursion optimizations. It also feature strong pattern matching capabilities. The piece of code shown in Figure \ref{fig:erlang_factorial} is an implementation of the factorial function programmed in Erlang.\\
+
+\begin{figure}[ht]
+  \centering
+  \fbox{ 
+    \colorbox{light-gray}{
+      \begin{minipage}{12cm}
+        \small{\input{code/erlang_factorial}}
+      \end{minipage}
+    }
+  }
+  \caption{Implementation of the factorial function in Erlang}
+  \label{fig:erlang_factorial}
+\end{figure}
+
+From this snippet we can see that the Erlang implementation is very close to the mathematical definition of factorial:
+
+ \[n! = 
+            \left\{
+              \begin{array}{l l}
+                   1 & \textrm{if } n = 0\\
+                   n \times (n - 1)! & \textrm{otherwise}
+               \end{array}
+            \right.
+\] 
+
+This is made possible thanks to pattern matching, and it is efficient thanks to tail recursion optimizations.\\
+
+But the real power of Erlang reside in its messaging system that allows complex asynchronous calls. When a process sends a message to another process, the message is put into the receiver's message box to be treated whenever it is available. By doing so, message passing is a totally non blocking procedure.\\
+
+\begin{figure}[ht]
+  \centering
+  \fbox{ 
+    \colorbox{light-gray}{
+      \begin{minipage}{12cm}
+        \small{\input{code/erlang_message}}
+      \end{minipage}
+    }
+  }
+  \caption{Simple example of message passing in Erlang}
+  \label{fig:erlang_message}
+\end{figure}
+
+Figure \ref{fig:erlang_message} shows a simple message passing procedure between two processes. The "spawn" command spawns a new process with the function passed as its argument, then returns its Process ID (PID). To send a message to a process, one must use the "!" command preceded by the PID of the receiver and followed by the message to be sent. The "self()" function returns the PID of the current process, so if an answer is required from the contacted process, one can pass its own PID along with the message it sends. The "receive" bock is defined to handle received messages matching the supported messages.\\
+
+Erlang has many more features that will not be treated in this paper such as list comprehension or hot code swapping, but more information can be easily found on the Internet \cite{Erl10}.
+
+\subsubsection{Port Communication}
+
+In our implementation, we need Erlang to communicate with Ruby. To do so, it is possible to open a "Port" in Erlang that will maintain a link to an external driver, in our case a script on a rails server (See Figure \ref{fig:erlang_port}). The Port will be kept open as long as a process is linked to it, so in our case we spawn a process that will act as a server to the Ruby port.\\
+
+\begin{figure}[ht]
+  \centering
+  \fbox{ 
+    \colorbox{light-gray}{
+      \begin{minipage}{12cm}
+        \small{\input{code/erlang_port_example}}
+      \end{minipage}
+    }
+  }
+  \caption{Example of Port opening with Erlang}
+  \label{fig:erlang_port}
+\end{figure}
+
+A Port is transparent in Erlang, so communicating through it is equivalent to talking to a local process. This is actually very powerful, because Ports are typically bridges between servers, so distant and local process communications are perfectly identical.
+
+\subsubsection{Mnesia}
+
+The standard database to be used with Erlang is Mnesia. With Mnesia, Erlang records represent key-value tuples where the value can be any data structure, from simple integer to Erlang lambda functions.\\
+
+The query language to the database is Erlang itself and not a third party language such as SQL, which enable all the features of Erlang within the request procedure: pattern matching and list comprehension among others. To perform a query, one must perform a "transaction". A transaction will ensure that any read/write procedure to the database is performed properly. Transactions can easily be nested and can also be distributed on different process/servers transparently. A simple query example is shown in Figure \ref{fig:mnesia_example}.\\
+
+\begin{figure}[ht]
+  \centering
+  \fbox{ 
+    \colorbox{light-gray}{
+      \begin{minipage}{12cm}
+        \small{\input{code/mnesia_example}}
+      \end{minipage}
+    }
+  }
+  \caption{Simple example of query to Mnesia Database returning the names of all female employees}
+  \label{fig:mnesia_example}
+\end{figure}
+
+Our implementation of the cache server uses Mnesia to store cached data. The database only has one table containing the pairs of key-values corresponding to "url", "data" and "timestamp". The URL is used as an index for queries to the database, and the timestamp is here to check when the cached data should expire. The full implementation is shown in Appendix \ref{cha:erlang}.\\
+
+More information about Mnesia can be found on the Internet \cite{Mne10}.
 
 \subsection{Ruby}
 
-Ruby is used to implement the SQL request to the database and to parse data. It is also used to maintain the database. The SQL database contains information on all the bus stops for each provider. Each entry in the database has the following attributes:
+\subsubsection{Required Setup}
+
+Ruby is a modern dynamic object-oriented programming language in which everything is an object, exactly as the programming language Smalltalk from which it is partly inspired. It has been designed to follow the least surprise principle during development: code should never behave in an unexpected way. It is a powerful language for writing scripts and developing applications in a very productive manner.\\
+
+Ruby comes with a package manager called RubyGems that provide a standard distribution system for libraries. A Ruby library is called a Gem.\\
+
+Among those Gems we find Rails, a framework that allows to deploy web applications using Ruby. When creating a Rails application, a web server is packed in, and that is what we have used in our project. We worked with Rails 3.0.0beta3, the edge version of the framework, to deploy our Ruby application.\\
+
+\begin{figure}[ht]
+\centering
+\subfigure[Ruby Side]{
+  \centering
+  \fbox{ 
+    \colorbox{light-gray}{
+      \begin{minipage}{12cm}
+        \small{\input{code/erlectricity_ruby}}
+      \end{minipage}
+    }
+  }
+}
+
+\subfigure[Erlang Side]{
+  \centering
+  \fbox{ 
+    \colorbox{light-gray}{
+      \begin{minipage}{12cm}
+        \small{\input{code/erlectricity_erlang}}
+      \end{minipage}
+    }
+  }
+}
+\caption{Simple example of communication between Erlang and Ruby using Erlectricity }
+\label{fig:erlectricity_example}
+\end{figure}
+
+An other Gem was require to implement an interface with Erlang, so we used Erlectricity \cite{Fle09}. This library enable Ruby to send messages via the Erlang Binary Protocol, making communication between the two languages transparent. Figure \ref{fig:erlectricity_example} shows a simple implementation of communication.\\
+
+One problem that we faced when communicating between Ruby and Erlang was when dealing with strings: Erlang can only handle Latin-1 encoded strings, whereas Ruby manipulates UTF-8 strings by default. So whenever a string is sent to be treated in Erlang, it has to be encoded in Latin-1 first, and when a string is received by Ruby, it has to be converted to UTF-8.\\
+
+It has to be mentioned that Erlang and Yaws can handle strings in an arbitrary encoding under binary form, so when answering to the client the reply is actually UTF-8 encoded.
+
+\subsubsection{Database Management}
+
+Now that we know the required setup for our Ruby Implementation, let us have a look at what we want Ruby to do for us.\\
+
+In our server application, Ruby is used to implement the SQL queries to the database and to maintain it. The SQL database contains information on all the bus stops for each provider. Each entry in the database has the following attributes:\\
 
 \begin{tabular}{ l l l l }
 $\bullet$ & stop\_name 	& : & the name of the stop\\
@@ -63,33 +206,80 @@ $\bullet$ & lat 			& : & the Latitude of the stop\\
 $\bullet$ & lng 			& : & the Longitude of the stop\\
 $\bullet$ & provider\_name & : & the name of the stop's provider (Västtrafik or SL)\\
 $\bullet$ & stop\_id 		& : & the id of the stop as defined by its provider\\
+$\bullet$ & timestamp 	& : & the timestamp of the stop creation\\
+$\bullet$ & id		 	& : & a unique ID for indexing\\
 \end{tabular}\\
 
-This database is populated by a background process that fetch data from the providers on monthly basis (it is not that often that new stops are build or that old one are destroyed).\\
+This database is populated by a background process that fetch data from the providers on monthly basis (it is not that often that new stops are build or that old one are destroyed). Updates are performed via requests to the webservices of the providers.\\
 
-The "lat" and "lng" attributes are the key entries allowing geographic search in the database, but finding nearby points from a database can be a tricky problem. In our case, we perform queries iteratively as shown in Figure \ref{fig:ruby_queries} until a satisfying number of stops are returned.
+The "lat" and "lng" attributes are the key entries allowing geographic search in the database, but finding nearby points from a database can be a tricky problem. In our case, we perform queries iteratively as shown in Figure \ref{fig:ruby_queries} until a satisfying number of stops are returned.\\
 
 \begin{figure}[ht]
-\subfigure[Step 1]{\includegraphics[scale=0.5]{pics/ruby_query_1}}
-\hspace{0.1cm}
-\subfigure[Step 2]{\includegraphics[scale=0.5]{pics/ruby_query_2}}
-\hspace{0.1cm}
-\subfigure[Step 3]{\includegraphics[scale=0.5]{pics/ruby_query_3}}
+\center
+\subfigure[Step 1]{\includegraphics[scale=0.33]{pics/ruby_query_1}}
+\subfigure[Step 2]{\includegraphics[scale=0.33]{pics/ruby_query_2}}
+\subfigure[Step 3]{\includegraphics[scale=0.33]{pics/ruby_query_3}}
 \caption{Scheme of the SQL queries on the Ruby side}
 \label{fig:ruby_queries}
 \end{figure}
 
-Once we get a list of stops within an arbitrary large area, we need to sort those stops by distance in order to keep only the 10 closer ones. The distance $d$ between the user's location and a stop is computed according to a simplified version of the great-circle distance formula given in Equations \ref{equ:great_circle_formula_1} and \ref{equ:great_circle_formula_2}, where $\phi_s$ and $\lambda_s$ are the Latitude and Longitude of the standpoint, $\phi_f$ and $\lambda_f$ the ones of the forepoint, with $\Delta \hat{\sigma}$ defining the central angle of those two points and $r$ being the average radius of Earth ($\approx6371$km).
+The first step consist of a SQL query is of the following form:
+
+\parbox{15cm}{
+\input{code/sql_request1}
+}
+
+This will return all the bus stops within the area defined by the square defined by:
+
+\[ [lat_1, lat_2]\times[lng_1, lng_2] \]
+
+The retrieved stops are stored in a bus list. The following steps produce queries defined as follow:
+
+\parbox{15cm}{
+\input{code/sql_request2}
+}
+
+This will return all the bus stops within the area defined by the area defined by:
+
+\[ [lat_1, lat_2]\times[lng_1, lng_2]\cap\overline{(lat_3, lat_4)\times(lng_3, lng_4)} \]
+
+The retrieved stops are added to the stop list until the list is large enough to proceed. In our case, we keep stop the algorithm when the stop list has more than 10 entries.\\
+
+Once we get a list of stops within an arbitrary large area, we need to sort those stops by distance in order to keep only the 10 closer ones. The distance $d$ between the user's location and a stop is computed according to a simplified version of the great-circle distance formula given in Equation \ref{equ:great_circle_formula}, where $\varphi_s$ and $\lambda_s$ are the Latitude and Longitude of the standpoint, $\varphi_f$ and $\lambda_f$ the ones of the forepoint, and $R$ being the average radius of Earth ($\approx6371$km).
 
 \begin{equation}
-\label{equ:great_circle_formula_1}
-\Delta \hat{\sigma} = \textrm{arccos}\left(\textrm{cos}\phi_s \textrm{ cos}\lambda_s \textrm{ cos}\phi_f \textrm{ cos}\lambda_f + \textrm{cos}\phi_s \textrm{ sin}\lambda_s \textrm{ cos}\phi_f \textrm{ sin}\lambda_f + \textrm{ sin}\phi_s \textrm{ sin}\phi_f\right)
+\label{equ:great_circle_formula}
+d =  R \times \textrm{arccos}\left(\textrm{sin}\varphi_s \textrm{ sin}\varphi_f + \textrm{cos}\varphi_s \textrm{ cos}\varphi_f \textrm{ cos}(\lambda_f-\lambda_s)\right)
 \end{equation}
 
-\begin{equation}
-\label{equ:great_circle_formula_2}
-d = r \times \Delta \hat{\sigma}
-\end{equation}
+\subsubsection{Parsing}
+
+In order to get forecast from Västtrafik, we must parse the XML that is returned by the provider. XML Parsing is made simple in ruby thanks to its Gems, so there is no much need to develop the subject. In our application, we used Nokogiri \cite{Nok10} to parse the data.\\
+
+On the other hand, retrieving data from Storstockholms Lokaltrafik (SL) is less straightforward, and a large part of the parsing algorithm had to be implemented manually.\\
+
+In order to parse the replies from SL's web services, we made intensive use of regular expressions. Regular Expressions (or Regex) are used to define a pattern in a string. In Ruby, Regex are Objects and can be declared as follows:
+
+\parbox{15cm}{
+\input{code/example_regex}
+}
+
+This Regex describes a succession of one or more arbitrary letters from the Swedish alphabet, be they capital or minuscule. It has to be noted that UTF-8 encoding is enabled within regex in Ruby.\\
+
+Once we have a regular expression, we can scan a string to find its sub-strings matching the Regex. Figure \ref{fig:regex_scan_example} gives an example of string parsing with the following pattern: "Number\textvisiblespace{}Destination Name\textvisiblespace{}Number\textvisiblespace{}min".
+
+\begin{figure}[ht]
+  \centering
+  \fbox{ 
+    \colorbox{light-gray}{
+      \begin{minipage}{12cm}
+        \small{\input{code/regex_scan_example}}
+      \end{minipage}
+    }
+  }
+  \caption{Simple example of string parsing with Regular Expressions}
+  \label{fig:regex_scan_example}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}

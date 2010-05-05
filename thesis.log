@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.4.19)  29 APR 2010 17:12
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.4.19)  5 MAY 2010 16:27
 entering extended mode
  %&-line parsing enabled.
 **thesis.tex
@@ -683,31 +683,50 @@ Package: subfigure 2002/03/15 v2.1.5 subfigure package
 \subfig@top=\skip65
 \subfig@bottom=\skip66
 )
-(./thesis.aux (./title.aux) (./abstract.aux) (./toc.aux)
-(./acknowledgements.aux) (./notations.aux) (./first.aux) (./second.aux)
-(./third.aux) (./fourth.aux) (./fifth.aux) (./bibliography.aux) (./appendix.aux
-))
+\@input{pygments.aux}
+\openout2 = `pygments.aux'.
+
+(./pygments.tex
+(/usr/local/texlive/2009/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2008/02/07
+
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)
+\FV@CodeLineNo=\count118
+\FV@InFile=\read1
+\FV@TabBox=\box33
+\c@FancyVerbLine=\count119
+\FV@StepNumber=\count120
+\FV@OutFile=\write3
+)) (./thesis.aux (./title.aux) (./abstract.aux) (./toc.aux)
+(./acknowledgements.aux) (./notations.aux) (./first.aux) (./methodology.aux
+
+LaTeX Warning: Label `fig:pivotal_tracker' multiply defined.
+
+) (./second.aux) (./third.aux) (./fourth.aux) (./fifth.aux) (./bibliography.aux
+) (./appendix.aux))
 \openout1 = `thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 24.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 24.
- (/usr/local/texlive/2009/texmf-dist/tex/latex/base/ts1cmr.fd
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 28.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 28.
+
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Try loading font information for OT1+ppl on input line 24.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Try loading font information for OT1+ppl on input line 28.
 
 (/usr/local/texlive/2009/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
@@ -715,21 +734,23 @@ File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 ABD: EveryShipout initializing macros
 (/usr/local/texlive/2009/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count118
+\scratchcounter=\count121
 \scratchdimen=\dimen131
-\scratchbox=\box33
-\nofMPsegments=\count119
-\nofMParguments=\count120
+\scratchbox=\box34
+\nofMPsegments=\count122
+\nofMParguments=\count123
 \everyMPshowfont=\toks24
-\MPscratchCnt=\count121
+\MPscratchCnt=\count124
 \MPscratchDim=\dimen132
-\MPnumerator=\count122
+\MPnumerator=\count125
 \everyMPtoPDFconversion=\toks25
 )
-\c@lstlisting=\count123
+\c@lstlisting=\count126
 \openout2 = `title.aux'.
 
  (./title.tex [1
+
+
 
 
 
@@ -752,36 +773,36 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--10
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <10.95> not available
 (Font)              Font shape `OT1/ppl/b/n' tried instead on input line 19.
 )
-LaTeX Font Info:    Try loading font information for OML+zplm on input line 49.
+LaTeX Font Info:    Try loading font information for OML+zplm on input line 53.
 
  (/usr/local/texlive/2009/texmf-dist/tex/latex/psnfss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
-LaTeX Font Info:    Try loading font information for OMS+zplm on input line 49.
+LaTeX Font Info:    Try loading font information for OMS+zplm on input line 53.
 
 
 (/usr/local/texlive/2009/texmf-dist/tex/latex/psnfss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
-LaTeX Font Info:    Try loading font information for OMX+zplm on input line 49.
+LaTeX Font Info:    Try loading font information for OMX+zplm on input line 53.
 
 
 (/usr/local/texlive/2009/texmf-dist/tex/latex/psnfss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 11.40997pt on input line 49.
+(Font)              scaled to size 11.40997pt on input line 53.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 49.
+(Font)              scaled to size 8.33606pt on input line 53.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 49.
+(Font)              scaled to size 6.25204pt on input line 53.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 11.40997pt on input line 49.
+(Font)              scaled to size 11.40997pt on input line 53.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 49.
+(Font)              scaled to size 8.33606pt on input line 53.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 49.
-LaTeX Font Info:    Try loading font information for OT1+zplm on input line 49.
+(Font)              scaled to size 6.25204pt on input line 53.
+LaTeX Font Info:    Try loading font information for OT1+zplm on input line 53.
 
 
 (/usr/local/texlive/2009/texmf-dist/tex/latex/psnfss/ot1zplm.fd
@@ -814,23 +835,29 @@ Class scrbook Info: You've told me to use the font selection of the element
 (scrbook)            on input line 6.
 Class scrbook Info: You've told me to use the font selection of the element
 (scrbook)           `sectioning' that is an alias of element `disposition'
-(scrbook)            on input line 10.
+(scrbook)            on input line 9.
 Class scrbook Info: You've told me to use the font selection of the element
 (scrbook)           `sectioning' that is an alias of element `disposition'
-(scrbook)            on input line 21.
+(scrbook)            on input line 13.
 Class scrbook Info: You've told me to use the font selection of the element
 (scrbook)           `sectioning' that is an alias of element `disposition'
-(scrbook)            on input line 27.
+(scrbook)            on input line 30.
  [5]
 Class scrbook Info: You've told me to use the font selection of the element
 (scrbook)           `sectioning' that is an alias of element `disposition'
-(scrbook)            on input line 33.
+(scrbook)            on input line 42.
 Class scrbook Info: You've told me to use the font selection of the element
 (scrbook)           `sectioning' that is an alias of element `disposition'
-(scrbook)            on input line 34.
+(scrbook)            on input line 48.
+Class scrbook Info: You've told me to use the font selection of the element
+(scrbook)           `sectioning' that is an alias of element `disposition'
+(scrbook)            on input line 49.
+Class scrbook Info: You've told me to use the font selection of the element
+(scrbook)           `sectioning' that is an alias of element `disposition'
+(scrbook)            on input line 50.
 )
-\tf@toc=\write3
-\openout3 = `thesis.toc'.
+\tf@toc=\write4
+\openout4 = `thesis.toc'.
 
 ) [6]
 \openout2 = `acknowledgements.aux'.
@@ -876,18 +903,64 @@ Underfull \hbox (badness 10000) in paragraph at lines 9--10
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 11--12
+
+ []
+
 ) [1
 
 
 ]
-\openout2 = `second.aux'.
+\openout2 = `methodology.aux'.
 
- (./second.tex [2
+ (./methodology.tex [2
 
 
 
 ]
 Chapter 2.
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
+
+ []
+
+<pics/pivotal_tracker.png, id=39, 1368.11125pt x 773.89125pt>
+File: pics/pivotal_tracker.png Graphic file (type png)
+
+<use pics/pivotal_tracker.png>
+Underfull \hbox (badness 10000) in paragraph at lines 17--18
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
+
+ []
+
+[3 <./pics/pivotal_tracker.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 21--22
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--29
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--31
+
+ []
+
+<pics/github.png, id=45, 1015.795pt x 567.11874pt>
+File: pics/github.png Graphic file (type png)
+ <use pics/github.png>)
+[4 <./pics/github.png>]
+\openout2 = `second.aux'.
+
+ (./second.tex
+Chapter 3.
 
 Underfull \hbox (badness 10000) in paragraph at lines 9--10
 
@@ -908,7 +981,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 15--16
 
  []
 
-<pics/milgram_diagram.pdf, id=39, 707.2174pt x 203.48822pt>
+<pics/milgram_diagram.pdf, id=50, 707.2174pt x 203.48822pt>
 File: pics/milgram_diagram.pdf Graphic file (type pdf)
 
 <use pics/milgram_diagram.pdf>
@@ -916,7 +989,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 26--27
 
  []
 
-[3]
+[5
+
+
+
+]
 Underfull \hbox (badness 10000) in paragraph at lines 34--35
 
  []
@@ -926,15 +1003,25 @@ Underfull \hbox (badness 10000) in paragraph at lines 48--49
 
  []
 
-[4 <./pics/milgram_diagram.pdf>]) [5]
+[6 <./pics/milgram_diagram.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 56--57
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 58--59
+
+ []
+
+<pics/AR_business_model.pdf, id=70, 967.52794pt x 751.59929pt>
+File: pics/AR_business_model.pdf Graphic file (type pdf)
+
+<use pics/AR_business_model.pdf>) [7] [8 <./pics/AR_business_model.pdf>]
 \openout2 = `third.aux'.
 
- (./third.tex [6
 
-
-
-]
-Chapter 3.
+(./third.tex
+Chapter 4.
 
 Underfull \hbox (badness 10000) in paragraph at lines 10--11
 
@@ -947,6 +1034,297 @@ Underfull \hbox (badness 10000) in paragraph at lines 17--18
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 19--20
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 29--30
+
+ []
+
+[9
+
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 31--32
+
+ []
+
+(./code/messaging_example.tex)
+Overfull \hbox (19.48578pt too wide) in paragraph at lines 37--38
+[]$[]$ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 43--44
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--46
+
+ []
+
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 55--56
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 57--58
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 59--60
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 61--62
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 63--64
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 65--66
+
+ []
+
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 67--68
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 73--74
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 75--76
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 77--78
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 79--80
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 81--82
+
+ []
+
+<pics/client_view_hierarchy.pdf, id=218, 817.55829pt x 770.87988pt>
+File: pics/client_view_hierarchy.pdf Graphic file (type pdf)
+
+<use pics/client_view_hierarchy.pdf>
+Underfull \vbox (badness 1377) has occurred while \output is active []
+
+ [12]
+Underfull \hbox (badness 10000) in paragraph at lines 98--99
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 100--101
+
+ []
+
+[13 <./pics/client_view_hierarchy.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 102--103
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 104--105
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 106--107
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 108--109
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 110--111
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 112--113
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 114--115
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--117
+
+ []
+
+[14] <pics/iphone_orientation.pdf, id=482, 647.32281pt x 480.69287pt>
+File: pics/iphone_orientation.pdf Graphic file (type pdf)
+
+<use pics/iphone_orientation.pdf>
+Underfull \hbox (badness 10000) in paragraph at lines 142--143
+
+ []
+
+<pics/six_degrees_angles.pdf, id=483, 508.35077pt x 538.25371pt>
+File: pics/six_degrees_angles.pdf Graphic file (type pdf)
+
+<use pics/six_degrees_angles.pdf> [15 <./pics/iphone_orientation.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 162--163
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 166--167
+
+ []
+
+[16 <./pics/six_degrees_angles.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 168--169
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 175--176
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 177--178
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 184--185
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 188--189
+
+ []
+
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 202--203
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 204--205
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 212--213
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 214--215
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 221--222
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--224
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 225--226
+
+ []
+
+[18]
+Underfull \hbox (badness 10000) in paragraph at lines 234--235
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 236--237
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--244
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 247--248
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 249--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 251--252
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 253--254
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 262--263
+
+ []
+
+[19]
+Underfull \hbox (badness 10000) in paragraph at lines 273--274
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 282--283
+
+ []
+
+)
+Underfull \hbox (badness 10000) in paragraph at lines 291--66
+
+ []
+
+[20]
+\openout2 = `fourth.aux'.
+
+ (./fourth.tex
+Chapter 5.
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
 
  []
 
@@ -965,233 +1343,225 @@ Underfull \hbox (badness 10000) in paragraph at lines 29--30
 
  []
 
-[7]
-Underfull \hbox (badness 10000) in paragraph at lines 31--32
+<pics/message_passing.pdf, id=564, 1027.84pt x 770.88pt>
+File: pics/message_passing.pdf Graphic file (type pdf)
 
+<use pics/message_passing.pdf>
+Overfull \hbox (4.44199pt too wide) in paragraph at lines 38--39
+[]\OT1/ppl/m/n/10.95 This di-a-gram fol-lows the clas-sic UML no-ta-tion, so pl
+ain ar-rows rep-re-sent syn-chronous
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 33--34
+Underfull \hbox (badness 10000) in paragraph at lines 38--39
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 43--44
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 45--46
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 47--48
-
- []
-
-[8]
-Underfull \hbox (badness 10000) in paragraph at lines 53--54
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 55--56
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 57--58
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 59--60
-
- []
-
-<pics/client_view_hierarchy.pdf, id=71, 822.44864pt x 770.88pt>
-File: pics/client_view_hierarchy.pdf Graphic file (type pdf)
-
-<use pics/client_view_hierarchy.pdf>
-Underfull \hbox (badness 10000) in paragraph at lines 76--77
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 78--79
-
- []
-
-[9]
-Underfull \hbox (badness 10000) in paragraph at lines 80--81
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 82--83
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 84--85
-
- []
-
-[10 <./pics/client_view_hierarchy.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 86--87
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 88--89
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 90--91
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 92--93
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 94--95
-
- []
-
-[11]
-Underfull \hbox (badness 10000) in paragraph at lines 111--112
-
- []
-
-<pics/six_degrees_angles.pdf, id=450, 494.73703pt x 519.1887pt>
-File: pics/six_degrees_angles.pdf Graphic file (type pdf)
-
-<use pics/six_degrees_angles.pdf>
-Underfull \hbox (badness 10000) in paragraph at lines 124--125
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 126--127
-
- []
-
-[12 <./pics/six_degrees_angles.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 128--129
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 135--136
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 137--138
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 144--145
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 146--147
-
- []
-
-) [13]
-\openout2 = `fourth.aux'.
-
- (./fourth.tex [14
+[21
 
 
 
 ]
-Chapter 4.
-
-Underfull \hbox (badness 10000) in paragraph at lines 8--9
+Underfull \hbox (badness 10000) in paragraph at lines 40--41
 
  []
 
 
-Overfull \hbox (9.15106pt too wide) in paragraph at lines 14--15
-[]\OT1/ppl/m/n/10.95 it finds the 10 near-est bus lo-ca-tions from the given co
--or-di-nates in its SQLite database 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 20--21
+Underfull \hbox (badness 10000) in paragraph at lines 42--43
 
  []
 
-<pics/message_passing.pdf, id=483, 1027.84pt x 770.88pt>
-File: pics/message_passing.pdf Graphic file (type pdf)
-
-<use pics/message_passing.pdf> [15] [16 <./pics/message_passing.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 33--34
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 35--36
-
- []
-
-<pics/server_side.pdf, id=553, 1027.84pt x 770.88pt>
+<pics/server_side.pdf, id=568, 1027.84pt x 770.88pt>
 File: pics/server_side.pdf Graphic file (type pdf)
 
-<use pics/server_side.pdf> [17
-
- <./pics/server_side.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 60--67
+<use pics/server_side.pdf> [22 <./pics/message_passing.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 63--64
 
  []
 
 
-Overfull \hbox (2.52621pt too wide) in paragraph at lines 68--69
+Underfull \hbox (badness 10000) in paragraph at lines 65--66
+
+ []
+
+[23 <./pics/server_side.pdf>] (./code/erlang_factorial.tex
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 2.
+)
+Underfull \hbox (badness 10000) in paragraph at lines 91--92
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 93--94
+
+ []
+
+(./code/erlang_message.tex)
+Underfull \hbox (badness 10000) in paragraph at lines 108--109
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 114--115
+
+ []
+
+[24] (./code/erlang_port_example.tex)
+Underfull \hbox (badness 10000) in paragraph at lines 133--134
+
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [25]
+Underfull \hbox (badness 10000) in paragraph at lines 135--136
+
+ []
+
+(./code/mnesia_example.tex)
+Overfull \hbox (7.2128pt too wide) in paragraph at lines 150--151
+[]\OT1/ppl/m/n/10.95 Our im-ple-men-ta-tion of the cache server uses Mne-sia to
+ store cached data. The database
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 150--151
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 158--159
+
+ []
+
+[26]
+Underfull \hbox (badness 10000) in paragraph at lines 160--161
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 162--163
+
+ []
+
+(./code/erlectricity_ruby.tex) (./code/erlectricity_erlang.tex)
+Underfull \hbox (badness 2020) in paragraph at lines 187--187
+[]\OT1/ppl/m/n/10.95 Simple ex-am-ple of com-mu-ni-ca-tion be-tween Er-lang and
+ Ruby us-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 191--192
+
+ []
+
+[27]
+Underfull \hbox (badness 10000) in paragraph at lines 193--194
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 199--200
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 203--212
+
+ []
+
+
+Overfull \hbox (2.52621pt too wide) in paragraph at lines 213--214
 []\OT1/ppl/m/n/10.95 This database is pop-u-lated by a back-ground pro-cess tha
 t fetch data from the providers
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 68--69
+Underfull \hbox (badness 10000) in paragraph at lines 213--214
 
  []
 
-<pics/ruby_query_1.pdf, id=835, 412.04832pt x 278.73376pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--216
+
+ []
+
+<pics/ruby_query_1.pdf, id=906, 412.04832pt x 278.73376pt>
 File: pics/ruby_query_1.pdf Graphic file (type pdf)
 
 <use pics/ruby_query_1.pdf>
-<pics/ruby_query_2.pdf, id=836, 411.28215pt x 277.96747pt>
+<pics/ruby_query_2.pdf, id=907, 411.28215pt x 277.96747pt>
 File: pics/ruby_query_2.pdf Graphic file (type pdf)
 
 <use pics/ruby_query_2.pdf>
-<pics/ruby_query_3.pdf, id=837, 410.51585pt x 279.4999pt>
+<pics/ruby_query_3.pdf, id=908, 410.51585pt x 279.4999pt>
 File: pics/ruby_query_3.pdf Graphic file (type pdf)
 
-<use pics/ruby_query_3.pdf> [18
+<use pics/ruby_query_3.pdf> (./code/sql_request1.tex
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 2.
+)
+Overfull \hbox (19.48578pt too wide) in paragraph at lines 230--231
+[]$[]$ 
+ []
 
-]) [19 <./pics/ruby_query_1.pdf> <./pics/ruby_query_2.pdf> <./pics/ruby_query_3
-.pdf>]
+[28] (./code/sql_request2.tex)
+Overfull \hbox (19.48578pt too wide) in paragraph at lines 240--241
+[]$[]$ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 246--247
+
+ []
+
+[29 <./pics/ruby_query_1.pdf> <./pics/ruby_query_2.pdf> <./pics/ruby_query_3.pd
+f>]
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
+
+ []
+
+
+Overfull \hbox (7.5296pt too wide) in paragraph at lines 259--260
+[]\OT1/ppl/m/n/10.95 On the other hand, re-triev-ing data from Stor-stock-holms
+ Lokaltrafik (SL) is less straight-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 259--260
+
+ []
+
+(./code/example_regex.tex)
+Overfull \hbox (19.48578pt too wide) in paragraph at lines 265--266
+[]$[]$ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 267--268
+
+ []
+
+(./code/regex_scan_example.tex) [30]) [31]
 \openout2 = `fifth.aux'.
 
- (./fifth.tex [20
+ (./fifth.tex [32
 
 
 
 ]
-Chapter 5.
-) [21]
+Chapter 6.
+) [33]
 \openout2 = `bibliography.aux'.
 
- (./bibliography.tex [22
+ (./bibliography.tex [34
 
 
 
@@ -1205,42 +1575,101 @@ Underfull \hbox (badness 10000) in paragraph at lines 6--7
 
  []
 
-) [23]
+
+Underfull \hbox (badness 1412) in paragraph at lines 10--11
+[]\OT1/ppl/m/n/10.95 Hayes, G., http://www.personalizemedia.com/16-top-augmente
+d-reality-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--17
+[]\OT1/ppl/m/n/10.95 Fleckenstein, S. and Preston-Werner, T. :
+ []
+
+) [35]
 \openout2 = `appendix.aux'.
 
- (./appendix.tex [24
+ (./appendix.tex [36
 
 
 
 ]
 Appendix A.
-) [25] (./thesis.aux (./title.aux) (./abstract.aux) (./toc.aux)
-(./acknowledgements.aux) (./notations.aux) (./first.aux) (./second.aux)
-(./third.aux) (./fourth.aux) (./fifth.aux) (./bibliography.aux) (./appendix.aux
-)) ) 
+(./code/bus_stop.tex) (./code/echo.tex [37]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [38]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [39])
+(./code/provider.tex) (./code/vasttrafik.tex [40]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [41]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [42])
+(./code/storstockholms_lokaltrafik.tex [43]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [44]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [45]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [46]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [47]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [48])
+[49] [50
+
+]
+Appendix B.
+(./code/request_handler.tex [51]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [52])
+(./code/cache_server.tex [53]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [54]))
+[55] (./thesis.aux (./title.aux) (./abstract.aux) (./toc.aux)
+(./acknowledgements.aux) (./notations.aux) (./first.aux) (./methodology.aux)
+(./second.aux) (./third.aux) (./fourth.aux) (./fifth.aux) (./bibliography.aux)
+(./appendix.aux))
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 6361 strings out of 493848
- 88910 string characters out of 3149207
- 172606 words of memory out of 3000000
- 9427 multiletter control sequences out of 15000+200000
- 24125 words of font info for 68 fonts, out of 3000000 for 9000
+ 6965 strings out of 493848
+ 98701 string characters out of 3149207
+ 183599 words of memory out of 3000000
+ 9954 multiletter control sequences out of 15000+200000
+ 25722 words of font info for 75 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 36i,11n,43p,840b,368s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/local/texlive/2009/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local
-/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/
-texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/te
-xlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/tex
-live/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/te
-xlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
-live/2009/texmf-dist/fonts/type1/public/mathpazo/fplmr.pfb></usr/local/texlive/
-2009/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texlive/2009
-/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2009/texmf-
-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2009/texmf-dist/fo
-nts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2009/texmf-dist/fonts/typ
-e1/urw/palatino/uplri8a.pfb>
-Output written on thesis.pdf (33 pages, 3040641 bytes).
+ 36i,11n,43p,844b,468s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/local/texlive/2009/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
+exlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
+xlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/local/te
+xlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
+live/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texli
+ve/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texliv
+e/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texli
+ve/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
+e/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive
+/2009/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texlive/200
+9/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2009/texmf
+-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2009/texmf-dist/f
+onts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2009/texmf-dist/fonts/ty
+pe1/urw/palatino/uplri8a.pfb>
+Output written on thesis.pdf (63 pages, 1767059 bytes).
 PDF statistics:
- 921 PDF objects out of 1000 (max. 8388607)
+ 1064 PDF objects out of 1200 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 61 words of extra memory for PDF output out of 10000 (max. 10000000)
 

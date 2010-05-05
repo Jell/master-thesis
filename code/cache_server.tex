@@ -1,0 +1,91 @@
+\begin{Verbatim}[commandchars=@\[\]]
+-@PYay[module](cache_server).
+-@PYay[export](@PYZlb[]start@PYbf[/]@PYag[0], @PYaY[get]@PYbf[/]@PYag[1], cleaner_daemon@PYbf[/]@PYag[0]@PYZrb[]).
+-@PYay[record](@PYai[cached_url], {url, timestamp, data}).
+
+@PYaL[start]() @PYbf[-]@PYbf[>]
+  @PYaW[mnesia]:start(),
+  @PYaW[mnesia]:create_table(cached_url, @PYZlb[]{attributes,
+      record_info(fields, cached_url)}@PYZrb[]),
+  @PYaY[spawn](@PYaz[fun]() @PYbf[-]@PYbf[>] cleaner_daemon() @PYaz[end]).
+
+@PYaL[cleaner_daemon]() @PYbf[-]@PYbf[>]
+  @PYaj[F] @PYbf[=] @PYaz[fun]() @PYbf[-]@PYbf[>]
+      {@PYaj[Mega], @PYaj[Sec], _@PYaj[Micro]} @PYbf[=] @PYaW[erlang]:now(),
+      @PYaj[T] @PYbf[=] @PYaj[Mega] @PYbf[*] @PYag[1000000] @PYbf[+] @PYaj[Sec] @PYbf[-] @PYag[600],
+      @PYaj[TimeStamp] @PYbf[=] {@PYaj[T] @PYao[div] @PYag[1000000], @PYaj[T] @PYao[rem] @PYag[1000000], @PYag[0]},
+      @PYaj[MatchHead] @PYbf[=] @PYai[#cached_url]{url @PYbf[=] '$1', timestamp @PYbf[=] '$2', data @PYbf[=] '_'},
+      @PYaW[io]:format(@PYad["]@PYbg[~p]@PYbg[~n]@PYad["], @PYZlb[]@PYaj[TimeStamp]@PYZrb[]),
+      @PYaj[Guard] @PYbf[=] {'<', '$2', {@PYaj[TimeStamp]}},
+      @PYaj[Result] @PYbf[=] '$1',
+      @PYaj[ToDelete] @PYbf[=] @PYaW[mnesia]:select(cached_url,
+            @PYZlb[]{@PYaj[MatchHead], @PYZlb[]@PYaj[Guard]@PYZrb[], @PYZlb[]@PYaj[Result]@PYZrb[]}@PYZrb[]),
+      @PYZlb[] @PYaW[mnesia]:delete({cached_url, @PYaj[Url]}) || @PYaj[Url]@PYbf[<]@PYbf[-]@PYaj[ToDelete]@PYZrb[]
+    @PYaz[end],
+  @PYaz[receive]
+  @PYaz[after]
+    @PYag[600000] @PYbf[-]@PYbf[>]
+      @PYaW[mnesia]:transaction(@PYaj[F]),
+      cleaner_daemon()
+  @PYaz[end].  
+
+@PYaY[get](@PYaj[Url]) @PYbf[-]@PYbf[>]
+  @PYaz[case] request_mnesia(@PYaj[Url]) @PYaz[of]
+    {atomic,@PYZlb[]@PYZlb[]@PYaj[TimeStamp],@PYaj[DataTmp]@PYZrb[]@PYZrb[]} @PYbf[-]@PYbf[>]
+      @PYaz[case] is_timestamp_valid(@PYaj[TimeStamp]) @PYaz[of]
+        true @PYbf[-]@PYbf[>]
+          @PYaj[Data] @PYbf[=] @PYaj[DataTmp];
+        false @PYbf[-]@PYbf[>]
+          @PYaj[Data] @PYbf[=] get_over_http(@PYaj[Url]),
+          @PYaY[spawn](@PYaz[fun]() @PYbf[-]@PYbf[>] write_mnesia(@PYaj[Url], @PYaj[Data]) @PYaz[end])
+      @PYaz[end];
+    _ @PYbf[-]@PYbf[>]
+      @PYaj[Data] @PYbf[=] get_over_http(@PYaj[Url]),
+      @PYaY[spawn](@PYaz[fun]() @PYbf[-]@PYbf[>] write_mnesia(@PYaj[Url], @PYaj[Data]) @PYaz[end])
+  @PYaz[end],
+  @PYaj[Data].
+
+@PYaL[get_over_http](@PYaj[Url]) @PYbf[-]@PYbf[>]
+  {ok, @PYaj[RequestId]} @PYbf[=] @PYaW[http]:request(@PYaY[get], {@PYaj[Url], @PYZlb[]@PYZrb[]}, @PYZlb[]@PYZrb[], @PYZlb[]{sync, false}@PYZrb[]),
+  @PYaz[receive]
+    {http, {@PYaj[RequestId], @PYaj[Result]}} @PYbf[-]@PYbf[>]
+      @PYaz[case] @PYaj[Result] @PYaz[of]
+        {{@PYad["]@PYad[HTTP/1.1]@PYad["],@PYag[200],@PYad["]@PYad[OK]@PYad["]}, @PYaj[Header], @PYaj[Body]} @PYbf[-]@PYbf[>]
+          @PYaj[UglyTest] @PYbf[=] @PYZlb[] 'DIEVASTTRAFIKDIE'||
+              {@PYad["]@PYad[content-length]@PYad["], @PYad["]@PYad[2442]@PYad["]} @PYbf[<]@PYbf[-] @PYaj[Header]@PYZrb[],
+          @PYaz[case] @PYaj[UglyTest] @PYaz[of]
+            @PYZlb[]@PYZrb[] @PYbf[-]@PYbf[>]
+              @PYaj[Body];
+            _ @PYbf[-]@PYbf[>]
+              get_over_http(@PYaj[Url])
+          @PYaz[end];
+        _ @PYbf[-]@PYbf[>]
+          get_over_http(@PYaj[Url])
+      @PYaz[end]
+  @PYaz[after]
+    @PYag[3000] @PYbf[-]@PYbf[>]
+      get_over_http(@PYaj[Url])
+  @PYaz[end].
+
+@PYaL[is_timestamp_valid]({@PYaj[MegaSec], @PYaj[Sec], _@PYaj[MicroSec]}) @PYbf[-]@PYbf[>]
+  @PYaj[TimeStamp] @PYbf[=] @PYaj[MegaSec]@PYbf[*]@PYag[1000000]@PYbf[+]@PYaj[Sec],
+  {@PYaj[NowMega], @PYaj[NowSec], _@PYaj[NowMicro]} @PYbf[=] @PYaW[erlang]:now(),
+  @PYaj[NowStamp] @PYbf[=] @PYaj[NowMega]@PYbf[*]@PYag[1000000]@PYbf[+]@PYaj[NowSec],
+  @PYaj[NowStamp] @PYbf[-] @PYaj[TimeStamp] @PYbf[<] @PYag[45].
+
+@PYaL[request_mnesia](@PYaj[Url]) @PYbf[-]@PYbf[>]
+  @PYaj[F] @PYbf[=] @PYaz[fun]() @PYbf[-]@PYbf[>]
+      @PYaj[Cache] @PYbf[=] @PYai[#cached_url]{url @PYbf[=] @PYaj[Url], timestamp @PYbf[=] '$1', data @PYbf[=] '$2'},
+      @PYaW[mnesia]:select(cached_url, @PYZlb[]{@PYaj[Cache], @PYZlb[]@PYZrb[], @PYZlb[]@PYZlb[]'$1', '$2'@PYZrb[]@PYZrb[]}@PYZrb[])
+    @PYaz[end],
+  @PYaW[mnesia]:transaction(@PYaj[F]).
+  
+@PYaL[write_mnesia](@PYaj[Url], @PYaj[Data]) @PYbf[-]@PYbf[>]
+  @PYaj[Cache]  @PYbf[=] @PYai[#cached_url]{  url@PYbf[=] @PYaj[Url],
+              timestamp @PYbf[=] @PYaW[erlang]:now(),
+                         data @PYbf[=] @PYaj[Data]},
+  @PYaj[F] @PYbf[=] @PYaz[fun]() @PYbf[-]@PYbf[>]
+      @PYaW[mnesia]:write(@PYaj[Cache])
+    @PYaz[end],
+  @PYaW[mnesia]:transaction(@PYaj[F]).
+\end{Verbatim}

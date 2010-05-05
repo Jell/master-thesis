@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=@\[\]]
+@PYaL[start_driver]() @PYbf[-]@PYbf[>]
+  @PYaj[Cmd] @PYbf[=] @PYad["]@PYad[rails runner ./lib/echo.rb]@PYad["],
+  @PYaj[Port] @PYbf[=] @PYaY[open_port]({@PYaY[spawn], @PYaj[Cmd]}, @PYZlb[]{packet, @PYag[4]}, nouse_stdio,
+            exit_status, binary@PYZrb[]).
+\end{Verbatim}

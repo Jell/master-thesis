@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=@\[\]]
+@PYaz[class] @PYaO[BusStop] @PYbf[<] @PYar[ActiveRecord]@PYbf[::]@PYar[Base]
+  validates_presence_of @PYau[:name], @PYau[:lat], @PYau[:lng], @PYau[:stop_id], @PYau[:provider_name]
+
+  after_initialize @PYau[:extend_module]
+  
+  @PYaz[def] @PYaL[url]
+    get_forecast_url(stop_id)
+  @PYaz[end]
+  
+  @PYah[private]
+  @PYaz[def] @PYaL[extend_module]
+    @PYaY[self]@PYbf[.]extend @PYaX["]@PYaX[Provider::]@PYbg[#{]provider_name@PYbg[}]@PYaX["]@PYbf[.]constantize
+  @PYaz[end]
+  
+@PYaz[end]
+\end{Verbatim}

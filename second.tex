@@ -6,15 +6,15 @@
 \section{What is Augmented Reality?}
 \label{sec:what_is_ar}
 
-Augmented Reality is a term that is used to describe digital systems that display an artificial visual layer of three-dimensional or two-dimensional models upon our natural perception of reality in real-time. It aims at improving or completing our limited way of seeing the real world by presenting artificial elements that would otherwise be hidden to our senses.\\
+Augmented Reality is a term that is used to describe digital systems that display an artificial visual layer of three- or two-dimensional models upon our natural perception of reality in real-time. It aims at improving or completing our limited way of seeing the real world by presenting artificial elements that would otherwise be hidden to our senses.\\
 
-The most commonly known Augmented Reality application is the weather report system. The reporter is in a real environment in front of a blue/green screen, but the end user in front of his TV will see the reporter standing in from of an interactive map: the content of the background virtual data mapped on a real world object in real-time. That is Augmented Reality. \\
+The most commonly known Augmented Reality application is the television weather forecast system. In this system, a reporter is acting in a real environment in front of a blue/green screen, but the spectator watching his TV will see the reporter standing in front of an animated map: the content of the background consists of virtual data mapped on a real world object in real-time. This is Augmented Reality. \\
 
 It is during the year 1992 that a Boeing researcher named Tom Caudell first defined "Augmented Reality" in a paper called "Augmented reality: an application of heads-up display technology to manual manufacturing processes" \cite{Cau92}. The term was used to describe a digital system that displays virtual graphics onto a physical reality.\\
 
-The concept of Augmented Reality itself is older than its name, since the first Augmented Reality device was build and presented in a 1968 paper by Ivan Sutherland \cite{Sut68}. The system was designed to track the head position of the user to project before his eyes two-dimensional models in order to create an illusion of three dimensions. It relied on the idea that moving perspective images would appear three-dimensional even without stereo presentation, a principle which is called the "kinetic depth effect". In such a system, the user will perceive the object as three-dimensional only when he moves, otherwise the object will only be perceived as planar.\\
+Although the concept of Augmented Reality itself is older than its name, since the first Augmented Reality device was build and presented in a 1968 paper by Ivan Sutherland \cite{Sut68}. The system was designed to track the head position of the user to project before his eyes two-dimensional models in order to create an illusion of three dimensions. It relied on the idea that moving perspective images would appear in three dimensions even without stereo presentation, a principle which is called the "kinetic depth effect". In such a system, the user will perceive the object as three-dimensional only when he moves, otherwise the object will only be seen as planar.\\
 
-It has to be noted that Augmented Reality is not Virtual Reality. In Virtual Reality, there are no elements of Reality, as much as in Reality there are no elements of Virtuality by definition. In his paper called "Augmented Reality: A Class of Displays on the Reality-Virtuality Continuum" \cite{Mil94}, Milgram defines the Reality-Virtuality Continuum shown in Fig. \ref{fig:milgram_diagram}.
+It has to be noted that Augmented Reality differs from Virtual Reality. In Virtual Reality, there are no elements of Reality, as much as in Reality there are no elements of Virtuality by definition. In his paper called "Augmented Reality: A Class of Displays on the Reality-Virtuality Continuum" \cite{Mil94}, Milgram defines the Reality-Virtuality Continuum shown in Fig. \ref{fig:milgram_diagram}.
 
 \begin{figure}[ht]
 \center
@@ -23,7 +23,7 @@ It has to be noted that Augmented Reality is not Virtual Reality. In Virtual Rea
 \label{fig:milgram_diagram}
 \end{figure}
 
-As can be seen from this diagram, Augmented Reality is based on reality and tends to Virtuality in an area called "Mixed Reality". It lies near the real world end of the line, which means the predominate perception is the real world. On the symmetric position, Milgram defines Augmented Virtuality. Behind this concept lie systems where real world items added to a Virtual Environment, such as texture mapping on virtual objects in video games.\\
+As can be seen from this diagram, Augmented Reality is based upon reality and tends to Virtuality in an area called "Mixed Reality". It lies near the real world end of the line, which means the predominate perception is the real world. On the symmetric position, Milgram defines Augmented Virtuality. Behind this concept lie systems where real world items are added to a Virtual Environment, such as texture mapping on virtual objects in video games.\\
 
 So the limits of Augmented Reality are defined by the furthest one can go at adding virtual data on a real world representation without depriving the user of its predominate perception of Reality.
 
@@ -31,7 +31,7 @@ So the limits of Augmented Reality are defined by the furthest one can go at add
 \section{How does it work?}
 \label{sec:how_does_ar_work}
 
-In order to get an Augmented Reality application, one must integrate artificial object into a real scene. Of course, such an object must be rendered to scale and at the correct position and orientation. To do so, the system requires to know the position of the camera or the user from the object. This is the core principle of Augmented Reality.\\
+In order to get an Augmented Reality application, one must integrate artificial objects into a real scene. Of course, such objects must be rendered to scale and at the correct position and orientation. To do so, the system requires to know the position of the camera or the user from the object. This is the core principle of Augmented Reality.\\
 
 To solve this problem, there are two main approaches:
 
@@ -47,10 +47,21 @@ By the mean of tags on a real object, one can get a coordinate system on which t
 
 If the environment is known, i.e. the application is internally aware of the position of the object, or if the object is fully virtual and does not rely on any physical counterpart, one can evaluate the position of the camera in this environment and render the object accordingly. The position of the camera can be known by the mean of a large enough set of sensors that will be able to position it in the environment space.\\
 
-Once the virtual environment is known, each virtual object must me rendered on top of an existing view by the mean of geometric projections that fits the estimated position of this object in the virtual space.
+Once the virtual environment is known, each virtual object must me rendered on top of an existing view by the mean of geometric projections that fit the estimated position of this object in the virtual space. The virtual object can also be projected onto a real world object such as a screen or an holographic system.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{What is it for?}
 \label{sec:what_is_ar_for}
 
-Applications are numerous and are invading a greater and greater number of domains: entertainment of course, with video games or virtual scavenger hunt, but it also has medical uses and various advantages for the industry.
+Applications are numerous and are invading a greater and greater number of domains: entertainment of course, with video games or virtual scavenger hunt, but it also has medical uses and presents various advantages for the industry.\\
+
+In a recent web publication \cite{Hay09}, an interesting study on Augmented Reality business model has been proposed by Gary Hayes showing its possible uses on the market. Figure \ref{fig:AR_business_model} shows an attempt to categorize types of business dealing with Augmented Reality in order to identify opportunities in such field.\\
+
+\begin{figure}[ht]
+\center
+\includegraphics[scale=0.4]{pics/AR_business_model}
+\caption{16 Augmented Reality Business Models by Gary Hayes \cite{Hay09}}
+\label{fig:AR_business_model}
+\end{figure}
+
+As can be seen from this graph, there is a very large amount of possible applications and it would be impossible to list them in an exhaustive manner. In this thesis, we tried to fit into the "Utility" business model, being the most promising one according to this graph (popular and high likely commercial value).

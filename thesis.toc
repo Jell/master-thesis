@@ -3,32 +3,48 @@
 \contentsline {chapter}{Contents}{iv}
 \contentsline {chapter}{Acknowledgements}{vii}
 \contentsline {chapter}{\numberline {1}Introduction}{1}
-\contentsline {chapter}{\numberline {2}Basic Principles of Augmented Reality}{3}
-\contentsline {section}{\numberline {2.1}What is Augmented Reality?}{3}
-\contentsline {section}{\numberline {2.2}How does it work?}{4}
-\contentsline {section}{\numberline {2.3}What is it for?}{5}
-\contentsline {chapter}{\numberline {3}On the Client Side}{7}
-\contentsline {section}{\numberline {3.1}The iPhone}{7}
-\contentsline {subsection}{\numberline {3.1.1}The device}{7}
-\contentsline {subsection}{\numberline {3.1.2}The Development Tools}{7}
-\contentsline {section}{\numberline {3.2}The Application}{8}
-\contentsline {subsection}{\numberline {3.2.1}What it does}{8}
-\contentsline {subsection}{\numberline {3.2.2}How it works}{9}
-\contentsline {section}{\numberline {3.3}Implementation of the Augmented Reality View}{9}
-\contentsline {subsection}{\numberline {3.3.1}View Hierarchy}{9}
-\contentsline {subsection}{\numberline {3.3.2}Positioning within 6 degrees of freedom}{11}
-\contentsline {subsection}{\numberline {3.3.3}3D Projection}{12}
-\contentsline {chapter}{\numberline {4}On the Server Side}{15}
-\contentsline {section}{\numberline {4.1}Architecture}{15}
-\contentsline {section}{\numberline {4.2}Implementation}{18}
-\contentsline {subsection}{\numberline {4.2.1}Erlang}{18}
-\contentsline {subsection}{\numberline {4.2.2}Ruby}{18}
-\contentsline {section}{\numberline {4.3}Results}{19}
-\contentsline {chapter}{\numberline {5}Conclusion}{21}
-\contentsline {section}{\numberline {5.1}On the AppStore}{21}
-\contentsline {section}{\numberline {5.2}Further Considerations}{21}
-\contentsline {subsection}{\numberline {5.2.1}on the Client}{21}
-\contentsline {subsection}{\numberline {5.2.2}on the Server}{21}
-\contentsline {section}{\numberline {5.3}Summary}{21}
-\contentsline {chapter}{References}{23}
-\contentsline {chapter}{\numberline {A}Some Code}{25}
+\contentsline {chapter}{\numberline {2}Methodology}{3}
+\contentsline {section}{\numberline {2.1}Planning}{3}
+\contentsline {section}{\numberline {2.2}Version Control}{4}
+\contentsline {chapter}{\numberline {3}Basic Principles of Augmented Reality}{5}
+\contentsline {section}{\numberline {3.1}What is Augmented Reality?}{5}
+\contentsline {section}{\numberline {3.2}How does it work?}{6}
+\contentsline {section}{\numberline {3.3}What is it for?}{7}
+\contentsline {chapter}{\numberline {4}On the Client Side}{9}
+\contentsline {section}{\numberline {4.1}The iPhone}{9}
+\contentsline {subsection}{\numberline {4.1.1}The Device}{9}
+\contentsline {subsection}{\numberline {4.1.2}The Development Tools}{9}
+\contentsline {subsubsection}{Objective-C}{10}
+\contentsline {subsubsection}{iPhone SDK}{10}
+\contentsline {section}{\numberline {4.2}The Application}{11}
+\contentsline {subsection}{\numberline {4.2.1}What it does}{11}
+\contentsline {subsection}{\numberline {4.2.2}How it works}{12}
+\contentsline {section}{\numberline {4.3}Implementation of the Augmented Reality View}{13}
+\contentsline {subsection}{\numberline {4.3.1}View Hierarchy}{13}
+\contentsline {subsection}{\numberline {4.3.2}Positioning within 6 degrees of freedom}{15}
+\contentsline {subsection}{\numberline {4.3.3}3D Projection}{16}
+\contentsline {subsubsection}{Rendering the ground Map}{17}
+\contentsline {subsubsection}{Rendering the bus stops}{17}
+\contentsline {subsubsection}{Taking into account the Roll and Pitch angles}{19}
+\contentsline {subsubsection}{Summary}{20}
+\contentsline {chapter}{\numberline {5}On the Server Side}{21}
+\contentsline {section}{\numberline {5.1}Architecture}{21}
+\contentsline {section}{\numberline {5.2}Implementation}{23}
+\contentsline {subsection}{\numberline {5.2.1}Erlang}{23}
+\contentsline {subsubsection}{Concurrent Programming}{23}
+\contentsline {subsubsection}{Port Communication}{25}
+\contentsline {subsubsection}{Mnesia}{26}
+\contentsline {subsection}{\numberline {5.2.2}Ruby}{26}
+\contentsline {subsubsection}{Required Setup}{26}
+\contentsline {subsubsection}{Database Management}{28}
+\contentsline {subsubsection}{Parsing}{30}
+\contentsline {section}{\numberline {5.3}Results}{31}
+\contentsline {chapter}{\numberline {6}Conclusion}{33}
+\contentsline {section}{\numberline {6.1}On the AppStore}{33}
+\contentsline {section}{\numberline {6.2}Further Considerations}{33}
+\contentsline {subsection}{\numberline {6.2.1}on the Client}{33}
+\contentsline {subsection}{\numberline {6.2.2}on the Server}{33}
+\contentsline {section}{\numberline {6.3}Summary}{33}
+\contentsline {chapter}{References}{35}
+\contentsline {chapter}{\numberline {A}Ruby Code}{37}
+\contentsline {chapter}{\numberline {B}Erlang Code}{51}

@@ -1,5 +1,5 @@
--module(request_handler).
--export([start/0, restart_driver/0, handle_request/1]).
+-module(hallplats).
+-export([start/0, restart_driver/0, get/1]).
 
 start() ->
   inets:start(),
@@ -8,9 +8,9 @@ start() ->
 
 start_driver() ->
   io:format("New Port opened from ~p~n", [self()]),
-  Cmd = "rails runner ./lib/echo.rb",
-  Port = open_port({spawn, Cmd}, [{packet, 4}, nouse_stdio, exit_status,
-    binary]),
+  Cmd = "ruby ./lib/echo.rb",
+  Port = open_port({spawn, Cmd},
+                   [{packet, 4}, nouse_stdio, exit_status, binary]),
   register(ruby_port, Port),
   DriverPid = spawn(fun() -> ruby_driver(Port) end),
   port_connect(Port, DriverPid),
@@ -23,6 +23,7 @@ restart_driver() ->
   start().
 
 ruby_driver(Port) ->
+  sqlquery:start(),
   port_connect(Port, self()),
   link(Port),
   receive
@@ -43,29 +44,26 @@ driver_call(Port, Payload) ->
         {result, _Text} = binary_to_term(Data)
   end.
 
-handle_request(Params) ->
+get(Params) ->
   MyPid = self(),
-  Payload = term_to_binary({echo, Params}),
-  ruby_driver!{transmit, Payload, self()},
+  Lat = proplists:get_value(lat, Params),
+  Lng = proplists:get_value(lng, Params),
+  StopList = sqlquery:fetch_nearby_stops(Lat,Lng),
+  spawn(fun() -> fetch_forecasts(StopList, MyPid) end),
   receive
-    {ok, {result, StopList}} ->
-    spawn(fun() -> fetch_forecasts(StopList, MyPid) end),
-    receive
-      {ok, {forecast, ForecastList}} ->
-        %io_lib:format("~p~n", [ForecastList])
-        ToParse = term_to_binary({parse, ForecastList}),
-        ruby_driver!{transmit, ToParse, MyPid},
-        receive
-          {ok, {result, FinalResult}} ->
-            FinalResult
-        end
-    end
+    {ok, {forecast, ForecastList}} ->
+      %io_lib:format("~p~n", [ForecastList])
+      ToParse = term_to_binary({parse, ForecastList}),
+      ruby_driver!{transmit, ToParse, MyPid},
+      receive
+        {ok, {result, FinalResult}} ->
+          FinalResult
+      end
   end.
 
 fetch_forecasts(StopList, ToPid) ->
   MyPid = self(),
-  [spawn(fun() -> fetch_forecast(Stop, MyPid) end) ||
-    Stop <- tuple_to_list(StopList)],
+  [spawn(fun() -> fetch_forecast(Stop, MyPid) end) || Stop <- StopList],
   ForecastList = wait_for_forecasts([]),
   ToPid!{ok,{forecast, ForecastList}}.
 
@@ -84,9 +82,7 @@ wait_for_forecasts(ForecastList) ->
   end.
 
 fetch_forecast(Stop, ToPid) ->
-  StopBundle = tuple_to_list(Stop),
-  [URL] = [binary_to_list(Value) ||
-    {Atom, Value} <- StopBundle, Atom == url],
+  {_,_,_,_,_,_,_,_,URL} = Stop,
   Body = cache_server:get(URL),
-  ToPid!{ok, {StopBundle, Body}}.
+  ToPid!{ok, {Stop, Body}}.
   

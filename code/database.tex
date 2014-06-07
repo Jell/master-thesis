@@ -1,0 +1,20 @@
+\begin{Verbatim}[commandchars=@\[\]]
+@PYaf[# SQLite version 3.x]
+development:
+  adapter: sqlite3
+  database: db@PYbf[/]development@PYbf[.]sqlite3
+  pool: @PYag[5]
+  timeout: @PYag[5000]
+
+@PYaY[test]:
+  adapter: sqlite3
+  database: db@PYbf[/]@PYaY[test]@PYbf[.]sqlite3
+  pool: @PYag[5]
+  timeout: @PYag[5000]
+
+production:
+  adapter: sqlite3
+  database: db@PYbf[/]production@PYbf[.]sqlite3
+  pool: @PYag[5]
+  timeout: @PYag[5000]
+\end{Verbatim}

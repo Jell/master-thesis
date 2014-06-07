@@ -1,0 +1,20 @@
+\begin{Verbatim}[commandchars=@\[\]]
+@PYaz[class] @PYaO[CreateBusStops] @PYbf[<] @PYar[ActiveRecord]@PYbf[::]@PYar[Migration]
+  @PYaz[def] @PYaO[self]@PYbf[.]@PYaL[up]
+    create_table @PYau[:bus_stops] @PYaz[do] @PYbf[|]t@PYbf[|]
+      t@PYbf[.]string @PYau[:name]
+      t@PYbf[.]float @PYau[:lat]
+      t@PYbf[.]float @PYau[:lng]
+      t@PYbf[.]string @PYau[:stop_id]
+      t@PYbf[.]string @PYau[:provider_name]
+      t@PYbf[.]string @PYau[:url]
+      
+      t@PYbf[.]timestamps
+    @PYaz[end]
+  @PYaz[end]
+
+  @PYaz[def] @PYaO[self]@PYbf[.]@PYaL[down]
+    drop_table @PYau[:bus_stops]
+  @PYaz[end]
+@PYaz[end]
+\end{Verbatim}

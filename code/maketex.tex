@@ -1,0 +1,28 @@
+\begin{Verbatim}[commandchars=@\[\]]
+language_list @PYbf[=] @PYbf[@PYZlb[]]
+                    {@PYau[:name] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[ruby]@PYaX["], @PYau[:extension] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[rb]@PYaX["]},
+                    {@PYau[:name] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[ruby]@PYaX["], @PYau[:extension] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[rake]@PYaX["]},
+                    {@PYau[:name] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[ruby]@PYaX["], @PYau[:extension] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[yml]@PYaX["]},
+                    {@PYau[:name] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[erlang]@PYaX["], @PYau[:extension] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[erl]@PYaX["]},
+                    {@PYau[:name] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[sql]@PYaX["], @PYau[:extension] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[sql]@PYaX["]},
+                    {@PYau[:name] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[objective-c]@PYaX["], @PYau[:extension] @PYbf[=]@PYbf[>] @PYaX["]@PYaX[m]@PYaX["]},
+                    
+                  @PYbf[@PYZrb[]]
+
+@PYaK[`]@PYaK[rm *.tex]@PYaK[`]
+language_list@PYbf[.]each @PYaz[do] @PYbf[|]language@PYbf[|]
+  appendix @PYbf[=] @PYar[File]@PYbf[.]open(@PYaX["]@PYaX[appendix_]@PYbg[#{]language@PYbf[@PYZlb[]]@PYau[:name]@PYbf[@PYZrb[]]@PYbg[}]@PYaX[.tex]@PYaX["], @PYaX["]@PYaX[a]@PYaX["])
+  filestring @PYbf[=] @PYaK[`]@PYaK[find *.]@PYbg[#{]language@PYbf[@PYZlb[]]@PYau[:extension]@PYbf[@PYZrb[]]@PYbg[}]@PYaK[`]
+  filelist @PYbf[=] filestring@PYbf[.]split(@PYaX["]@PYap[\n]@PYaX["])
+  filelist@PYbf[.]each @PYaz[do] @PYbf[|]file@PYbf[|]
+    @PYaY[name] @PYbf[=] file@PYbf[.]gsub(@PYaX["]@PYaX[.]@PYbg[#{]language@PYbf[@PYZlb[]]@PYau[:extension]@PYbf[@PYZrb[]]@PYbg[}]@PYaX["], @PYaX["]@PYaX["])
+    @PYaY[puts] @PYaY[name]
+    @PYaK[`]@PYaK[pygmentize -f latex -l ]@PYbg[#{]language@PYbf[@PYZlb[]]@PYau[:name]@PYbf[@PYZrb[]]@PYbg[}]@PYaK[ -o ]@PYbg[#{]@PYaY[name]@PYbg[}]@PYaK[.tex ]@PYbg[#{]file@PYbg[}]@PYaK[`]
+    appendix@PYbf[.]puts @PYaX["]@PYap[\\]@PYaX[noindent]@PYaX["]
+    appendix@PYbf[.]puts @PYaX["]@PYap[\\]@PYaX[rule{2cm}{0.5pt} File: ]@PYbg[#{]file@PYbf[.]gsub(@PYbe['_'], @PYaX["]@PYap[\\]@PYaX[_]@PYaX["])@PYbg[}]@PYaX[ ]@PYap[\\]@PYaX[hrulefill]@PYaX["]
+    appendix@PYbf[.]puts @PYaX["]@PYap[\\]@PYaX[input{code/]@PYbg[#{]@PYaY[name]@PYbg[}]@PYaX[}]@PYaX["]
+    appendix@PYbf[.]puts @PYaX["]@PYaX["]
+  @PYaz[end]
+  appendix@PYbf[.]close
+@PYaz[end]
+\end{Verbatim}

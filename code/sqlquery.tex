@@ -1,0 +1,86 @@
+\begin{Verbatim}[commandchars=@\[\]]
+-@PYay[module](sqlquery).
+-@PYay[export](@PYZlb[]start@PYbf[/]@PYag[0], fetch_nearby_stops@PYbf[/]@PYag[2], distance_geodesic@PYbf[/]@PYag[4]@PYZrb[]).
+
+@PYaL[start]() @PYbf[-]@PYbf[>]
+  @PYaE[% sqlite:start_link(development),]
+  @PYaW[sqlite]:start_link(development,
+                    @PYZlb[]{db, @PYad["]@PYad[../Rails/db/development.sqlite3]@PYad["]}@PYZrb[]),
+  @PYaW[sqlite]:list_tables().
+  
+@PYaL[fetch_nearby_stops](@PYaj[Lat], @PYaj[Lng]) @PYbf[-]@PYbf[>]
+  @PYaj[Area] @PYbf[=] @PYag[0].@PYag[002],
+  @PYaj[Ratio] @PYbf[=] distance_geodesic(@PYaj[Lat], @PYaj[Lng], @PYaj[Lat], @PYaj[Lng] @PYbf[+] @PYag[0].@PYag[1]) @PYbf[/]
+                      distance_geodesic(@PYaj[Lat], @PYaj[Lng], @PYaj[Lat] @PYbf[+] @PYag[0].@PYag[1], @PYaj[Lng]),
+
+  @PYaj[Query] @PYbf[=] @PYaW[io_lib]:format( @PYad["]@PYad[SELECT * FROM bus_stops WHERE]
+@PYad[                               lat > ]@PYbg[~p]@PYad[ AND lat < ]@PYbg[~p]@PYad[ AND]
+@PYad[                               lng > ]@PYbg[~p]@PYad[ AND lng < ]@PYbg[~p]@PYad[ LIMIT 50]@PYad["],
+                          @PYZlb[]@PYaj[Lat] @PYbf[-] @PYaj[Ratio]@PYbf[*]@PYaj[Area],
+                           @PYaj[Lat] @PYbf[+] @PYaj[Ratio]@PYbf[*]@PYaj[Area], 
+                           @PYaj[Lng] @PYbf[-] @PYaj[Area],
+                           @PYaj[Lng] @PYbf[+] @PYaj[Area]@PYZrb[]),
+
+  @PYaz[case] @PYaW[sqlite]:sql_exec(@PYaj[Query]) @PYaz[of]
+    ok @PYbf[-]@PYbf[>]
+      @PYaj[Result] @PYbf[=] find_10_closer(@PYZlb[]@PYZrb[], @PYaj[Area] @PYbf[*] @PYag[2], @PYaj[Ratio], @PYaj[Lat], @PYaj[Lng]);
+    @PYaj[List] @PYbf[-]@PYbf[>]
+      @PYaz[if]
+        @PYaY[length](@PYaj[List]) @PYbf[>] @PYag[10] @PYbf[-]@PYbf[>]
+          @PYaj[Result] @PYbf[=] @PYaj[List];
+        true @PYbf[-]@PYbf[>]
+          @PYaj[Result] @PYbf[=] find_10_closer(@PYaj[List], @PYaj[Area] @PYbf[*] @PYag[2], @PYaj[Ratio], @PYaj[Lat], @PYaj[Lng])
+      @PYaz[end]
+  @PYaz[end],
+  @PYaW[lists]:sublist(sort_result(@PYaj[Result], @PYaj[Lat], @PYaj[Lng]), @PYag[10]).
+
+@PYaL[sort_result](@PYaj[Result], @PYaj[Lat], @PYaj[Lng]) @PYbf[-]@PYbf[>]
+  @PYaW[lists]:sort(
+        @PYaz[fun](@PYaj[A], @PYaj[B]) @PYbf[-]@PYbf[>]
+          {_,_,@PYaj[Lat1],@PYaj[Lng1],_,_,_,_,_} @PYbf[=] @PYaj[A],
+          {_,_,@PYaj[Lat2],@PYaj[Lng2],_,_,_,_,_} @PYbf[=] @PYaj[B],
+          {@PYaj[A1], @PYZlb[]@PYZrb[]} @PYbf[=] @PYaW[string]:to_float(@PYaj[Lat1]),
+          {@PYaj[B1], @PYZlb[]@PYZrb[]} @PYbf[=] @PYaW[string]:to_float(@PYaj[Lng1]),
+          {@PYaj[A2], @PYZlb[]@PYZrb[]} @PYbf[=] @PYaW[string]:to_float(@PYaj[Lat2]),
+          {@PYaj[B2], @PYZlb[]@PYZrb[]} @PYbf[=] @PYaW[string]:to_float(@PYaj[Lng2]),
+          distance_geodesic(@PYaj[Lat], @PYaj[Lng], @PYaj[A1], @PYaj[B1]) @PYbf[=]@PYbf[<]
+                                     distance_geodesic(@PYaj[Lat], @PYaj[Lng], @PYaj[A2], @PYaj[B2])
+        @PYaz[end], @PYaj[Result]).
+
+@PYaL[distance_geodesic](@PYaj[Lat1], @PYaj[Long1], @PYaj[Lat2], @PYaj[Long2]) @PYbf[-]@PYbf[>]
+    @PYaj[A1] @PYbf[=] @PYaj[Lat1] @PYbf[*] (@PYaW[math]:pi() @PYbf[/] @PYag[180]),
+    @PYaj[B1] @PYbf[=] @PYaj[Long1] @PYbf[*] (@PYaW[math]:pi() @PYbf[/] @PYag[180]),
+    @PYaj[A2] @PYbf[=] @PYaj[Lat2] @PYbf[*] (@PYaW[math]:pi() @PYbf[/] @PYag[180]),
+    @PYaj[B2] @PYbf[=] @PYaj[Long2] @PYbf[*] (@PYaW[math]:pi() @PYbf[/] @PYag[180]),
+    @PYaj[R] @PYbf[=] @PYag[6356].@PYag[75],
+    @PYaj[R] @PYbf[*] @PYaW[math]:acos(@PYaW[math]:cos(@PYaj[A1])@PYbf[*]@PYaW[math]:cos(@PYaj[B1])@PYbf[*]@PYaW[math]:cos(@PYaj[A2])@PYbf[*]@PYaW[math]:cos(@PYaj[B2]) @PYbf[+] 
+                  @PYaW[math]:cos(@PYaj[A1])@PYbf[*]@PYaW[math]:sin(@PYaj[B1])@PYbf[*]@PYaW[math]:cos(@PYaj[A2])@PYbf[*]@PYaW[math]:sin(@PYaj[B2]) @PYbf[+]
+                  @PYaW[math]:sin(@PYaj[A1])@PYbf[*]@PYaW[math]:sin(@PYaj[A2])).
+
+@PYaL[find_10_closer](@PYaj[OldList], @PYaj[Area], @PYaj[Ratio], @PYaj[Lat], @PYaj[Lng]) @PYbf[-]@PYbf[>]
+  @PYaj[Query] @PYbf[=] @PYaW[io_lib]:format(@PYad["]@PYad[SELECT * FROM bus_stops WHERE lat > ]@PYbg[~p]@PYad[ AND]
+@PYad[                            lat < ]@PYbg[~p]@PYad[ AND lng > ]@PYbg[~p]@PYad[ AND lng < ]@PYbg[~p]@PYad[ AND NOT]
+@PYad[                                 (lat > ]@PYbg[~p]@PYad[ AND lat < ]@PYbg[~p]@PYad[ AND]
+@PYad[                                  lng > ]@PYbg[~p]@PYad[ AND lng < ]@PYbg[~p]@PYad[) LIMIT 50]@PYad["],
+                          @PYZlb[]@PYaj[Lat] @PYbf[-] @PYag[2] @PYbf[*] @PYaj[Ratio] @PYbf[*] @PYaj[Area],
+                           @PYaj[Lat] @PYbf[+] @PYag[2] @PYbf[*] @PYaj[Ratio] @PYbf[*] @PYaj[Area],
+                           @PYaj[Lng] @PYbf[-] @PYag[2] @PYbf[*] @PYaj[Area], @PYaj[Lng] @PYbf[+] @PYag[2] @PYbf[*] @PYaj[Area],
+                           @PYaj[Lat] @PYbf[-] @PYaj[Ratio] @PYbf[*] @PYaj[Area],
+                           @PYaj[Lat] @PYbf[+] @PYaj[Ratio] @PYbf[*] @PYaj[Area],
+                           @PYaj[Lng] @PYbf[-] @PYaj[Area],
+                           @PYaj[Lng] @PYbf[+] @PYaj[Area]@PYZrb[]),
+
+  @PYaj[Result] @PYbf[=] @PYaW[sqlite]:sql_exec(@PYaj[Query]),
+  @PYaz[case] @PYaj[Result] @PYaz[of]
+    ok @PYbf[-]@PYbf[>]
+      find_10_closer(@PYaj[OldList], @PYaj[Area] @PYbf[*] @PYag[2], @PYaj[Ratio], @PYaj[Lat], @PYaj[Lng]);
+    @PYaj[List] @PYbf[-]@PYbf[>]
+      @PYaj[NewList] @PYbf[=] @PYaW[erlang]:append(@PYaj[List], @PYaj[OldList]),
+      @PYaz[if]
+        @PYaY[length](@PYaj[NewList]) @PYbf[>] @PYag[10] @PYbf[-]@PYbf[>]
+          @PYaj[NewList];
+        true @PYbf[-]@PYbf[>]
+          find_10_closer(@PYaj[NewList], @PYaj[Area] @PYbf[*] @PYag[2], @PYaj[Ratio], @PYaj[Lat], @PYaj[Lng])
+      @PYaz[end]  
+  @PYaz[end].
+\end{Verbatim}

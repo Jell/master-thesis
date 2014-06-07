@@ -1,13 +1,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{On the Client Side}
-\label{cha:on_the_client_side}
+\chapter{The Project}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Now that we have the sufficient knowledge on Augmented Reality, let's have a look at the project in itself. In this Chapter, we shall see how the iPhone fits the requirements for Augmented Reality and how our project takes advantage of this.
+
 \section{The iPhone}
 \label{sec:the_iphone}
 
-\subsection{The Device}
-The iPhone is a last generation smartphone developed by Apple and was revealed for the first time in 2007. It features advanced functionalities such as multimedia support, internet access, video games and many more. Up to this day, forty-two millions iPhone have been sold across the globe.\\
+The iPhone is a last generation smartphone developed by Apple and was revealed for the first time in 2007. It features advanced functionalities such as multimedia support, internet access, video games and many more. Up to this day, forty-two millions iPhones have been sold across the globe.\\
+
+\begin{figure}[ht]
+\center
+\includegraphics[scale=0.3]{pics/iphone}
+\caption{Picture of an iPhone 3G-S \cite{iphoneimagesource}}
+\label{fig:client_view_hierarchy}
+\end{figure}
 
 Its main characteristic is that its User Interface (UI) is almost only based on two inputs:
 \begin{itemize}
@@ -18,33 +24,7 @@ As such, the iPhone does not possess any physical keyboard. Instead, a virtual k
 
 The last generation of iPhone, the iPhone 3G-S, also includes a GPS, a compass, and a 3-megapixels camera, which seems to make it a perfect candidate for any Augmented Reality application. Unfortunately, the pragmatic access to the camera is not yet fully available, so image recognition is not yet an option, thought an upcoming version of its Operating System (OS) will allow the access to the video data of the camera.\\
 
-In order to install new applications on an iPhone, one must download it from the AppStore, the internet-based retail store from Apple for iPhones, iPods and the iPad. Apple having a highly proprietary policy on its product, this is actually the only way to distribute iPhone applications.
-
-\subsection{The Development Tools}
-
-To develop an application for iPhone, a specific Framework is required. We will have a look at its nature in this section.
-
-\subsubsection{Objective-C}
-
-First of all, any software developed for iPhone must be programmed in Objective-C, although it is possible to call C and C++ functions from code.\\
-
-Objective-C is an Object-Oriented (OO) reflexive programming language build upon the C language. It is comparable to C++ from this perspective, but differs greatly in many ways, especially in its dynamic message passing system, in being weakly typed and in being able to perform dynamic loading. In its latest version, Objective-C also features a Garbage Collector which subtracts the programmer from advanced memory management considerations. Unfortunately, this feature is not available for iPhone development.\\
-
-As mentioned above, one of the interesting features of Objective-C is its message passing in lieu of method call for an object. In Objective-C terminology, calling a Method from an Object consists instead of sending a Message to a Receiver. The following example send a message "say" with parameter @"hello world!"  to the receiver named "receiver", and the answer "result" is of type "BOOL".
-
-\parbox{15cm}{
-\input{code/messaging_example}
-}
-
-This is very close to the elegant Smalltalk messaging system. In practice, the Receiver is an object "id", which is similar to an anonymous pointer to an object. When messaging a receiver, the object sending a message does not need to know if the object it is sending to will be able to handle its request or not. This is really convenient since the sender does not need to be aware of the receiver. This system allows complex interactions between object.
-
-\subsubsection{iPhone SDK}
-
-In order to compile code for the iPhone, the use of Xcode as Integrated Development Environment is almost unavoidable. Apple has a highly proprietary approach for its products, and programming for an Apple environment is much restrictive to this regard. Fortunately, Xcode and the set of tools provided by Apple offer a great comfort of use in many cases, especially for debugging, or for creating interfaces with the use of the Interface Builder (IB).\\
-
-Once Xcode is set up, the iPhone Software Development Kit must be installed on Xcode. The iPhone SDK takes advantage of all the features of Xcode, including its set of external tool to the largest extent. After being registered to the iPhone developer's program, Xcode can also be linked directly to an actual iPhone device in order to test an application in real-time with any monitoring tool available.\\
-
-This SDK contains Application Programming Interfaces (API) to all the accessible libraries of the iPhone, including Cocoa. Unfortunately, many functionalities such as the access to raw data from the video camera are not part of a public API, so their libraries are considered as not accessible and therefore their use are forbidden by Apple.
+In order to install new applications on an iPhone, one must download it from the AppStore, the internet-based retail store for iPhones, iPods and the iPad. Apple having a highly proprietary policy on its product, this is actually the only way to distribute iPhone applications.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Application}
@@ -52,13 +32,30 @@ This SDK contains Application Programming Interfaces (API) to all the accessible
 
 \subsection{What it does}
 
-This application has been designed for travellers in Sweden that are looking for a nearby public transport station. Augmented Reality makes it very intuitive to find a nearby stop: the user just has to "look around" with his iPhone, and the closest stops will appear at their positions. When the user holds his iPhone in one direction, a virtual Map is projected on the estimated ground, and on it a set of three-dimensional pins indicating nearby stops. All this is done in realtime and fits the position of the iPhone with six degrees of movements.\\
+Our application has been designed for travellers in Sweden that are looking for a nearby public transport station. Augmented Reality makes it very intuitive to find a nearby stop: the user just has to "look around" with his iPhone, and the closest stops will appear at their positions.\\
 
-To make it even easier for the user, a flat Google Map is available when the device is held horizontally. The flat map also displays pins representing the nearby stops. The Map is always oriented in the direction of the user for more convenience. This can be useful when directions are required. \\
+\begin{figure}[ht]
+\center
+\subfigure[Augmented Reality View]{\includegraphics[scale=0.4]{pics/screenshot1} \label{fig:screenshot1}}
+\hspace{0.2cm}
+\subfigure[Map View]{\includegraphics[scale=0.4]{pics/screenshot2} \label{fig:screenshot2}}
+\hspace{0.2cm}
+\subfigure[Information View]{\includegraphics[scale=0.4]{pics/screenshot3} \label{fig:screenshot3}}
+\caption{Screenshots of the Application}
+\label{fig:client_view_hierarchy}
+\end{figure}
 
-If the user press a pin in either Augmented Reality or Flat Map, a bubble will appear with the stop name, its distance from the user and the Bus/Tram/Boat/Subway line numbers it serves. If this stop is interesting to him, the user can check the next departures by pressing the arrow in the bubble.\\
+When the user holds his iPhone toward one direction, a virtual Map is projected on the estimated ground, and on it a set of three-dimensional pins indicating nearby stops. All this is done in realtime and fits the position of the iPhone within six degrees of movement.\\
 
-The application flips horizontally and displays the next departures in a scrollable view, with indexes on the side for quick navigation. This is a really efficient way to check for the next departures: only two "clicks" are required to access the desired data.\\
+To make it even easier for the user, a flat Google Map is available when the device is held horizontally (see Figure \ref{fig:screenshot2}). The flat map also displays pins representing the nearby stops. The Map is always oriented in the direction of the user for more convenience. This can be useful when directions are required. \\
+
+If the user press a pin in either Augmented Reality or Flat Map, a bubble will appear with the stop name, its distance from the user and the Bus/Tram/Boat/Subway line numbers it serves (see Figure \ref{fig:screenshot1}). If this stop is interesting to him, the user can check the next departures by pressing the arrow in the bubble.\\
+
+When pressing this arrow, the application flips horizontally and displays the next departures in a scrollable view, with indexes on the side for quick navigation (see Figure \ref{fig:screenshot3}). This is a really efficient way to check for the next departures: only two "clicks" are required to access the desired data.\\
+
+To refresh data, the user can shake his iPhone. A new request over the Internet will be sent and the stops will be updated with their latest values. It might be useful to refresh data if the user has changed location, or if he has been waiting for a while and wants to see the updated forecasts.\\
+
+Also, if the image is not stable enough, the user can press the "lock" icon to freeze animation in order to interact more comfortably with the application. This is particularly useful when walking.\\
 
 Augmented Reality makes the application very interesting for people that are uncomfortable at reading maps when discovering a new city.\\
 
@@ -80,13 +77,56 @@ An item in the forecast list is composed of a line number, a destination and a s
 
 Once the positions of the bus stops are known, we can project them in the virtual space according to the user's coordinates, heading direction and phone holding angle. Our implementation of Augmented Reality hence follows the second method defined in Section \ref{sec:how_does_ar_work}: we use sensors to know the position of the camera in a known space.\\
 
-To cope with the precision errors of acceleration and heading measurement, a buffer is used to get the average values on an arbitrary period of time before updating the knowledge on the user's position. Animations are also used to make transitions between two views appear smoother.
+To cope with the precision errors of acceleration and heading measurement, a buffer is used to get the average values on an arbitrary period of time before updating the knowledge on the user's position. Animations are also used to make transitions between two views appear smoother.\\
+
+The accelerometer let us know when the iPhone is in flat position, allowing us to switch between Map or Augmented View. It also detects when a shake gesture which will trigger the data refresh.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Implementation of the Augmented Reality View}
-\label{sec:implementation_of_ar_view}
+\chapter{Implementation on the Client Side}
+\label{cha:on_the_client_side}
 
-\subsection{View Hierarchy}
+This Chapter describes in detail the implementation on the client side, which corresponds to the application that is installed on the iPhone.
+
+\section{The Development Tools}
+
+To develop an application for iPhone, a specific Framework is required. We will have a look at its nature in this section.
+
+\subsection{Objective-C}
+
+First of all, any software developed for iPhone must be programmed in Objective-C, although it is possible to call C and C++ functions from code.\\
+
+Objective-C is an Object-Oriented (OO) reflexive programming language build upon the C language. It is comparable to C++ from this perspective, but differs greatly in many ways, especially in its dynamic message passing system, in being weakly typed and in being able to perform dynamic loading. In its latest version, Objective-C also features a Garbage Collector which subtracts the programmer from advanced memory management considerations. Unfortunately, this feature is not available for iPhone development.\\
+
+As mentioned above, one of the interesting features of Objective-C is its message passing in lieu of method call for an object. In Objective-C terminology, calling a Method from an Object consists instead of sending a Message to a Receiver. The following example send a message "say" with parameter @"hello world!"  to the receiver named "receiver", and the answer "result" is of type "BOOL".
+
+\parbox{15cm}{
+\input{code/messaging_example}
+}
+
+This is very close to the elegant Smalltalk messaging system. In practice, the Receiver is an object "id", which is similar to an anonymous pointer to an object. When messaging a receiver, the object sending a message does not need to know if the object it is sending to will be able to handle its request or not. This is really convenient since the sender does not need to be aware of the receiver. This system allows complex interactions between object.
+
+\subsection{iPhone SDK}
+
+In order to compile code for the iPhone, the use of Xcode as Integrated Development Environment is almost unavoidable. Apple has a highly proprietary approach for its products, and programming for an Apple environment is much restrictive to this regard. Fortunately, Xcode and the set of tools provided by Apple offer a great comfort of use in many cases, especially for debugging, or for creating interfaces with the use of the Interface Builder (IB).\\
+
+\begin{figure}[ht]
+\center
+\includegraphics[scale=0.3]{pics/xcode}
+\caption{Screenshot of XCode, the Apple IDE}
+\label{fig:client_view_hierarchy}
+\end{figure}
+
+Once Xcode is set up, the iPhone Software Development Kit must be installed. The iPhone SDK takes advantage of all the features of Xcode, including its set of external tool to the largest extent. After being registered to the iPhone developer's program, Xcode can also be linked directly to an actual iPhone device in order to test an application in real-time with any monitoring tool available.\\
+
+The SDK contains Application Programming Interfaces (API) to all the accessible libraries of the iPhone, including Cocoa. Unfortunately, many functionalities such as the access to raw data from the video camera are not part of a public API, so their libraries are considered as not accessible and therefore their use is forbidden by Apple.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{View Hierarchy}
+
+When developing for iPhone, the Model-View-Controller (MVC) is the best architecture to go with. There are well defined classes for views and controllers in the Cocoa environment, so we took advantage of that when designing our application.\\
+
+When using the Cocoa environment, each view must be a subclass of the UIView class, and each controller of the UIViewController class. A view is automatically linked to a view controller.\\
 
 \begin{figure}[ht]
 \center
@@ -95,19 +135,15 @@ To cope with the precision errors of acceleration and heading measurement, a buf
 \label{fig:client_view_hierarchy}
 \end{figure}
 
-When developing for iPhone, the Model-View-Controller (MVC) is the best architecture to go with. There are well defined classes for views and controllers in the Cocoa environment, so we took advantage of that when designing our application.\\
-
-When using the Cocoa environment, each view must be a subclass of the UIView class, and each controller of the UIViewController class. A view is automatically linked to a view controller.\\
-
 A view can contain other views that will be considered as its subviews, and each view has a frame in which it renders itself. Views can have transparent or semi-transparent backgrounds, so it is possible to create a complex view hierarchy without hassle.\\
 
 Figure \ref{fig:client_view_hierarchy} shows the view hierarchy for our application.\\
 
 In order to render a view on screen, one must define an application window that is a subclass of UIWindow and that will take care of rendering every visible view on the iPhone's screen. By definition, a UIWindow must be the higher node in any view hierarchy.\\
 
-Before further considerations, one should know that there is a serious restriction on the iPhone SDK up to the version 3.2 which prohibits to insert a camera view (UIImagePickerView) as a subview to a UIView. Instead, it must be directly put into a UIWindow. Since we want to use the camera in our application, we have no choice but to put it on top of our view stack. This is semantically very wrong, but there are no alternatives left here by Apple.\\
+Before further considerations, one should know that there is a serious restriction on the iPhone SDK up to the version 3.2 which prohibits to insert a camera view (UIImagePickerView) as a subview to a UIView. Instead, it must be directly put into a UIWindow. Since we want to use the camera in our application, we have no choice but to put it on top of our view stack. This is semantically wrong, but there are no alternatives left here by Apple.\\
 
-Furthermore, the camera view itself is locked, so we can't help but use a view called "Camera Overlay" to display any view on top of it. That is ugly and clearly opposed to the concept of our application, but again there is no other way to do it.\\
+Furthermore, the camera view itself is locked, so we can't help but use a view called "Camera Overlay" to display any view on top of it.\\
 
 As a result, the camera is always rendering in the background of our application, and everything else is rendered on top of it.\\
 
@@ -117,9 +153,21 @@ To present the forecast of a stop, a "modal view" is opened by the Main View Con
 
 This modal view is a table view itself composed of view cells that are respectively subclasses of UITableView and UITableViewCell. Those view cells are used to display the forecasts list for a bus stop.
 
-\subsection{Positioning within 6 degrees of freedom}
+\section{Positioning within 6 degrees of freedom}
 
 In our application, we need to locate the camera of the iPhone within 6 degrees of freedom:
+
+\vspace{10pt}
+
+\begin{wrapfigure}{r}{10cm}
+\vspace{-7cm}
+\center
+\includegraphics[scale=0.25]{pics/iphone_orientation}
+\vspace{-10pt}
+\caption{the 6 degrees of freedom of the iPhone}
+\label{fig:iphone_orientation}
+\vspace{-20pt}
+\end{wrapfigure}
 
 \begin{itemize}
 \item{Latitude ($\varphi$)}
@@ -130,18 +178,9 @@ In our application, we need to locate the camera of the iPhone within 6 degrees 
 \item{Pitch angle ($\beta$)}
 \end{itemize}
 
-Those degrees of freedom are illustrated in Figure \ref{fig:iphone_orientation}.
+\vspace{10pt}
 
-\begin{figure}[ht]
-\center
-\includegraphics[scale=0.5]{pics/iphone_orientation}
-\caption{the 6 degrees of freedom of the iPhone}
-\label{fig:iphone_orientation}
-\end{figure}
-
-The GPS directly gives us the Altitude, Latitude and Longitude of the user whereas the compass gives us his Azimuth. This directly takes care of 4 out of the 6 degrees.\\
-
-But thanks to the 3-axis accelerometer, the roll angle and pitch angle can easily be computed by the mean of simple trigonometry as shown in Figure \ref{fig:six_degrees_angles}
+Those degrees of freedom are illustrated in Figure \ref{fig:iphone_orientation}. The GPS directly gives us the Altitude, Latitude and Longitude of the user whereas the compass gives us his Azimuth. This directly takes care of 4 out of the 6 degrees.\\
 
 \begin{figure}[ht]
 \center
@@ -150,142 +189,235 @@ But thanks to the 3-axis accelerometer, the roll angle and pitch angle can easil
 \label{fig:six_degrees_angles}
 \end{figure}
 
-To compute $\alpha$ and $\beta$, we use the following equations:
+\clearpage
 
-\[\alpha = \textrm{atan2}(x, y)\]
-\[\beta = \textrm{atan2}(\sqrt{y^2+x^2}, z)\]
+But thanks to the 3-axis accelerometer, the roll angle and pitch angle can easily be computed by the mean of simple trigonometry as shown in Figure \ref{fig:six_degrees_angles}. To compute $\alpha$ and $\beta$, we use the following equations:
+\begin{align} 
+\alpha 	&= 	\textrm{atan2}(x, y)\\
+\beta 	&= 	\textrm{atan2}\left(\sqrt{y^2+x^2}\textrm{ , } z\right)
+\end{align}
 
 Where $x$, $y$ and $z$ are respectively the accelerations values on the X-, Y- and Z-axis an atan2($a${},{}$b$) is a function that gives the angle in radians between a vector ($a$ , $b$) and the X-axis.
 
-\subsection{3D Projection}
 
-Now that we know the position of the camera relatively to the object we want to display, we must use our knowledge to render the Augmented View.\\
+\section{3D Projection}
 
-\subsubsection{Rendering the ground Map}
+Now that we know the position of the camera relatively to the object we want to display, we must use our knowledge to render the Augmented View.
 
-First, we project a Map on the plane defining the ground. The iPhone has an API to perform 3D projections, by the mean of layer transformations. To apply a transform to a layer, one must provide the transform matrix corresponding to the desired projection.\\
+\subsection{Rendering the bus stops}
 
-In this case, the transformation will be a rotation of $\psi = \pi/2$ on the X-axis and another $\theta$ corresponding to the Azimuth on the Y-Axis, followed by translations $t_y$ and $t_z$ on the Y and Z axis to give depth to the view, which gives the following matrix:\\
+We project the Bus Stops on the plane defining the ground to begin with. The iPhone has an API to perform 3D projections, by the mean of layer transformations. To apply a transform to a layer, one must provide the transform matrix corresponding to the desired projection.\\
 
-\[ \left( \begin{array}{cccc}
-	\textrm{cos} \theta 				& 0 					& -\textrm{sin} \theta 				& - \textrm{sin} \theta / e_z\\
-	\textrm{sin} \psi \textrm{ sin} \theta 	& \textrm{cos} \psi		& \textrm{sin} \psi \textrm{ cos} \theta 	& \textrm{sin} \psi \textrm{ cos} \theta  / e_z\\
-	\textrm{cos} \psi \textrm{ sin} \theta	& -\textrm{sin} \psi		& \textrm{cos} \psi \textrm{ cos} \theta	& \textrm{cos} \psi \textrm{ cos} \theta / e_z\\
-	0							& t_y					& t_z 							& t_z / e_z
-\end{array} \right)\]\\
-
-where $e_z$ is the distance of the user from the projection plan. Since we have $\psi = \pi / 2$, the transformation matrix becomes: \\
-
-\[ \left( \begin{array}{cccc}
-	\textrm{cos} \theta	& 0 				& -\textrm{sin} \theta 	& - \textrm{sin} \theta / e_z\\
-	\textrm{sin} \theta 	& 0				& \textrm{cos} \theta 		& \textrm{cos} \theta  / e_z\\
-	0				& -1				& 0					& 0\\
-	0				& t_y				& t_z 				& t_z / e_z
-\end{array} \right)\]\\
-
-\subsubsection{Rendering the bus stops}
-
-Once the map is projected on the proper plane, we can project the buttons representing the bus stops. First, we need to compute the distance and the azimuth of the stop relatively to the camera.\\
+So to render a Bus Stop at the proper position, one must provide a $4\times4$ projection matrix. The first step is to compute the distance and the azimuth of the stop relatively to the camera.\\
 
 To compute the distance $d$, we use a simplified version of the great-circle formula as shown in Equation \ref{equ:great_circle_projection} where $\varphi_s$ and $\lambda_s$ are the Latitude and Longitude of the standpoint (camera position), $\varphi_f$ and $\lambda_f$ the ones of the forepoint (bus stop location) and $R$ is the average radius of Earth ($\approx6371$km).
-
 \begin{equation}
 \label{equ:great_circle_projection}
 d =  R \times \textrm{arccos}\left(\textrm{sin}\varphi_s \textrm{ sin}\varphi_f + \textrm{cos}\varphi_s \textrm{ cos}\varphi_f \textrm{ cos}(\lambda_f-\lambda_s)\right)
 \end{equation}
 
-To compute the relative azimuth $\theta_r$, we use the formula shown in Equation \ref{equ:azimuth}. In this formula, atan2($x${},{}$y$) is a function that gives the angle in radians between the vector ($x$ , $y$) and the X-axis.
-
+Then to get the relative azimuth $\theta_r$, we use the formula shown in Equation \ref{equ:azimuth}. In this formula, atan2($x${},{}$y$) is a function that gives the angle in radians between the vector $(x, y)$ and the X-axis.
 \begin{equation}
 \label{equ:azimuth}
-\theta_r = \textrm{atan2}\left(\textrm{sin}( \lambda_f - \lambda_s)\textrm{ cos}\varphi_f\textrm{ , } \textrm{cos}\varphi_s \textrm{ sin}\varphi_f - \textrm{sin}\varphi_s \textrm{ cos}\varphi_f \textrm{ cos}(\lambda_f -\lambda_s)\right)
-\end{equation}\\
+\theta_r = \textrm{atan2}\left(\textrm{sin}( \lambda_f - \lambda_s)\textrm{ cos}\varphi_f\textrm{ , } \textrm{cos}\varphi_s \textrm{ sin}\varphi_f - \textrm{sin}\varphi_s \textrm{ cos}\varphi_f \textrm{ cos}(\lambda_f -\lambda_s)\right) - \theta
+\end{equation}
 
-Now that we have the distance and the azimuth of the stop relatively to the camera position, we can use them as polar coordinates with the centre of the system being the projection of the camera point on the map plane. To project it on the view, we simply have to convert those coordinates to the Cartesian coordinate system of our view, which gives the following vector:\\
+Now that we have the distance and the azimuth of the stop relatively to the camera position, we can use them as polar coordinates on the ground plane centred on the user's location as shown in Figure \ref{fig:view_point_azimuth}.
 
-\[\left(
-\begin{array}{c}
-d \textrm{ cos}\theta_r \\
-t_y \\
-t_z + d \textrm{ sin}\theta_r
-\end{array}
-\right)\]\\
+\begin{figure}[ht]
+\center
+\includegraphics[scale=0.4]{pics/view_point_azimuth}
+\caption{Viewpoint orthogonal to the ground}
+\label{fig:view_point_azimuth}
+\end{figure}
 
-The transform matrix is in that case really easy since it only consist of 3 translations, which gives the following projection matrix $T$:\\
+From this, we get:
+\begin{align} 
+x 	&= 	d\textrm{ cos}\theta_r\\
+d' 	&= 	d\textrm{ sin}\theta_r
+\end{align}
 
-\[ T = \left( \begin{array}{cccc}
-	1					& 0 					& 0 						& 0\\
-	0 					& 1					& 0 						& 0\\
-	0					& 0					& 1						& 1/e_z\\
-	d \textrm{ cos}\theta_r	& t_y					& t_z + d \textrm{ sin}\theta_r	& (t_z + d \textrm{ sin}\theta_r) / e_z
-\end{array} \right)\]\\
+where $x$ is the x-coordinate of the projected stop in the camera coordinate system and $d'$ is the distance of the projected Bus Stop position on the YZ-plane. Now that might sound confusing, so in Figure \ref{fig:view_point_vertical} we represent a viewpoint orthogonal to the YZ-plane.
 
-But there is a slight problem with this transform: one might end up with a projection that entirely fills the screen if the stop is too close from the camera. In order to avoid this situation, we must scale down the projection if it would appear too large. We can check that by looking at $T_{4, 4}$ which gives in our case the inverse scale applied to the object during its projection.\\
+\clearpage
 
-If $T_{4, 4} < 1$, then we must apply a scale to the transform matrix. Let's define the scale factor $\chi$ such as:\\
+\begin{figure}[ht]
+\center
+\includegraphics[scale=0.4]{pics/view_point_vertical}
+\caption{Viewpoint orthogonal to YZ-plane}
+\label{fig:view_point_vertical}
+\end{figure}
 
-\[\chi = 
-\left\{
-\begin{array}{l l}
-1 & \textrm{if } (t_z + d \textrm{ sin}\theta_r) / e_z \leq 1\\
- (t_z + d \textrm{ sin}\theta_r) / e_z & \textrm{otherwise}
-\end{array}
-\right.
-\]\\
+In this figure, $h$ represents the height of the camera to the ground. We make it dependent on $\beta$ so that when the device is vertical ($\beta = \pi / 2$) the ground appears to be at the user's feet, and when the device is held horizontal it will seem that he is seeing the ground from the sky. A simple enough approach is to take:
+\begin{align}
+h 	&= h_{min} + (h_{max} - h_{min})\textrm{sin}\beta
+\end{align}
 
-Therefore, the new transform matrix $T'$ is:\\
+So what we want now is to find the $y$ and $z$ coordinates. Figure \ref{fig:trigonometry} helps us to see more clearly the trigonometric problem we get to solve.
 
-\[ T' = \left( \begin{array}{cccc}
-	\chi					& 0 					& 0 						& 0\\
-	0 					& \chi				& 0 						& 0\\
-	0					& 0					& 1						& 1/e_z\\
-	d \textrm{ cos}\theta_r	& t_y					& t_z + d \textrm{ sin}\theta_r	& (t_z + d \textrm{ sin}\theta_r) / e_z
-\end{array} \right)\]\\
+\clearpage
 
-\subsubsection{Taking into account the Roll and Pitch angles}
+\begin{figure}[ht]
+\center
+\includegraphics[scale=0.5]{pics/trigonometry}
+\caption{Schema of the Trigonometric Problem}
+\label{fig:trigonometry}
+\end{figure}
 
-So we are able to render the map and the stops on it according to the latitude $\phi$, the longitude $\lambda$ and the azimuth $\theta$ of the camera, we now need to take into account the Roll angle $\alpha$ and the Pitch angle $\beta$.\\
+From this schema, we find:
+\begin{align} 
+y 	&= 	b - a\\
+b 	&= 	d'\textrm{ cos}\beta\\
+a 	&= 	h\textrm{ sin}\beta\\
+y 	&=	d'\textrm{ cos}\beta - h\textrm{ sin}\beta\\
+y 	&= 	d\textrm{ sin}\theta_r\textrm{ cos}\beta - h\textrm{ sin}\beta
+\end{align}
 
-To make everything simpler, the map and stops views are rendered in a container view which is then transformed according to $\alpha$ and $\beta$. This also makes the application more orthogonal since $\alpha$ and $\beta$ are know via the accelerometer whereas the other parameters are known via the GPS.\\
+and:
+\begin{align} 
+z 	&= 	 (a + h) \textrm{cos}\beta\\
+a 	&= 	d' \textrm{ tan}\beta\\
+z 	&= 	(\frac{\textrm{sin}\beta}{\textrm{cos}\beta} d' + h) \textrm{ cos}\beta\\
+z 	&=	d'\textrm{ sin}\beta + h\textrm{ cos}\beta\\
+z 	&= 	d\textrm{ sin}\theta_r\textrm{ sin}\beta + h\textrm{ cos}\beta
+\end{align}
 
-What we want is to transform the container such as it is rotated according to $\alpha$ on the XY-plane and translated according to $\beta$ on the Y-Axis. Rotation on the XY-plane is straightforward, and the translation is given by this formula:\\
+\clearpage
+So we finally got the full coordinates of the Bus Stop in the camera coordinate system, which are the following:
+\begin{align} 
+x	&= 	 d\textrm{ cos}\theta_r\\
+y 	&= 	d\textrm{ sin}\theta_r\textrm{ cos}\beta - h\textrm{ sin}\beta\\
+z 	&= 	d\textrm{ sin}\theta_r\textrm{ sin}\beta + h\textrm{ cos}\beta
+\end{align}
 
-\[t_{container} = \frac{\textrm{SCREEN WIDTH}}{\textrm{sin}(\textrm{CAMERA SPAN ANGLE})} \textrm{cos}\beta\]\\
 
-This gives the following transform matrix:
+Now we have to find the projection matrix for this position. This is the easy step: we just have to translate the view with coordinates $(0, 0, 0)$ by a vector $(x, y, z)$. We have to use a homogeneous projection matrix for the "Tranform3D" API. This corresponds to the following matrix:
+\begin{equation}
+T = \left( \begin{array}{cccc}
+	1					& 0 					& 0 						& x\\
+	0 					& 1					& 0 						& y\\
+	0					& 0					& 1						& z\\
+	0					& 0					& -1/e_z					& 1-z / e_z
+\end{array} \right)
+\end{equation}
 
-\[\left( \begin{array}{cccc}
+where $e_z$ is the distance of the user from the displayed surface. We used an arbitrary value of 900 fitting the viewing angle of the iPhone camera.\\
+
+There is one last little change to make to this projection matrix. Indeed, the projected stop size will be proportional to its distance to the camera, thus it can become infinitely large or infinitely small. To counter this effect, we scale it back to a normal size, hence we use the following matrix:
+\begin{equation}
+M_{bus} = \left( \begin{array}{cccc}
+	1-z / e_z				& 0 					& 0 						& x\\
+	0 					& 1-z / e_z			& 0 						& y\\
+	0					& 0					& 1						& z\\
+	0					& 0					& -1/e_z					& 1-z / e_z
+\end{array} \right)
+\end{equation}
+
+\subsection{Rendering the ground Map}
+
+Now we want to render the Map on the estimated ground plane. The first step is to find the projection matrix to centre the map at the proper location, which is equivalent to projecting a Bus Stop with a distance $d = 0$. This gives the following matrix:
+\begin{equation}
+ T = \left( \begin{array}{cccc}
+	1 			&0 		& 0			& 0\\
+	0 			& 1		& 0			& h \textrm{ sin} \beta\\
+	0			& 0		& 1			& -h \textrm{ cos} \beta\\
+	0			& 0		& -1/e_z		& 1
+\end{array} \right)
+\end{equation}
+
+Then we want to rotate the map on the Z-axis with $\theta$ to get the correct orientation, which corresponds to this matrix:
+\begin{equation}
+R_1 = \left( \begin{array}{cccc}
+	\textrm{cos} \theta 	& -\textrm{sin} \theta 	& 0	& 0	\\
+	\textrm{sin} \theta 	& \textrm{cos} \theta 		& 0	& 0	\\
+	0				& 0					& 1	& 0	\\
+	0				& 0					& 0	& 1	
+\end{array} \right)
+\end{equation}
+
+Then we need a rotation of $\beta$ on the X-axis, which corresponds to the following matrix:
+\begin{equation}
+R_2 = \left( \begin{array}{cccc}
+	1 	& 0 					& 0					& 0\\
+	0 	& \textrm{cos} \beta 		& -\textrm{sin} \beta		& 0\\
+	0	& \textrm{sin} \beta		& \textrm{cos} \beta		& 0\\
+	0	& 0					& 0					& 1	
+\end{array} \right)
+\end{equation}
+
+Eventually, to get our final transformation matrix $M$ we have to compute:
+\begin{align}
+M_{map} 	&= T\times R_1\times R_2
+\end{align}
+
+This gives the following matrix:
+\begin{equation}
+ M_{map} = \left( \begin{array}{cccc}
+	\textrm{cos} \theta 						& -\textrm{sin} \theta 					& 0						& 0\\
+	\textrm{sin} \theta \textrm{ cos} \beta 			& \textrm{cos} \theta \textrm{ cos} \beta		& -\textrm{sin} \beta			& h \textrm{ sin} \beta\\
+	\textrm{sin} \theta \textrm{ sin} \beta			& \textrm{cos} \theta \textrm{ sin} \beta		& \textrm{cos} \beta			& -h \textrm{ cos} \beta\\
+	-\textrm{sin} \theta \textrm{ sin} \beta / e_z		& -\textrm{cos} \theta \textrm{ sin} \beta/e_z	& -\textrm{cos} \beta/e_z		& 1
+\end{array} \right)
+\end{equation}
+
+
+\subsection{Taking into account the Roll angle}
+
+\begin{figure}[ht]
+\center
+\includegraphics[scale=0.3]{pics/view_point_alpha}
+\caption{Rendering the roll angle}
+\label{fig:view_point_alpha}
+\end{figure}
+
+The final step of the projection is to take into account the roll angle. Since this transform is the same for all of the projected views (Bus Stop and Map), we use a trick to avoid making the previous transform matrices even more complicated: we render them in a container view that we then rotate with the roll angle $\alpha$ (See Figure \ref{fig:view_point_alpha}).\\
+
+So the transform to apply to the container is a simple rotation of $\alpha$ on the Z-axis, which gives the following projection matrix:
+\begin{equation}
+ M_{container} = \left( \begin{array}{cccc}
 	cos \alpha				& -sin \alpha 			& 0 						& 0\\
 	sin \alpha 				& cos \alpha			& 0 						& 0\\
 	0					& 0					& 1						& 0\\
-	0					& t_{container}			& 0						& 0
-\end{array} \right)\]\\
+	0					& 0					& 0						& 1
+\end{array} \right)
+\end{equation}
 
-\subsubsection{Summary}
 
-To sum up, we project the map in the container view using this projection matrix:
+\subsection{Summary}
 
-\[ \left( \begin{array}{cccc}
-	\textrm{cos} \theta	& 0 				& -\textrm{sin} \theta 	& - \textrm{sin} \theta / e_z\\
-	\textrm{sin} \theta 	& 0				& \textrm{cos} \theta 		& \textrm{cos} \theta  / e_z\\
-	0				& -1				& 0					& 0\\
-	0				& t_y				& t_z 				& t_z / e_z
-\end{array} \right)\]\\
+To sum up, we first project each bus stop using this matrix in a container view:
+\begin{equation}
+M_{bus} = \left( \begin{array}{cccc}
+	1-z / e_z				& 0 					& 0 						& x\\
+	0 					& 1-z / e_z			& 0 						& y\\
+	0					& 0					& 1						& z\\
+	0					& 0					& -1/e_z					& 1-z / e_z
+\end{array} \right)
+\end{equation}
 
-Then we project each stop in the container view using this matrix:
+Where:
+\begin{align} 
+x	&= 	 d\textrm{ cos}\theta_r\\
+y 	&= 	d\textrm{ sin}\theta_r\textrm{ cos}\beta - h\textrm{ sin}\beta\\
+z 	&= 	d\textrm{ sin}\theta_r\textrm{ sin}\beta + h\textrm{ cos}\beta
+\end{align}
 
-\[\left( \begin{array}{cccc}
-	\chi					& 0 					& 0 						& 0\\
-	0 					& \chi				& 0 						& 0\\
-	0					& 0					& 1						& 1/e_z\\
-	d \textrm{ cos}\theta_r	& t_y					& t_z + d \textrm{ sin}\theta_r	& (t_z + d \textrm{ sin}\theta_r) / e_z
-\end{array} \right)\]\\
+Then we project the map in the container using this matrix:
+\begin{equation}
+M_{map} = \left( \begin{array}{cccc}
+	\textrm{cos} \theta 						& -\textrm{sin} \theta 					& 0						& 0\\
+	\textrm{sin} \theta \textrm{ cos} \beta 			& \textrm{cos} \theta \textrm{ cos} \beta		& -\textrm{sin} \beta			& h \textrm{ sin} \beta\\
+	\textrm{sin} \theta \textrm{ sin} \beta			& \textrm{cos} \theta \textrm{ sin} \beta		& \textrm{cos} \beta			& -h \textrm{ cos} \beta\\
+	-\textrm{sin} \theta \textrm{ sin} \beta / e_z		& -\textrm{cos} \theta \textrm{ sin} \beta/e_z	& -\textrm{cos} \beta/e_z		& 1
+\end{array} \right)
+\end{equation}
 
-And finally we project our container view in its parent view using this matrix:
-
-\[ \left( \begin{array}{cccc}
+And finally we render our container view with this matrix:
+\begin{equation}
+M_{container} = \left( \begin{array}{cccc}
 	cos \alpha				& -sin \alpha 			& 0 						& 0\\
 	sin \alpha 				& cos \alpha			& 0 						& 0\\
 	0					& 0					& 1						& 0\\
-	0					& t_{container}			& 0						& 0
-\end{array} \right)\]\\
+	0					& 0					& 0						& 1
+\end{array} \right)
+\end{equation}

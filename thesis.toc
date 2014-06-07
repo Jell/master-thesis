@@ -10,41 +10,42 @@
 \contentsline {section}{\numberline {3.1}What is Augmented Reality?}{5}
 \contentsline {section}{\numberline {3.2}How does it work?}{6}
 \contentsline {section}{\numberline {3.3}What is it for?}{7}
-\contentsline {chapter}{\numberline {4}On the Client Side}{9}
+\contentsline {chapter}{\numberline {4}The Project}{9}
 \contentsline {section}{\numberline {4.1}The iPhone}{9}
-\contentsline {subsection}{\numberline {4.1.1}The Device}{9}
-\contentsline {subsection}{\numberline {4.1.2}The Development Tools}{9}
-\contentsline {subsubsection}{Objective-C}{10}
-\contentsline {subsubsection}{iPhone SDK}{10}
-\contentsline {section}{\numberline {4.2}The Application}{11}
-\contentsline {subsection}{\numberline {4.2.1}What it does}{11}
+\contentsline {section}{\numberline {4.2}The Application}{10}
+\contentsline {subsection}{\numberline {4.2.1}What it does}{10}
 \contentsline {subsection}{\numberline {4.2.2}How it works}{12}
-\contentsline {section}{\numberline {4.3}Implementation of the Augmented Reality View}{13}
-\contentsline {subsection}{\numberline {4.3.1}View Hierarchy}{13}
-\contentsline {subsection}{\numberline {4.3.2}Positioning within 6 degrees of freedom}{15}
-\contentsline {subsection}{\numberline {4.3.3}3D Projection}{16}
-\contentsline {subsubsection}{Rendering the ground Map}{17}
-\contentsline {subsubsection}{Rendering the bus stops}{17}
-\contentsline {subsubsection}{Taking into account the Roll and Pitch angles}{19}
-\contentsline {subsubsection}{Summary}{20}
-\contentsline {chapter}{\numberline {5}On the Server Side}{21}
-\contentsline {section}{\numberline {5.1}Architecture}{21}
-\contentsline {section}{\numberline {5.2}Implementation}{23}
-\contentsline {subsection}{\numberline {5.2.1}Erlang}{23}
-\contentsline {subsubsection}{Concurrent Programming}{23}
-\contentsline {subsubsection}{Port Communication}{25}
-\contentsline {subsubsection}{Mnesia}{26}
-\contentsline {subsection}{\numberline {5.2.2}Ruby}{26}
-\contentsline {subsubsection}{Required Setup}{26}
-\contentsline {subsubsection}{Database Management}{28}
-\contentsline {subsubsection}{Parsing}{30}
-\contentsline {section}{\numberline {5.3}Results}{31}
-\contentsline {chapter}{\numberline {6}Conclusion}{33}
-\contentsline {section}{\numberline {6.1}On the AppStore}{33}
-\contentsline {section}{\numberline {6.2}Further Considerations}{33}
-\contentsline {subsection}{\numberline {6.2.1}on the Client}{33}
-\contentsline {subsection}{\numberline {6.2.2}on the Server}{33}
-\contentsline {section}{\numberline {6.3}Summary}{33}
-\contentsline {chapter}{References}{35}
-\contentsline {chapter}{\numberline {A}Ruby Code}{37}
-\contentsline {chapter}{\numberline {B}Erlang Code}{51}
+\contentsline {chapter}{\numberline {5}Implementation on the Client Side}{13}
+\contentsline {section}{\numberline {5.1}The Development Tools}{13}
+\contentsline {subsection}{\numberline {5.1.1}Objective-C}{13}
+\contentsline {subsection}{\numberline {5.1.2}iPhone SDK}{14}
+\contentsline {section}{\numberline {5.2}View Hierarchy}{15}
+\contentsline {section}{\numberline {5.3}Positioning within 6 degrees of freedom}{17}
+\contentsline {section}{\numberline {5.4}3D Projection}{18}
+\contentsline {subsection}{\numberline {5.4.1}Rendering the bus stops}{18}
+\contentsline {subsection}{\numberline {5.4.2}Rendering the ground Map}{22}
+\contentsline {subsection}{\numberline {5.4.3}Taking into account the Roll angle}{23}
+\contentsline {subsection}{\numberline {5.4.4}Summary}{24}
+\contentsline {chapter}{\numberline {6}Implementation on the Server Side}{25}
+\contentsline {section}{\numberline {6.1}Architecture}{25}
+\contentsline {section}{\numberline {6.2}Erlang}{28}
+\contentsline {subsection}{\numberline {6.2.1}Concurrent Programming}{28}
+\contentsline {subsection}{\numberline {6.2.2}Port Communication}{30}
+\contentsline {subsection}{\numberline {6.2.3}Mnesia}{30}
+\contentsline {section}{\numberline {6.3}SQLite}{31}
+\contentsline {section}{\numberline {6.4}Ruby}{33}
+\contentsline {subsection}{\numberline {6.4.1}Setup}{33}
+\contentsline {subsection}{\numberline {6.4.2}Database Management}{34}
+\contentsline {subsection}{\numberline {6.4.3}Parsing}{36}
+\contentsline {section}{\numberline {6.5}Performances}{38}
+\contentsline {chapter}{\numberline {7}Conclusion}{41}
+\contentsline {section}{\numberline {7.1}Results}{41}
+\contentsline {subsection}{\numberline {7.1.1}On the AppStore}{41}
+\contentsline {subsection}{\numberline {7.1.2}Statistics}{41}
+\contentsline {section}{\numberline {7.2}Further Considerations}{44}
+\contentsline {subsection}{\numberline {7.2.1}on the Client}{44}
+\contentsline {subsection}{\numberline {7.2.2}on the Server}{44}
+\contentsline {section}{\numberline {7.3}Summary}{44}
+\contentsline {chapter}{References}{45}
+\contentsline {chapter}{\numberline {A}Erlang Code}{47}
+\contentsline {chapter}{\numberline {B}Ruby Code}{57}

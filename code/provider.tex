@@ -1,6 +1,5 @@
 \begin{Verbatim}[commandchars=@\[\]]
 @PYaz[module] @PYaW[Provider]
-
   @PYaz[module] @PYaW[Base]
     @PYaY[require] @PYbe['timeout']
     @PYaY[require] @PYbe['net/http']
@@ -10,6 +9,43 @@
       @PYar[BusStop]@PYbf[.]delete_all @PYbf[@PYZlb[]]@PYaX["]@PYaX[provider_name = ? AND updated_at < ?]@PYaX["],
                                                    provider_name,
                                                     @PYag[24]@PYbf[.]hours@PYbf[.]ago@PYbf[@PYZrb[]]
+    @PYaz[end]
+
+    @PYaz[def] @PYaL[fetch_xml_from_url_string](given_url)
+      retries @PYbf[=] @PYag[2]
+      response @PYbf[=] @PYah[nil]
+      @PYaz[begin]
+        @PYar[Timeout]@PYbf[.]timeout(@PYag[2]) @PYaz[do] 
+          response @PYbf[=] @PYar[Net]@PYbf[::]@PYar[HTTP]@PYbf[.]get(@PYar[URI]@PYbf[.]parse(given_url))
+        @PYaz[end]
+      @PYaz[rescue] @PYar[Timeout]@PYbf[::]@PYar[Error] 
+        @PYaz[if] retries @PYbf[>] @PYag[0] 
+          retries @PYbf[-=] @PYag[1] 
+          @PYaz[retry] 
+        @PYaz[else] 
+          @PYaz[return] @PYah[nil]
+        @PYaz[end] 
+      @PYaz[end]
+
+      xml_tree @PYbf[=] @PYar[Nokogiri]@PYbf[::]@PYar[XML]@PYbf[.]parse(response, @PYah[nil], @PYbe['UTF-8'])
+      @PYaz[return] @PYah[nil] @PYaz[if] xml_tree@PYbf[.]css(@PYaX["]@PYaX[string]@PYaX["])@PYbf[.]size @PYbf[==] @PYag[0]
+      encapsuled_xml @PYbf[=] xml_tree@PYbf[.]css(@PYaX["]@PYaX[string]@PYaX["])@PYbf[.]text
+      xml_tree @PYbf[=] @PYar[Nokogiri]@PYbf[::]@PYar[XML]@PYbf[.]parse(encapsuled_xml, @PYah[nil], @PYbe['UTF-8'])
+    @PYaz[end]
+
+    @PYaz[def] @PYaL[sort_lines](lines)
+      lines@PYbf[.]sort! @PYaz[do] @PYbf[|]a,b@PYbf[|]
+        @PYaz[if] a@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]@PYbf[.]size @PYbf[==] b@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]@PYbf[.]size @PYbf[||]
+                 (a@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]] @PYbf[=~] @PYal[/]@PYal[@PYZlb[]^]@PYal[\]@PYal[d@PYZrb[]]@PYal[/] @PYbf[&&] b@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]] @PYbf[=~] @PYal[/]@PYal[@PYZlb[]^]@PYal[\]@PYal[d@PYZrb[]]@PYal[/])
+          @PYaf[# Normal sort for lines of equal length or ]
+          @PYaf[# if both are lines with names.]
+          a@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]] @PYbf[<]@PYbf[=]@PYbf[>] b@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]            
+        @PYaz[else]
+          @PYaf[# Sort by size if line names has different length.]
+          a@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]@PYbf[.]size @PYbf[<]@PYbf[=]@PYbf[>] b@PYbf[@PYZlb[]]@PYag[0]@PYbf[@PYZrb[]]@PYbf[.]size  
+        @PYaz[end]
+      @PYaz[end]
+      @PYaz[return] lines
     @PYaz[end]
   @PYaz[end]
 @PYaz[end]

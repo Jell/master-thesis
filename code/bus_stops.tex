@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=@\[\]]
+namespace @PYau[:bus_stop] @PYaz[do]
+  desc @PYbe['Load bus stops from all providers']
+  task @PYau[:load_all] @PYbf[=]@PYbf[>] @PYau[:environment] @PYaz[do]
+    @PYbf[@PYZlb[]]@PYar[Provider]@PYbf[::]@PYar[Vasttrafik], @PYar[Provider]@PYbf[::]@PYar[StorstockholmsLokaltrafik]@PYbf[@PYZrb[]]@PYbf[.]
+                                                    each @PYaz[do] @PYbf[|]provider@PYbf[|]
+                                                      
+      loader @PYbf[=] @PYar[BusStopLoader]@PYbf[.]new(provider)
+      loader@PYbf[.]update_stop_database
+    @PYaz[end]
+  @PYaz[end]
+@PYaz[end]
+\end{Verbatim}

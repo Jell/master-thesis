@@ -1,51 +1,64 @@
 \relax 
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}On the Server Side}{21}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Implementation on the Server Side}{25}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\addvspace {10\p@ }}
-\newlabel{cha:on_the_server_side}{{5}{21}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Architecture}{21}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces UML Sequential Diagram of a simplified request}}{22}}
-\newlabel{fig:message_passing}{{5.1}{22}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Scheme of the Server Architecture}}{23}}
-\newlabel{fig:server_architecture}{{5.2}{23}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Implementation}{23}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Erlang}{23}}
-\@writefile{toc}{\contentsline {subsubsection}{Concurrent Programming}{23}}
+\newlabel{cha:on_the_server_side}{{6}{25}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Architecture}{25}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces UML sequential diagram of the request processing}}{26}}
+\newlabel{fig:message_passing}{{6.1}{26}}
+\newlabel{sec:erlang_intro}{{6.1}{26}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces Scheme of the Server Architecture}}{27}}
+\newlabel{fig:server_architecture}{{6.2}{27}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Erlang}{28}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.1}Concurrent Programming}{28}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces Implementation of the factorial function in Erlang}}{28}}
+\newlabel{fig:erlang_factorial}{{6.3}{28}}
 \citation{Erl10}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Implementation of the factorial function in Erlang}}{24}}
-\newlabel{fig:erlang_factorial}{{5.3}{24}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Simple example of message passing in Erlang}}{25}}
-\newlabel{fig:erlang_message}{{5.4}{25}}
-\@writefile{toc}{\contentsline {subsubsection}{Port Communication}{25}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Example of Port opening with Erlang}}{25}}
-\newlabel{fig:erlang_port}{{5.5}{25}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces Simple example of message passing in Erlang}}{29}}
+\newlabel{fig:erlang_message}{{6.4}{29}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.2}Port Communication}{30}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.5}{\ignorespaces Example of Port opening with Erlang}}{30}}
+\newlabel{fig:erlang_port}{{6.5}{30}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.3}Mnesia}{30}}
 \citation{Mne10}
-\@writefile{toc}{\contentsline {subsubsection}{Mnesia}{26}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces Simple example of query to Mnesia Database returning the names of all female employees}}{26}}
-\newlabel{fig:mnesia_example}{{5.6}{26}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Ruby}{26}}
-\@writefile{toc}{\contentsline {subsubsection}{Required Setup}{26}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.6}{\ignorespaces Simple example of query to Mnesia Database returning the names of all female employees}}{31}}
+\newlabel{fig:mnesia_example}{{6.6}{31}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}SQLite}{31}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.7}{\ignorespaces Scheme of the SQL queries on the Ruby side}}{32}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Step 1}}}{32}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Step 2}}}{32}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Step 3}}}{32}}
+\newlabel{fig:ruby_queries}{{6.7}{32}}
 \citation{Fle09}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces Simple example of communication between Erlang and Ruby using Erlectricity }}{27}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Ruby Side}}}{27}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Erlang Side}}}{27}}
-\newlabel{fig:erlectricity_example}{{5.7}{27}}
-\@writefile{toc}{\contentsline {subsubsection}{Database Management}{28}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.8}{\ignorespaces Scheme of the SQL queries on the Ruby side}}{29}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Step 1}}}{29}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Step 2}}}{29}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Step 3}}}{29}}
-\newlabel{fig:ruby_queries}{{5.8}{29}}
+\newlabel{equ:great_circle_formula}{{6.3}{33}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}Ruby}{33}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1}Setup}{33}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.8}{\ignorespaces Simple example of communication between Erlang and Ruby using Erlectricity }}{34}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Ruby Side}}}{34}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Erlang Side}}}{34}}
+\newlabel{fig:erlectricity_example}{{6.8}{34}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.2}Database Management}{34}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces Configuration file that tells how to access the database (database.yml)}}{35}}
+\newlabel{fig:database}{{6.9}{35}}
 \citation{Nok10}
-\newlabel{equ:great_circle_formula}{{5.1}{30}}
-\@writefile{toc}{\contentsline {subsubsection}{Parsing}{30}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.9}{\ignorespaces Simple example of string parsing with Regular Expressions}}{30}}
-\newlabel{fig:regex_scan_example}{{5.9}{30}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Results}{31}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.10}{\ignorespaces Migration file for the Bus Stops table (create\_bus\_stops.rb)}}{36}}
+\newlabel{fig:create_bus_stops}{{6.10}{36}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.11}{\ignorespaces Active Record of a Bus Stop (bus\_stop.rb)}}{36}}
+\newlabel{fig:bus_stop}{{6.11}{36}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.3}Parsing}{36}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.12}{\ignorespaces Simple example of string parsing with Regular Expressions}}{37}}
+\newlabel{fig:regex_scan_example}{{6.12}{37}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.5}Performances}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.13}{\ignorespaces Histogram showing the response time of the server without caching}}{38}}
+\newlabel{fig:response_time}{{6.13}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.14}{\ignorespaces Response time over time}}{39}}
+\newlabel{fig:response_time_overtime}{{6.14}{39}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.15}{\ignorespaces Histogram showing the response time of our server with only cached data}}{39}}
+\newlabel{fig:response_time_cached}{{6.15}{39}}
 \@setckpt{fourth}{
-\setcounter{page}{32}
-\setcounter{equation}{1}
+\setcounter{page}{40}
+\setcounter{equation}{3}
 \setcounter{enumi}{5}
 \setcounter{enumii}{2}
 \setcounter{enumiii}{0}
@@ -53,13 +66,13 @@
 \setcounter{footnote}{0}
 \setcounter{mpfootnote}{0}
 \setcounter{part}{0}
-\setcounter{chapter}{5}
-\setcounter{section}{3}
+\setcounter{chapter}{6}
+\setcounter{section}{5}
 \setcounter{subsection}{0}
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{9}
+\setcounter{figure}{15}
 \setcounter{table}{0}
 \setcounter{parentequation}{0}
 \setcounter{lstnumber}{1}

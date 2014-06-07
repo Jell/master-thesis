@@ -1,6 +1,6 @@
 \begin{Verbatim}[commandchars=@\[\]]
--@PYay[module](request_handler).
--@PYay[export](@PYZlb[]start@PYbf[/]@PYag[0], restart_driver@PYbf[/]@PYag[0], handle_request@PYbf[/]@PYag[1]@PYZrb[]).
+-@PYay[module](hallplats).
+-@PYay[export](@PYZlb[]start@PYbf[/]@PYag[0], restart_driver@PYbf[/]@PYag[0], @PYaY[get]@PYbf[/]@PYag[1]@PYZrb[]).
 
 @PYaL[start]() @PYbf[-]@PYbf[>]
   @PYaW[inets]:start(),
@@ -9,9 +9,9 @@
 
 @PYaL[start_driver]() @PYbf[-]@PYbf[>]
   @PYaW[io]:format(@PYad["]@PYad[New Port opened from ]@PYbg[~p]@PYbg[~n]@PYad["], @PYZlb[]self()@PYZrb[]),
-  @PYaj[Cmd] @PYbf[=] @PYad["]@PYad[rails runner ./lib/echo.rb]@PYad["],
-  @PYaj[Port] @PYbf[=] @PYaY[open_port]({@PYaY[spawn], @PYaj[Cmd]}, @PYZlb[]{packet, @PYag[4]}, nouse_stdio, exit_status,
-    binary@PYZrb[]),
+  @PYaj[Cmd] @PYbf[=] @PYad["]@PYad[ruby ./lib/echo.rb]@PYad["],
+  @PYaj[Port] @PYbf[=] @PYaY[open_port]({@PYaY[spawn], @PYaj[Cmd]},
+                   @PYZlb[]{packet, @PYag[4]}, nouse_stdio, exit_status, binary@PYZrb[]),
   @PYaY[register](ruby_port, @PYaj[Port]),
   @PYaj[DriverPid] @PYbf[=] @PYaY[spawn](@PYaz[fun]() @PYbf[-]@PYbf[>] ruby_driver(@PYaj[Port]) @PYaz[end]),
   @PYaY[port_connect](@PYaj[Port], @PYaj[DriverPid]),
@@ -24,6 +24,7 @@
   start().
 
 @PYaL[ruby_driver](@PYaj[Port]) @PYbf[-]@PYbf[>]
+  @PYaW[sqlquery]:start(),
   @PYaY[port_connect](@PYaj[Port], self()),
   @PYaY[link](@PYaj[Port]),
   @PYaz[receive]
@@ -44,29 +45,26 @@
         {result, _@PYaj[Text]} @PYbf[=] @PYaY[binary_to_term](@PYaj[Data])
   @PYaz[end].
 
-@PYaL[handle_request](@PYaj[Params]) @PYbf[-]@PYbf[>]
+@PYaY[get](@PYaj[Params]) @PYbf[-]@PYbf[>]
   @PYaj[MyPid] @PYbf[=] self(),
-  @PYaj[Payload] @PYbf[=] @PYaY[term_to_binary]({echo, @PYaj[Params]}),
-  ruby_driver@PYbf[!]{transmit, @PYaj[Payload], self()},
+  @PYaj[Lat] @PYbf[=] @PYaW[proplists]:get_value(lat, @PYaj[Params]),
+  @PYaj[Lng] @PYbf[=] @PYaW[proplists]:get_value(lng, @PYaj[Params]),
+  @PYaj[StopList] @PYbf[=] @PYaW[sqlquery]:fetch_nearby_stops(@PYaj[Lat],@PYaj[Lng]),
+  @PYaY[spawn](@PYaz[fun]() @PYbf[-]@PYbf[>] fetch_forecasts(@PYaj[StopList], @PYaj[MyPid]) @PYaz[end]),
   @PYaz[receive]
-    {ok, {result, @PYaj[StopList]}} @PYbf[-]@PYbf[>]
-    @PYaY[spawn](@PYaz[fun]() @PYbf[-]@PYbf[>] fetch_forecasts(@PYaj[StopList], @PYaj[MyPid]) @PYaz[end]),
-    @PYaz[receive]
-      {ok, {forecast, @PYaj[ForecastList]}} @PYbf[-]@PYbf[>]
-        @PYaE[%io_lib:format("~p~n", @PYZlb[]ForecastList@PYZrb[])]
-        @PYaj[ToParse] @PYbf[=] @PYaY[term_to_binary]({parse, @PYaj[ForecastList]}),
-        ruby_driver@PYbf[!]{transmit, @PYaj[ToParse], @PYaj[MyPid]},
-        @PYaz[receive]
-          {ok, {result, @PYaj[FinalResult]}} @PYbf[-]@PYbf[>]
-            @PYaj[FinalResult]
-        @PYaz[end]
-    @PYaz[end]
+    {ok, {forecast, @PYaj[ForecastList]}} @PYbf[-]@PYbf[>]
+      @PYaE[%io_lib:format("~p~n", @PYZlb[]ForecastList@PYZrb[])]
+      @PYaj[ToParse] @PYbf[=] @PYaY[term_to_binary]({parse, @PYaj[ForecastList]}),
+      ruby_driver@PYbf[!]{transmit, @PYaj[ToParse], @PYaj[MyPid]},
+      @PYaz[receive]
+        {ok, {result, @PYaj[FinalResult]}} @PYbf[-]@PYbf[>]
+          @PYaj[FinalResult]
+      @PYaz[end]
   @PYaz[end].
 
 @PYaL[fetch_forecasts](@PYaj[StopList], @PYaj[ToPid]) @PYbf[-]@PYbf[>]
   @PYaj[MyPid] @PYbf[=] self(),
-  @PYZlb[]@PYaY[spawn](@PYaz[fun]() @PYbf[-]@PYbf[>] fetch_forecast(@PYaj[Stop], @PYaj[MyPid]) @PYaz[end]) ||
-    @PYaj[Stop] @PYbf[<]@PYbf[-] @PYaY[tuple_to_list](@PYaj[StopList])@PYZrb[],
+  @PYZlb[]@PYaY[spawn](@PYaz[fun]() @PYbf[-]@PYbf[>] fetch_forecast(@PYaj[Stop], @PYaj[MyPid]) @PYaz[end]) || @PYaj[Stop] @PYbf[<]@PYbf[-] @PYaj[StopList]@PYZrb[],
   @PYaj[ForecastList] @PYbf[=] wait_for_forecasts(@PYZlb[]@PYZrb[]),
   @PYaj[ToPid]@PYbf[!]{ok,{forecast, @PYaj[ForecastList]}}.
 
@@ -85,10 +83,8 @@
   @PYaz[end].
 
 @PYaL[fetch_forecast](@PYaj[Stop], @PYaj[ToPid]) @PYbf[-]@PYbf[>]
-  @PYaj[StopBundle] @PYbf[=] @PYaY[tuple_to_list](@PYaj[Stop]),
-  @PYZlb[]@PYaj[URL]@PYZrb[] @PYbf[=] @PYZlb[]@PYaY[binary_to_list](@PYaj[Value]) ||
-    {@PYaj[Atom], @PYaj[Value]} @PYbf[<]@PYbf[-] @PYaj[StopBundle], @PYaj[Atom] @PYbf[=]@PYbf[=] url@PYZrb[],
+  {_,_,_,_,_,_,_,_,@PYaj[URL]} @PYbf[=] @PYaj[Stop],
   @PYaj[Body] @PYbf[=] @PYaW[cache_server]:@PYaY[get](@PYaj[URL]),
-  @PYaj[ToPid]@PYbf[!]{ok, {@PYaj[StopBundle], @PYaj[Body]}}.
+  @PYaj[ToPid]@PYbf[!]{ok, {@PYaj[Stop], @PYaj[Body]}}.
   
 \end{Verbatim}

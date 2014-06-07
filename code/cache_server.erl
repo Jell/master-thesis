@@ -4,21 +4,21 @@
 
 start() ->
   mnesia:start(),
-  mnesia:create_table(cached_url, [{attributes,
-      record_info(fields, cached_url)}]),
+  mnesia:create_table(cached_url, 
+                     [{attributes, record_info(fields, cached_url)}]),
   spawn(fun() -> cleaner_daemon() end).
 
 cleaner_daemon() ->
   F = fun() ->
       {Mega, Sec, _Micro} = erlang:now(),
-      T = Mega * 1000000 + Sec - 600,
+      T = Mega * 1000000 + Sec - 60,
       TimeStamp = {T div 1000000, T rem 1000000, 0},
       MatchHead = #cached_url{url = '$1', timestamp = '$2', data = '_'},
       io:format("~p~n", [TimeStamp]),
       Guard = {'<', '$2', {TimeStamp}},
       Result = '$1',
       ToDelete = mnesia:select(cached_url,
-            [{MatchHead, [Guard], [Result]}]),
+                               [{MatchHead, [Guard], [Result]}]),
       [ mnesia:delete({cached_url, Url}) || Url<-ToDelete]
     end,
   receive
@@ -35,35 +35,43 @@ get(Url) ->
         true ->
           Data = DataTmp;
         false ->
-          Data = get_over_http(Url),
+          Data = get_over_http(Url, 3),
           spawn(fun() -> write_mnesia(Url, Data) end)
       end;
     _ ->
-      Data = get_over_http(Url),
+      Data = get_over_http(Url, 3),
       spawn(fun() -> write_mnesia(Url, Data) end)
   end,
   Data.
 
-get_over_http(Url) ->
+get_over_http(Url, Retries) ->
   {ok, RequestId} = http:request(get, {Url, []}, [], [{sync, false}]),
   receive
     {http, {RequestId, Result}} ->
       case Result of
         {{"HTTP/1.1",200,"OK"}, Header, Body} ->
-          UglyTest = [ 'DIEVASTTRAFIKDIE'||
-              {"content-length", "2442"} <- Header],
+          UglyTest = [ 'TEST'|| {"content-length", "2442"} <- Header],
           case UglyTest of
             [] ->
               Body;
             _ ->
-              get_over_http(Url)
+              if
+                Retries > 1 ->
+                  get_over_http(Url, Retries - 1)
+              end
           end;
         _ ->
-          get_over_http(Url)
+          if
+            Retries > 1 ->
+              get_over_http(Url, Retries - 1)
+          end
       end
   after
     3000 ->
-      get_over_http(Url)
+      if
+        Retries > 1 ->
+          get_over_http(Url, Retries - 1)
+      end
   end.
 
 is_timestamp_valid({MegaSec, Sec, _MicroSec}) ->
